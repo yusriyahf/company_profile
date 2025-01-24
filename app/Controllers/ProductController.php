@@ -48,10 +48,10 @@ class ProductController extends BaseController
         }
 
         // Periksa apakah slug sesuai dengan bahasa yang digunakan
-        if (($lang === 'id' && $slug !== $product['slug_id'])|| ($lang === 'en' && $slug !== $product['slug_en'])) {
+        if (($lang === 'id' && $slug !== $product['slug_id']) || ($lang === 'en' && $slug !== $product['slug_en'])) {
             // redirect ke url yang benar
             $correctedSlug = $lang === 'id' ? $product['slug_id'] : $product['slug_en'];
-            $correcturl = $lang ==='id' ? 'produk/produk-detail' : 'product/product-detail';
+            $correcturl = $lang === 'id' ? 'produk/produk-detail' : 'product/product-detail';
             return redirect()->to("$lang/$correcturl/$correctedSlug");
         }
 

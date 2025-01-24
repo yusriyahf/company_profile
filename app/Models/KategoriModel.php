@@ -4,10 +4,10 @@ namespace App\Models;
 
 use CodeIgniter\Model;
 
-class ArtikelModel extends Model
+class KategoriModel extends Model
 {
-    protected $table            = 'tb_artikel';
-    protected $primaryKey       = 'id_artikel';
+    protected $table            = 'tb_kategori_artikel';
+    protected $primaryKey       = 'id_kategori_artikel';
     protected $useAutoIncrement = true;
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
@@ -44,16 +44,11 @@ class ArtikelModel extends Model
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 
-    public function getBySlugAndLang($slug, $lang)
+    public function getBySlug($slug, $lang)
     {
-        $slugField = $lang == 'id' ? 'slug_artikel_id' : 'slug_artikel_en';
+        // Tentukan field slug berdasarkan bahasa
+        $slugField = ($lang == 'id') ? 'slug_kategori_id' : 'slug_kategori_en'; // Pilih slug sesuai bahasa
+
         return $this->where($slugField, $slug)->first();
-    }
-    public function getByCategory($categoryId)
-    {
-        return $this->join('tb_kategori_artikel', 'tb_artikel.id_kategori_artikel = tb_kategori_artikel.id_kategori_artikel')
-            ->where('tb_kategori_artikel.id_kategori_artikel', $categoryId)
-            ->orderBy('tb_artikel.created_at', 'DESC') // Specify the table name
-            ->findAll();
     }
 }

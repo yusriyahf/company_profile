@@ -20,47 +20,25 @@
 
     <div class="container">
         <div class="d-flex justify-content-center">
-
             <ul class="nav nav-tabs" data-aos="fade-up" data-aos-delay="100">
-
                 <li class="nav-item">
-                    <a class="nav-link active show" data-bs-toggle="tab" data-bs-target="#features-tab-1">
-                        <h4>Modisit</h4>
+                    <a class="nav-link <?= ($categoryId == null) ? 'active' : '' ?>"
+                        href="<?= base_url($lang == 'id' ? 'id/artikel' : 'en/article') ?>">
+                        <h4><?= $lang == 'id' ? 'Semua Artikel' : 'All Articles'; ?></h4>
                     </a>
-                </li><!-- End tab nav item -->
-
-                <li class="nav-item">
-                    <a class="nav-link" data-bs-toggle="tab" data-bs-target="#features-tab-2">
-                        <h4>Praesenti</h4>
-                    </a><!-- End tab nav item -->
 
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" data-bs-toggle="tab" data-bs-target="#features-tab-3">
-                        <h4>Explica</h4>
-                    </a>
-                </li><!-- End tab nav item -->
-                <li class="nav-item">
-                    <a class="nav-link " data-bs-toggle="tab" data-bs-target="#features-tab-1">
-                        <h4>Modisit</h4>
-                    </a>
-                </li><!-- End tab nav item -->
-
-                <li class="nav-item">
-                    <a class="nav-link" data-bs-toggle="tab" data-bs-target="#features-tab-2">
-                        <h4>Praesenti</h4>
-                    </a><!-- End tab nav item -->
-
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" data-bs-toggle="tab" data-bs-target="#features-tab-3">
-                        <h4>Explica</h4>
-                    </a>
-                </li><!-- End tab nav item -->
-
+                <?php foreach ($kategori as $k): ?>
+                    <li class="nav-item">
+                        <a class="nav-link <?= ($categoryId == $k['id_kategori_artikel']) ? 'active' : '' ?>"
+                            href="<?= base_url($lang == 'id' ? 'id/artikel/' . $k['slug_kategori_id'] : 'en/article/' . $k['slug_kategori_en']) ?>">
+                            <h4><?= $lang == 'id' ? $k['nama_kategori_id'] : $k['nama_kategori_en']; ?></h4>
+                        </a>
+                    </li>
+                <?php endforeach; ?>
             </ul>
-
         </div>
+
 
         <div class="row gy-5 mt-1">
             <div class="col-lg-8 ps-lg-5" data-aos="fade-up" data-aos-delay="200">
@@ -72,9 +50,15 @@
                         <p>
                             <?= $lang == 'id' ? $article['snippet_id'] : $article['snippet_en']; ?>
                         </p>
-                        <a href="<?= base_url($lang == 'id' ? 'id/artikel/' . $article['slug_artikel_id'] : 'en/article/' . $article['slug_artikel_en']); ?>" class="read-more">
+                        <a href="<?= base_url(
+                                        $lang == 'id'
+                                            ? 'id/artikel/' . ($article['slug_kategori_id'] ?? '') . '/' . ($article['slug_artikel_id'] ?? '')
+                                            : 'en/article/' . ($article['slug_kategori_en'] ?? '') . '/' . ($article['slug_artikel_en'] ?? '')
+                                    ); ?>" class="read-more">
                             <?= lang('bahasa.buttonArticle'); ?> <i class="bi bi-arrow-right"></i>
                         </a>
+
+
                     </div>
                 <?php endforeach; ?>
             </div>
@@ -86,7 +70,9 @@
 
                     <div class="services-list">
                         <?php foreach ($allArticle as $article): ?>
-                            <a href="<?= base_url($lang == 'id' ? 'id/artikel/' . $article['slug_artikel_id'] : 'en/article/' . $article['slug_artikel_en']); ?>" class="d-flex align-items-center mb-3">
+                            <a href="<?= base_url($lang == 'id'
+                                            ? 'id/artikel/' . $article['slug_kategori_id'] . '/' . $article['slug_artikel_id']
+                                            : 'en/article/' . $article['slug_kategori_en'] . '/' . $article['slug_artikel_en']); ?>" class="d-flex align-items-center mb-3">
                                 <img src="<?= base_url('assets/img/services.jpg'); ?>" alt="Thumbnail" class="img-fluid me-3" style="width: 100px; height: 80px; object-fit: cover; border-radius: 5%;">
                                 <div>
                                     <span><?= $lang == 'id' ? $article['judul_artikel_id'] : $article['judul_artikel_en']; ?></span>
