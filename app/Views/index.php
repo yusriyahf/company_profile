@@ -1,8 +1,19 @@
 <?= $this->extend('layouts/template'); ?>
 
 <?= $this->section('content'); ?>
+<style>
+    .zoom-container {
+        overflow: hidden;
+    }
 
+    .zoom-container img {
+        transition: transform 0.3s;
+    }
 
+    .zoom-container img:hover {
+        transform: scale(1.1);
+    }
+</style>
 
 <section id="hero" class="hero section dark-background">
 
@@ -123,6 +134,29 @@
     </div>
 
 </section><!-- /About Section -->
+
+<!-- product section -->
+<section id="product" class="product section">
+    <!-- Section Title -->
+    <div class="container section-title" data-aos="fade-up">
+        <h2><?= lang('bahasa.headerProduk'); ?></h2>
+    </div><!-- End Section Title -->
+
+    <div class="container" data-aos="fade-up" data-aos-delay="100">
+        <div class="row gy-5">
+            <?php foreach ($product as $p) : ?>
+                <div class="col-lg-4" data-aos="fade-up" data-aos-delay="100">
+                    <div class="zoom-container card text-bg-primary mb-3" style="box-shadow: 20px 20px 20px 20px rgba(38, 51, 61, 0.1);">
+                        <img src="<?= base_url('assets/img/produk/' . $p["foto_produk"]) ?>" class="card-img-top img-fluid zoom" alt="<?= $lang == 'id' ? $p['alt_produk_id'] : $p['alt_produk_en']; ?>" style="height:300px">
+                        <div class="card-body">
+                            <h5 class="card-title" style="color: whitesmoke;"><?= $lang == 'id' ? $p['nama_produk_id'] : $p['nama_produk_en']; ?></h5>
+                        </div>
+                    </div>
+                </div>
+            <?php endforeach; ?>
+        </div>
+</section>
+<!-- end product section -->
 
 
 <!-- Contact Section -->

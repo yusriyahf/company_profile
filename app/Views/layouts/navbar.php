@@ -14,11 +14,15 @@ $lang_segment = substr($current_url, 0, strpos($current_url, '/') + 1); // Menyi
 $homeLink = ($lang_segment === 'en/') ? '/' : '/';
 $aboutLink = ($lang_segment === 'en/') ? 'about' : 'tentang';
 $contactLink = ($lang_segment === 'en/') ? 'contact' : 'kontak';
+$productLink = ($lang_segment === 'en/') ? 'product' : 'produk';
+$detailProduct = ($lang_segment === 'en/') ? 'product-detail' : 'produk-detail';
 
 // Buat array untuk menggantikan segmen berdasarkan bahasa
 $replace_map = [
     'kontak' => 'contact',
     'tentang' => 'about',
+    'produk' => 'product',
+    'produk-detail' => 'product-detail',
 ];
 
 // Ambil bagian dari URL tanpa segmen bahasa
@@ -64,6 +68,8 @@ $indonesia_url = base_url($clean_url);
         </li>
         <li><a href="<?= base_url($lang . '/' . $aboutLink) ?>" class="<?= isset($data['activeMenu']) && $data['activeMenu'] === 'about' ? 'active' : '' ?>"><?= lang('bahasa.about'); ?></a></li>
         <li><a href="<?= base_url($lang . '/' . $contactLink) ?>" class="<?= isset($data['activeMenu']) && $data['activeMenu'] === 'contact' ? 'active' : '' ?>"><?= lang('bahasa.contact'); ?></a></li>
+        <li><a href="<?= base_url($lang . '/' . $productLink) ?>" class="<?= isset($data['activeMenu']) && $data['activeMenu'] === 'product' ? 'active' : '' ?>"><?= lang('bahasa.product'); ?></a></li>
+
         <li class="dropdown">
             <a href="#"><span>
                     <?php
