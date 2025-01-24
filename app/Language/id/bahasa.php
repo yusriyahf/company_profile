@@ -1,6 +1,9 @@
 <?php
 
 return [
+    // ARTICLE
+    'buttonArticle' => 'Selengkapnya',
+
     // FOOTER
     'headerService' => 'Layanan Kami',
     'headerLink' => 'Tautan Berguna',
@@ -9,6 +12,7 @@ return [
     'home' => 'Beranda',
     'about' => 'Tentang',
     'contact' => 'Kontak',
+    'article' => 'Artikel',
 
     // SLIDER
     'buttonSlider' => 'Kontak Kami',

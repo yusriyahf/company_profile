@@ -12,5 +12,8 @@ class DatabaseSeeder extends Seeder
         $this->call('ContactSeeder');
         $this->call('ProfilSeeder');
         $this->call('SliderSeeder');
+        $this->call('SliderSeeder');
+        $this->call('ArticleCategorySeeder');
+        $this->call('ArticleSeeder');
     }
 }

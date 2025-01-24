@@ -1,6 +1,9 @@
 <?php
 
 return [
+    // ARTICLE
+    'buttonArticle' => 'Read More',
+
     // FOOTER
     'headerService' => 'Our Services',
     'headerLink' => 'Useful Links',
@@ -9,6 +12,7 @@ return [
     'home' => 'Home',
     'about' => 'About',
     'contact' => 'Contact',
+    'article' => 'Article',
 
     // SLIDER
     'buttonSlider' => 'Contact Us',

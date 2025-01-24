@@ -1,7 +1,63 @@
 <?= $this->extend('layouts/template'); ?>
 
 <?= $this->section('content'); ?>
+<?php
+// Ambil bahasa yang disimpan di session
+$lang = session()->get('lang') ?? 'id'; // Default ke 'en' jika tidak ada di session
 
+$current_url = uri_string();
+
+// Ambil query string (misalnya ?keyword=sukses)
+$query_string = $_SERVER['QUERY_STRING']; // Mengambil query string dari URL
+
+// Simpan segmen bahasa saat ini
+$lang_segment = substr($current_url, 0, strpos($current_url, '/') + 1); // Menyimpan 'id/' atau 'en/'
+
+// Definisikan tautan untuk setiap halaman berdasarkan bahasa
+$homeLink = ($lang_segment === 'en/') ? '/' : '/';
+$aboutLink = ($lang_segment === 'en/') ? 'about' : 'tentang';
+$contactLink = ($lang_segment === 'en/') ? 'contact' : 'kontak';
+$articleLink = ($lang_segment === 'en/') ? 'article' : 'artikel';
+
+// Buat array untuk menggantikan segmen berdasarkan bahasa
+$replace_map = [
+    'kontak' => 'contact',
+    'tentang' => 'about',
+    'artikel' => 'article',
+];
+
+// Ambil bagian dari URL tanpa segmen bahasa
+$url_without_lang = substr($current_url, strlen($lang_segment));
+
+// Tentukan bahasa yang ingin digunakan
+$new_lang_segment = ($lang_segment === 'en/') ? 'id/' : 'en/';
+
+// Gantikan setiap segmen dalam URL berdasarkan bahasa yang aktif
+foreach ($replace_map as $indonesian_segment => $english_segment) {
+    if ($lang_segment === 'en/') {
+        // Jika bahasa yang dipilih adalah 'en', maka ganti segmen ID ke EN
+        $url_without_lang = str_replace($english_segment, $indonesian_segment, $url_without_lang);
+    } else {
+        // Jika bahasa yang dipilih adalah 'id', maka ganti segmen EN ke ID
+        $url_without_lang = str_replace($indonesian_segment, $english_segment, $url_without_lang);
+    }
+}
+
+// Tautan dengan bahasa yang baru
+$clean_url = $new_lang_segment . ltrim($url_without_lang, '/');
+
+// Gabungkan query string jika ada
+if (!empty($query_string)) {
+    $clean_url .= '?' . $query_string;
+}
+
+
+// Tautan Bahasa Inggris
+$english_url = base_url($clean_url);
+
+// Tautan Bahasa Indonesia
+$indonesia_url = base_url($clean_url);
+?>
 
 
 <section id="hero" class="hero section dark-background">
@@ -14,7 +70,7 @@
             <div class="carousel-container">
                 <h2><?= lang('bahasa.headerSlider'); ?><br></h2>
                 <p><?= $lang == 'id' ? $slider['caption_slider_id'] : $slider['caption_slider_en']; ?></p>
-                <a href="/contact" class="btn-get-started"><?= lang('bahasa.buttonSlider'); ?></a>
+                <a href="<?= base_url($lang . '/' . $contactLink) ?>" class="btn-get-started"><?= lang('bahasa.buttonSlider'); ?></a>
             </div>
         </div><!-- End Carousel Item -->
 
@@ -24,7 +80,7 @@
             <div class="carousel-container">
                 <h2><?= lang('bahasa.headerSlider'); ?></h2>
                 <p><?= $lang == 'id' ? $slider['caption_slider_id'] : $slider['caption_slider_en']; ?></p>
-                <a href="/contact" class="btn-get-started"><?= lang('bahasa.buttonSlider'); ?></a>
+                <a href="<?= base_url($lang . '/' . $contactLink) ?>" class="btn-get-started"><?= lang('bahasa.buttonSlider'); ?></a>
             </div>
         </div><!-- End Carousel Item -->
 
@@ -34,7 +90,7 @@
             <div class="carousel-container">
                 <h2><?= lang('bahasa.headerSlider'); ?></h2>
                 <p><?= $lang == 'id' ? $slider['caption_slider_id'] : $slider['caption_slider_en']; ?></p>
-                <a href="/contact" class="btn-get-started"><?= lang('bahasa.buttonSlider'); ?></a>
+                <a href="<?= base_url($lang . '/' . $contactLink) ?>" class="btn-get-started"><?= lang('bahasa.buttonSlider'); ?></a>
             </div>
         </div><!-- End Carousel Item -->
 
@@ -65,45 +121,6 @@
                 <h2 class="about-title"><?= lang('bahasa.headerAbout'); ?></h2>
                 <p class="about-description"><?= $lang == 'id' ? $profil['deskripsi_perusahaan_id'] : $profil['deskripsi_perusahaan_en']; ?></p>
 
-                <div class="row feature-list-wrapper">
-                    <div class="col-md-6">
-                        <ul class="feature-list">
-                            <li><i class="bi bi-check-circle-fill"></i><?= lang('bahasa.poin1'); ?></li>
-                            <li><i class="bi bi-check-circle-fill"></i> <?= lang('bahasa.poin2'); ?></li>
-                            <li><i class="bi bi-check-circle-fill"></i><?= lang('bahasa.poin3'); ?></li>
-                        </ul>
-                    </div>
-                    <div class="col-md-6">
-                        <ul class="feature-list">
-                            <li><i class="bi bi-check-circle-fill"></i><?= lang('bahasa.poin4'); ?></li>
-                            <li><i class="bi bi-check-circle-fill"></i><?= lang('bahasa.poin5'); ?></li>
-                            <li><i class="bi bi-check-circle-fill"></i><?= lang('bahasa.poin5'); ?></li>
-                        </ul>
-                    </div>
-                </div>
-
-                <div class="info-wrapper">
-                    <div class="row gy-4">
-                        <div class="col-lg-5">
-                            <div class="profile d-flex align-items-center gap-3">
-                                <img src="<?= base_url('assets/img/avatar-1.webp'); ?>" alt="CEO Profile" class="profile-image">
-                                <div>
-                                    <h4 class="profile-name">Yusriyah F</h4>
-                                    <p class="profile-position">CEO &amp; Founder</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-7">
-                            <div class="contact-info d-flex align-items-center gap-2">
-                                <i class="bi bi-telephone-fill"></i>
-                                <div>
-                                    <p class="contact-label"><?= lang('bahasa.call'); ?></p>
-                                    <p class="contact-number">+123 456-789</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
             </div>
 
             <div class="col-xl-6" data-aos="fade-up" data-aos-delay="300">
@@ -111,10 +128,6 @@
                     <div class="images position-relative" data-aos="zoom-out" data-aos-delay="400">
                         <img src="<?= base_url('assets/img/about-5.webp'); ?>" alt="Business Meeting" class="img-fluid main-image rounded-4">
                         <img src="<?= base_url('assets/img/about-2.webp'); ?>" alt="Team Discussion" class="img-fluid small-image rounded-4">
-                    </div>
-                    <div class="experience-badge floating">
-                        <h3>15+ <span><?= lang('bahasa.year'); ?></span></h3>
-                        <p><?= lang('bahasa.desc'); ?></p>
                     </div>
                 </div>
             </div>
@@ -124,6 +137,45 @@
 
 </section><!-- /About Section -->
 
+<!-- Services Section -->
+<section id="services" class="services section light-background">
+
+    <!-- Section Title -->
+    <div class="container section-title" data-aos="fade-up">
+        <h2>Artikel</h2>
+        <p>Artikel Terbaru</p>
+    </div><!-- End Section Title -->
+
+    <div class="container" data-aos="fade-up" data-aos-delay="100">
+
+        <div class="row g-4">
+
+            <?php foreach ($artikel as $a): ?>
+                <div class="col-lg-6" data-aos="fade-up" data-aos-delay="100">
+                    <div class="service-card d-flex align-items-center">
+                        <!-- Ganti icon dengan gambar dan pastikan gambar sejajar dengan teks -->
+                        <div class="flex-shrink-0 me-3">
+                            <img src="<?= base_url('assets/img/services.jpg'); ?>" alt="Thumbnail" class="img-fluid" style="width:160px; height: 160px; object-fit: cover; border-radius: 10%;">
+                        </div>
+                        <div>
+                            <h3><?= $lang == 'id' ? $a['judul_artikel_id'] : $a['judul_artikel_en']; ?></h3>
+                            <p>
+                                <?= $lang == 'id' ? substr($a['snippet_id'], 0, 100) : substr($a['snippet_en'], 0, 100); ?>
+                                <?= strlen($lang == 'id' ? $a['snippet_id'] : $a['snippet_en']) > 100 ? '...' : ''; ?>
+                            </p>
+                            <a href="<?= base_url($lang == 'id' ? 'id/artikel/' . $a['slug_artikel_id'] : 'en/article/' . $a['slug_artikel_en']); ?>" class="read-more">
+                                <?= lang('bahasa.buttonArticle'); ?> <i class="bi bi-arrow-right"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div><!-- End Service Card -->
+            <?php endforeach; ?>
+
+        </div>
+
+    </div>
+
+</section><!-- /Services Section -->
 
 <!-- Contact Section -->
 <section id="contact" class="contact section light-background">

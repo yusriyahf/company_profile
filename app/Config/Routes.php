@@ -7,21 +7,23 @@ use CodeIgniter\Router\RouteCollection;
  */
 // $routes->get('/', 'Home::index');
 // $routes->get('/about', 'AboutController::index');
-$routes->get('/detail', function () {
-    return view('detail_article'); // 'contact' adalah nama file view di folder `app/Views`.
-});
+
 
 
 $routes->group('id', function ($routes) {
     $routes->get('/', 'Home::index');
     $routes->get('tentang', 'AboutController::index');
     $routes->get('kontak', 'ContactController::index');
+    $routes->get('artikel', 'ArticleController::index');
+    $routes->get('artikel/(:segment)', 'ArticleController::detail/$1');
 });
 
 $routes->group('en', function ($routes) {
     $routes->get('/', 'Home::index');
     $routes->get('about', 'AboutController::index');
     $routes->get('contact', 'ContactController::index');
+    $routes->get('article', 'ArticleController::index');
+    $routes->get('article/(:segment)', 'ArticleController::detail/$1');
 });
 
 // $routes->group('(:alpha)', ['filter' => 'lang'], function ($routes) {
