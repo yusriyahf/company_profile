@@ -13,6 +13,7 @@ return [
     'about' => 'About',
     'contact' => 'Contact',
     'article' => 'Article',
+    'product' => 'Product',
 
     // SLIDER
     'buttonSlider' => 'Contact Us',
@@ -44,5 +45,9 @@ return [
     'emailPlaceholder' => 'Email',
     'subjectPlaceholder' => 'Subject',
     'messagePlaceholder' => 'Your Message',
+
+    // PRODUK MENU
+    'headerProduk' => 'Our Products',
+    'button' => 'Read More..',
 
 ];

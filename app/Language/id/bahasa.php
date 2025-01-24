@@ -13,6 +13,7 @@ return [
     'about' => 'Tentang',
     'contact' => 'Kontak',
     'article' => 'Artikel',
+    'product' => 'Produk',
 
     // SLIDER
     'buttonSlider' => 'Kontak Kami',
@@ -44,4 +45,8 @@ return [
     'emailPlaceholder' => 'Email',
     'subjectPlaceholder' => 'Subjek',
     'messagePlaceholder' => 'Pesan Anda',
+
+    // PRODUK MENU
+    'headerProduk' => 'Produk Kami',
+    'button' => 'Baca Selengkapnya..',
 ];

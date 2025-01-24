@@ -16,6 +16,8 @@ $routes->group('id', function ($routes) {
     $routes->get('kontak', 'ContactController::index');
     $routes->get('artikel', 'ArticleController::index');
     $routes->get('artikel/(:segment)', 'ArticleController::detail/$1');
+    $routes->get('produk', 'ProductController::index');
+    $routes->get('(:segment)/produk-detail/(:segment)', 'ProductController::detail/$2');
 });
 
 $routes->group('en', function ($routes) {
@@ -24,6 +26,8 @@ $routes->group('en', function ($routes) {
     $routes->get('contact', 'ContactController::index');
     $routes->get('article', 'ArticleController::index');
     $routes->get('article/(:segment)', 'ArticleController::detail/$1');
+    $routes->get('product', 'ProductController::index');
+    $routes->get('(:segment)/product-detail/(:segment)', 'ProductController::detail/$2');
 });
 
 // $routes->group('(:alpha)', ['filter' => 'lang'], function ($routes) {

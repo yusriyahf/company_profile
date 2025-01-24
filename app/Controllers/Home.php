@@ -5,6 +5,7 @@ namespace App\Controllers;
 use App\Models\ArtikelModel;
 use App\Models\KontakModel;
 use App\Models\MetaModel;
+use App\Models\ProductModel;
 use App\Models\ProfilModel;
 use App\Models\SliderModel;
 
@@ -25,11 +26,13 @@ class Home extends BaseController
         $profilModel = new ProfilModel();
         $contactModel = new KontakModel();
         $sliderModel = new SliderModel();
+        $productModel = new ProductModel();
         $dataMeta = $metaModel->where('nama_halaman', 'home')->first();
         $dataArtikel = $articleModel->findAll();
         $dataSlider = $sliderModel->first();
         $dataKontak = $contactModel->first();
         $dataProfil = $profilModel->first();
-        return view('index', ['meta' => $dataMeta, 'slider' => $dataSlider, 'profil' => $dataProfil, 'kontak' => $dataKontak, 'lang' => $this->lang, 'data' => $data, 'artikel' => $dataArtikel]);
+        $product = $productModel->findAll();
+        return view('index', ['meta' => $dataMeta, 'slider' => $dataSlider, 'profil' => $dataProfil, 'kontak' => $dataKontak, 'lang' => $this->lang, 'data' => $data, 'artikel' => $dataArtikel, 'product' => $product]);
     }
 }
