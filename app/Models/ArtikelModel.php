@@ -12,7 +12,21 @@ class ArtikelModel extends Model
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = [];
+    protected $allowedFields    = [
+        'judul_artikel_id',
+        'judul_artikel_en',
+        'snippet_id',
+        'snippet_en',
+        'slug_artikel_id',
+        'slug_artikel_en',
+        'konten_id',
+        'konten_en',
+        'id_kategori_artikel',
+        'meta_desc_id',
+        'meta_desc_en',
+        'created_at',
+        'updated_at'
+    ];
 
     protected bool $allowEmptyInserts = false;
     protected bool $updateOnlyChanged = true;
@@ -44,16 +58,25 @@ class ArtikelModel extends Model
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 
-    public function getBySlugAndLang($slug, $lang)
+    public function getArticlesWithCategory($categoryId = null, $lang = 'id')
     {
-        $slugField = $lang == 'id' ? 'slug_artikel_id' : 'slug_artikel_en';
-        return $this->where($slugField, $slug)->first();
-    }
-    public function getByCategory($categoryId)
-    {
-        return $this->join('tb_kategori_artikel', 'tb_artikel.id_kategori_artikel = tb_kategori_artikel.id_kategori_artikel')
-            ->where('tb_kategori_artikel.id_kategori_artikel', $categoryId)
-            ->orderBy('tb_artikel.created_at', 'DESC') // Specify the table name
-            ->findAll();
+        // Select columns properly based on language
+        $this->select(
+            'tb_artikel.*, ' .
+                'tb_kategori_artikel.slug_kategori_id, ' .
+                'tb_kategori_artikel.slug_kategori_en, ' .
+                ($lang === 'id' ? 'tb_kategori_artikel.nama_kategori_id' : 'tb_kategori_artikel.nama_kategori_en') . ' as nama_kategori, ' .
+                ($lang === 'id' ? 'tb_kategori_artikel.slug_kategori_id' : 'tb_kategori_artikel.slug_kategori_en') . ' as slug_kategori'
+        );
+
+        // Join the category table properly
+        $this->join('tb_kategori_artikel', 'tb_kategori_artikel.id_kategori_artikel = tb_artikel.id_kategori_artikel', 'left');
+
+        // Filter by category if provided
+        if ($categoryId) {
+            $this->where('tb_artikel.id_kategori_artikel', $categoryId);
+        }
+
+        return $this->findAll(); // Return all results
     }
 }

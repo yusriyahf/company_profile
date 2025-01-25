@@ -12,7 +12,18 @@ class CategoryArtikelModel extends Model
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = [];
+    protected $allowedFields    = [
+        'nama_kategori_id',
+        'nama_kategori_en',
+        'slug_kategori_id',
+        'slug_kategori_en',
+        'title_kategori_id',
+        'title_kategori_en',
+        'meta_desc_id',
+        'meta_desc_en',
+        'created_at',
+        'updated_at',
+    ];
 
     protected bool $allowEmptyInserts = false;
     protected bool $updateOnlyChanged = true;
@@ -43,4 +54,27 @@ class CategoryArtikelModel extends Model
     protected $afterFind      = [];
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
+
+    public function getCategoryBySlug($slugCategory, $lang = 'id')
+    {
+        // Return the first result from the query
+        return $this->where('slug_kategori_id',$slugCategory)->orWhere('slug_kategori_en', $slugCategory)
+            ->first();
+    }
+
+    /**
+     * Mendapatkan semua kategori dalam bahasa tertentu
+     *
+     * @param string $lang
+     * @return array
+     */
+    public function getAllCategories(string $lang = 'id')
+    {
+        $fieldName = $lang === 'id' ? 'nama_kategori_id' : 'nama_kategori_en';
+        $fieldSlug = $lang === 'id' ? 'slug_kategori_id' : 'slug_kategori_en';
+
+        return $this->select("id_kategori_artikel, $fieldName as nama_kategori, $fieldSlug as slug_kategori")
+            ->orderBy('id_kategori_artikel', 'ASC')
+            ->findAll();
+    }
 }

@@ -36,25 +36,37 @@ class ProductController extends BaseController
 
     public function detail($slug = null)
     {
-        $activeMenu = 'product';
+        log_message('debug', 'isi slug ' . $slug);
         $lang = session()->get('lang') ?? 'id';
+
+        // Menambahkan log untuk melacak nilai slug yang diterima
+        log_message('debug', 'Slug yang diterima: ' . $slug);
 
         $productModel = new ProductModel();
         $metaModel = new MetaModel();
         $meta = $metaModel->first();
+
+        // Cek apakah produk ada berdasarkan slug untuk bahasa ID atau EN
         $product = $productModel->where('slug_id', $slug)->orWhere('slug_en', $slug)->first();
 
+        // Log hasil pencarian produk
+        log_message('debug', 'Produk ditemukan: ' . print_r($product, true));
 
         // Jika produk tidak ditemukan, redirect atau tampilkan error
         if (!$product) {
+            log_message('error', 'Produk tidak ditemukan dengan slug: ' . $slug);
             return redirect()->to('/')->with('error', 'Produk tidak ditemukan');
         }
 
         // Periksa apakah slug sesuai dengan bahasa yang digunakan
         if (($lang === 'id' && $slug !== $product['slug_id']) || ($lang === 'en' && $slug !== $product['slug_en'])) {
+            // Log sebelum melakukan redireksi
+            log_message('debug', 'Slug yang sesuai untuk bahasa ' . $lang . ': ' . $product['slug_id'] . ' (ID) / ' . $product['slug_en'] . ' (EN)');
+
             // redirect ke url yang benar
             $correctedSlug = $lang === 'id' ? $product['slug_id'] : $product['slug_en'];
             $correcturl = $lang === 'id' ? 'produk/produk-detail' : 'product/product-detail';
+            log_message('debug', 'Redireksi ke URL yang benar: ' . "$lang/$correcturl/$correctedSlug");
             return redirect()->to("$lang/$correcturl/$correctedSlug");
         }
 
