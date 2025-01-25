@@ -74,7 +74,6 @@ class ProductController extends BaseController
         $data = [
             'product' => $product,
             'lang' => $lang,
-            'data' => $activeMenu,
             'meta' => $meta, // Ambil data meta untuk halaman detail produk
         ];
 
