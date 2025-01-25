@@ -28,14 +28,18 @@
                     </a>
 
                 </li>
-                <?php foreach ($kategori as $k): ?>
-                    <li class="nav-item">
-                        <a class="nav-link <?= ($categoryId == $k['id_kategori_artikel']) ? 'active' : '' ?>"
-                            href="<?= base_url($lang == 'id' ? 'id/artikel/' . $k['slug_kategori_id'] : 'en/article/' . $k['slug_kategori_en']) ?>">
-                            <h4><?= $lang == 'id' ? $k['nama_kategori_id'] : $k['nama_kategori_en']; ?></h4>
-                        </a>
-                    </li>
-                <?php endforeach; ?>
+                <?php if (!empty($kategori)): ?>
+                    <?php foreach ($kategori as $k): ?>
+                        <li class="nav-item">
+                            <a class="nav-link <?= ($categoryId == $k['id_kategori_artikel']) ? 'active' : '' ?>"
+                                href="<?= base_url($lang == 'id' && isset($k['slug_kategori']) ? 'id/artikel/' . $k['slug_kategori'] : 'en/article/' . $k['slug_kategori']) ?>">
+                                <h4><?= isset($k['nama_kategori']) ? $k['nama_kategori'] : 'No Name'; ?></h4>
+                            </a>
+                        </li>
+                    <?php endforeach; ?>
+                <?php else: ?>
+                    <li class="nav-item">No categories available</li>
+                <?php endif; ?>
             </ul>
         </div>
 
@@ -51,9 +55,9 @@
                             <?= $lang == 'id' ? $article['snippet_id'] : $article['snippet_en']; ?>
                         </p>
                         <a href="<?= base_url(
-                                        $lang == 'id'
-                                            ? 'id/artikel/' . ($article['slug_kategori_id'] ?? '') . '/' . ($article['slug_artikel_id'] ?? '')
-                                            : 'en/article/' . ($article['slug_kategori_en'] ?? '') . '/' . ($article['slug_artikel_en'] ?? '')
+                                        $lang === 'id'
+                                            ? 'id/artikel/' . ($article['slug_kategori_id'] ?? 'kategori-tidak-ditemukan') . '/' . ($article['slug_artikel_id'] ?? 'artikel-tidak-ditemukan')
+                                            : 'en/article/' . ($article['slug_kategori_en'] ?? 'category-not-found') . '/' . ($article['slug_artikel_en'] ?? 'article-not-found')
                                     ); ?>" class="read-more">
                             <?= lang('bahasa.buttonArticle'); ?> <i class="bi bi-arrow-right"></i>
                         </a>
