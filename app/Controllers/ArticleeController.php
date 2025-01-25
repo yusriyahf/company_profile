@@ -111,8 +111,9 @@ class ArticleeController extends BaseController
             $categorySlug = $lang === 'id' ? $category['slug_kategori_id'] : $category['slug_kategori_en'];
             // Redirect ke URL yang benar
             $correctedSlug = $lang === 'id' ? $artikel['slug_artikel_id'] : $artikel['slug_artikel_en'];
-            log_message('debug', 'Redireksi ke URL yang benar: ' . "$lang/article/$categorySlug/$correctedSlug");
-            return redirect()->to("$lang/article/$categorySlug/$correctedSlug");
+            $urlmenu = $lang === 'id' ? 'artikel' : 'article';
+            log_message('debug', 'Redireksi ke URL yang benar: ' . "$lang/$urlmenu/$categorySlug/$correctedSlug");
+            return redirect()->to("$lang/$urlmenu/$categorySlug/$correctedSlug");
         }
 
         // Ambil artikel-artikel terbaru
