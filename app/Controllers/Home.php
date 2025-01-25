@@ -28,7 +28,11 @@ class Home extends BaseController
         $sliderModel = new SliderModel();
         $productModel = new ProductModel();
         $dataMeta = $metaModel->where('nama_halaman', 'home')->first();
-        $dataArtikel = $articleModel->findAll();
+        $dataArtikel = $articleModel
+            ->select('tb_artikel.*, tb_kategori_artikel.slug_kategori_id, tb_kategori_artikel.slug_kategori_en')
+            ->join('tb_kategori_artikel', 'tb_kategori_artikel.id_kategori_artikel = tb_artikel.id_kategori_artikel', 'left')
+            ->orderBy('tb_artikel.created_at', 'DESC')
+            ->findAll();
         $dataSlider = $sliderModel->first();
         $dataKontak = $contactModel->first();
         $dataProfil = $profilModel->first();

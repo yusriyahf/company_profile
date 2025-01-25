@@ -10,13 +10,13 @@
                     <p>A108 Adam Street</p>
                     <p>New York, NY 535022</p>
                     <p class="mt-3"><strong>Phone:</strong> <span>+1 5589 55488 55</span></p>
-                    <p><strong>Email:</strong> <span>info@example.com</span></p>
+                    <p><strong>Email:</strong> <span>yusriyah9@gmail.com</span></p>
                 </div>
                 <div class="social-links d-flex mt-4">
                     <a href=""><i class="bi bi-twitter-x"></i></a>
-                    <a href=""><i class="bi bi-facebook"></i></a>
-                    <a href=""><i class="bi bi-instagram"></i></a>
-                    <a href=""><i class="bi bi-linkedin"></i></a>
+                    <a href="www.linkedin.com/in/yusriyah-firjatullah" target="_blank"><i class="bi bi-facebook"></i></a>
+                    <a href="https://www.instagram.com/yusriyahf_/" target="_blank"><i class="bi bi-instagram"></i></a>
+                    <a href="https://www.linkedin.com/in/yusriyah-firjatullah" target="_blank"><i class="bi bi-linkedin"></i></a>
                 </div>
             </div>
 
@@ -25,7 +25,9 @@
                 <ul>
                     <li><a href="#">Home</a></li>
                     <li><a href="#">About us</a></li>
-                    <li><a href="#">Services</a></li>
+                    <li><a href="#">Articles</a></li>
+                    <li><a href="#">Product</a></li>
+                    <li><a href="#">Contact</a></li>
                     <!-- <li><a href="#">Terms of service</a></li>
                     <li><a href="#">Privacy policy</a></li> -->
                 </ul>

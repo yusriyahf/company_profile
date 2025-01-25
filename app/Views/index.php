@@ -139,8 +139,8 @@ $indonesia_url = base_url($clean_url);
             <div class="col-xl-6" data-aos="fade-up" data-aos-delay="300">
                 <div class="image-wrapper">
                     <div class="images position-relative" data-aos="zoom-out" data-aos-delay="400">
-                        <img src="<?= base_url('assets/img/about-5.webp'); ?>" alt="Business Meeting" class="img-fluid main-image rounded-4">
-                        <img src="<?= base_url('assets/img/about-2.webp'); ?>" alt="Team Discussion" class="img-fluid small-image rounded-4">
+                        <img src="<?= base_url('assets/img/' . $profil['foto_perusahaan']); ?>" alt="<?= $lang == 'id' ? $profil['alt_foto_perusahaan_id'] : $profil['alt_foto_perusahaan_en']; ?>" class="img-fluid main-image rounded-4">
+                        <img src="<?= base_url('assets/img/' . $profil['logo_perusahaan']); ?>" alt="<?= $lang == 'id' ? $profil['alt_logo_perusahaan_id'] : $profil['alt_logo_perusahaan_en']; ?>" class="img-fluid small-image rounded-4">
                     </div>
                 </div>
             </div>
@@ -156,8 +156,8 @@ $indonesia_url = base_url($clean_url);
 
     <!-- Section Title -->
     <div class="container section-title" data-aos="fade-up">
-        <h2>Artikel</h2>
-        <p>Artikel Terbaru</p>
+        <h2><?= lang('bahasa.article'); ?></h2>
+        <!-- <p>Artikel Terbaru</p> -->
     </div><!-- End Section Title -->
 
     <div class="container" data-aos="fade-up" data-aos-delay="100">
@@ -169,7 +169,7 @@ $indonesia_url = base_url($clean_url);
                     <div class="service-card d-flex align-items-center">
                         <!-- Ganti icon dengan gambar dan pastikan gambar sejajar dengan teks -->
                         <div class="flex-shrink-0 me-3">
-                            <img src="<?= base_url('assets/img/services.jpg'); ?>" alt="Thumbnail" class="img-fluid" style="width:160px; height: 160px; object-fit: cover; border-radius: 10%;">
+                            <img src="<?= base_url('assets/img/artikel/' . $a['foto_artikel']); ?>" alt="<?= $lang == 'id' ? $a['alt_artikel_id'] : $a['alt_artikel_en']; ?>" class="img-fluid" style="width:160px; height: 160px; object-fit: cover; border-radius: 10%;">
                         </div>
                         <div>
                             <h3><?= $lang == 'id' ? $a['judul_artikel_id'] : $a['judul_artikel_en']; ?></h3>
@@ -177,7 +177,9 @@ $indonesia_url = base_url($clean_url);
                                 <?= $lang == 'id' ? substr($a['snippet_id'], 0, 100) : substr($a['snippet_en'], 0, 100); ?>
                                 <?= strlen($lang == 'id' ? $a['snippet_id'] : $a['snippet_en']) > 100 ? '...' : ''; ?>
                             </p>
-                            <a href="<?= base_url($lang == 'id' ? 'id/artikel/' . $a['slug_artikel_id'] : 'en/article/' . $a['slug_artikel_en']); ?>" class="read-more">
+                            <a href="<?= base_url($lang == 'id'
+                                            ? 'id/artikel/' . $a['slug_kategori_id'] . '/' . $a['slug_artikel_id']
+                                            : 'en/article/' . $a['slug_kategori_en'] . '/' . $a['slug_artikel_en']); ?>" class="read-more">
                                 <?= lang('bahasa.buttonArticle'); ?> <i class="bi bi-arrow-right"></i>
                             </a>
                         </div>

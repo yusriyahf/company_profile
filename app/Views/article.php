@@ -6,12 +6,12 @@
 <div class="page-title light-background">
     <div class="container">
         <h1>Artikel</h1>
-        <nav class="breadcrumbs">
+        <!-- <nav class="breadcrumbs">
             <ol>
                 <li><a href="index.html">Home</a></li>
                 <li class="current">Service Details</li>
             </ol>
-        </nav>
+        </nav> -->
     </div>
 </div><!-- End Page Title -->
 
@@ -44,7 +44,7 @@
             <div class="col-lg-8 ps-lg-5" data-aos="fade-up" data-aos-delay="200">
                 <?php foreach ($allArticle as $article): ?>
                     <div class="service-box">
-                        <img src="<?= base_url('assets/img/services.jpg'); ?>" alt="" class="img-fluid services-img" style="border-radius: 2%;">
+                        <img src="<?= base_url('assets/img/artikel/' . $article['foto_artikel']); ?>" alt="<?= $lang == 'id' ? $article['alt_artikel_id'] : $article['alt_artikel_en']; ?>" class="img-fluid services-img" style="border-radius: 2%;">
                         <h2><?= $lang == 'id' ? $article['judul_artikel_id'] : $article['judul_artikel_en']; ?></h2>
                         <p>2 Januari 2022</p>
                         <p>
@@ -73,7 +73,7 @@
                             <a href="<?= base_url($lang == 'id'
                                             ? 'id/artikel/' . $article['slug_kategori_id'] . '/' . $article['slug_artikel_id']
                                             : 'en/article/' . $article['slug_kategori_en'] . '/' . $article['slug_artikel_en']); ?>" class="d-flex align-items-center mb-3">
-                                <img src="<?= base_url('assets/img/services.jpg'); ?>" alt="Thumbnail" class="img-fluid me-3" style="width: 100px; height: 80px; object-fit: cover; border-radius: 5%;">
+                                <img src="<?= base_url('assets/img/artikel/' . $article['foto_artikel']); ?>" alt="<?= $lang == 'id' ? $article['alt_artikel_id'] : $article['alt_artikel_en']; ?>" class="img-fluid me-3" style="width: 100px; height: 80px; object-fit: cover; border-radius: 5%;">
                                 <div>
                                     <span><?= $lang == 'id' ? $article['judul_artikel_id'] : $article['judul_artikel_en']; ?></span>
                                     <p style="font-size: 0.875rem; color: #6c757d; margin-top: 4px;"><?= date('d F Y', strtotime($article['created_at'])); ?></p> <!-- Tanggal Artikel -->

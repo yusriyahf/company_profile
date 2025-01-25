@@ -11,6 +11,7 @@ class ProductController extends BaseController
 {
     public function index()
     {
+        $activeMenu = 'product';
         $metaModel = new MetaModel();
         $productModel = new ProductModel();
         $lang = session()->get('lang') ?? 'id';
@@ -25,7 +26,8 @@ class ProductController extends BaseController
             'meta' => $dataMeta,
             'product' => $product,
             'detailProduct' => $detailProduct,
-            'productLink' => $productLink
+            'productLink' => $productLink,
+            'activeMenu' => $activeMenu
         ];
 
         // log_message('debug', 'slug : ' . print_r($data, true));
@@ -34,6 +36,7 @@ class ProductController extends BaseController
 
     public function detail($slug = null)
     {
+        $activeMenu = 'product';
         $lang = session()->get('lang') ?? 'id';
 
         $productModel = new ProductModel();
@@ -59,6 +62,7 @@ class ProductController extends BaseController
         $data = [
             'product' => $product,
             'lang' => $lang,
+            'data' => $activeMenu,
             'meta' => $meta, // Ambil data meta untuk halaman detail produk
         ];
 
