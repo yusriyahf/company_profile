@@ -11,6 +11,7 @@ class ArticleeController extends BaseController
 {
     public function index($slugCategory = null)
     {
+        $data['activeMenu'] = 'article';
         $lang = session()->get('lang') ?? 'id';  // Mendapatkan bahasa aktif dari sesi
 
         $categoryModel = new CategoryArtikelModel();
@@ -64,11 +65,13 @@ class ArticleeController extends BaseController
             'kategori' => $categories,
             'categoryId' => $categoryId,
             'meta' => $meta,
+            'data' => $data
         ]);
     }
 
     public function detail($categorySlug, $slug)
     {
+        $data['activeMenu'] = 'article';
         // cek lang nya
         $lang = session()->get('lang') ?? 'id';
         // Menambahkan log untuk melacak nilai slug yang diterima
@@ -118,8 +121,10 @@ class ArticleeController extends BaseController
 
         // Ambil artikel-artikel terbaru
         $allArticle = $articleModel
-            ->orderBy('created_at', 'DESC')
+            ->join('tb_kategori_artikel', 'tb_kategori_artikel.id_kategori_artikel = tb_artikel.id_kategori_artikel', 'left')
+            ->orderBy('tb_artikel.created_at', 'DESC')  // Menentukan tabel yang dimaksud
             ->findAll(10);
+
         // Tampilkan halaman artikel (misalnya tampilan detail artikel)
         return view('detail_article', [
             'lang' => $lang,
@@ -127,6 +132,7 @@ class ArticleeController extends BaseController
             'category' => $category,
             'meta' => $meta,
             'allArticle' => $allArticle,
+            'data' => $data
         ]);
     }
 }

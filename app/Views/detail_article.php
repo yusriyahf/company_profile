@@ -4,7 +4,7 @@
 <!-- Page Title -->
 <div class="page-title light-background">
     <div class="container">
-        <h1>Detail Artikel</h1>
+        <h1>Detail <?= lang('bahasa.article'); ?></h1>
         <!-- <nav class="breadcrumbs">
             <ol>
                 <li><a href="index.html">Home</a></li>
@@ -38,8 +38,8 @@
                     <div class="services-list">
                         <?php foreach ($allArticle as $article): ?>
                             <a href="<?= base_url($lang == 'id'
-                                            ? "id/artikel/{$article['slug_kategori_id']}/{$article['slug_artikel_id']}"
-                                            : "en/article/{$article['slug_kategori_en']}/{$article['slug_artikel_en']}"); ?>" class="d-flex align-items-center mb-3">
+                                            ? 'id/artikel/' . $article['slug_kategori_id'] . '/' . $article['slug_artikel_id']
+                                            : 'en/article/' . $article['slug_kategori_en'] . '/' . $article['slug_artikel_en']); ?>" class="d-flex align-items-center mb-3">
                                 <img src="<?= base_url('assets/img/artikel/' . $article['foto_artikel']); ?>" alt="<?= $lang == 'id' ? $article['alt_artikel_id'] : $article['alt_artikel_en']; ?>" class="img-fluid me-3" style="width: 100px; height: 80px; object-fit: cover; border-radius: 5%;">
                                 <div>
                                     <span><?= $lang == 'id' ? $article['judul_artikel_id'] : $article['judul_artikel_en']; ?></span>

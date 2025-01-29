@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use App\Controllers\BaseController;
 use App\Models\ArtikelModel;
+use App\Models\CategoryArtikelModel;
 use App\Models\KategoriModel;
 use App\Models\MetaModel;
 use CodeIgniter\HTTP\ResponseInterface;
@@ -98,103 +99,68 @@ class ArticleController extends BaseController
 
 
 
-    public function detail($categorySlug, $articleSlug)
+    public function detail($categorySlug, $slug)
     {
+        // cek lang nya
         $data['activeMenu'] = 'article';
+        $lang = session()->get('lang') ?? 'id';
+        // Menambahkan log untuk melacak nilai slug yang diterima
+        log_message('debug', 'Slug yang diterima: ' . $slug);
 
-        log_message('debug', 'Current language: ' . $this->lang);
-        log_message('debug', 'Category Slug: ' . $categorySlug);
-        log_message('debug', 'Article Slug: ' . $articleSlug);
+        $articleModel = new ArtikelModel();
+        $metaModel = new MetaModel();
+        $meta = $metaModel->first();
 
-        // Tentukan field slug kategori berdasarkan bahasa
-        $slugField = $this->lang === 'id' ? 'slug_kategori_id' : 'slug_kategori_en';
+        // Cek apakah produk ada berdasarkan slug untuk bahasa ID atau EN
+        $artikel = $articleModel->where('slug_artikel_id', $slug)->orWhere('slug_artikel_en', $slug)->first();
 
-        // Periksa jika categorySlug sesuai dengan slug yang aktif (berdasarkan bahasa)
-        // var_dump($categorySlug);
-        log_message('debug', 'Category Slug: ' . $categorySlug);
-        log_message('debug', 'Slug Field: ' . $slugField);
+        // Log hasil pencarian produk
+        log_message('debug', 'Produk ditemukan: ' . print_r($artikel, true));
 
-
-        // Cari kategori berdasarkan slug kategori sesuai bahasa
-        $category = $this->kategoriModel->where($slugField, $categorySlug)->first();
-
-        // Tambahkan log untuk memeriksa hasil
-        log_message('debug', 'Found Category: ' . print_r($category, true));
-
-        if (!$category) {
-            throw new \CodeIgniter\Exceptions\PageNotFoundException('Kategori tidak ditemukan');
-        }
-
-        // Cek artikel
-        $artikel = $this->articleModel
-            ->join('tb_kategori_artikel', 'tb_kategori_artikel.id_kategori_artikel = tb_artikel.id_kategori_artikel')
-            ->where("tb_kategori_artikel.$slugField", $categorySlug)
-            ->groupStart()
-            ->where('tb_artikel.slug_artikel_id', $articleSlug)
-            ->orWhere('tb_artikel.slug_artikel_en', $articleSlug)
-            ->groupEnd()
-            ->first();
-        log_message('debug', 'Found article: ' . print_r($artikel, true));  // Debugging article
-
+        // Jika produk tidak ditemukan, redirect atau tampilkan error
         if (!$artikel) {
-            throw new \CodeIgniter\Exceptions\PageNotFoundException('Artikel tidak ditemukan');
+            log_message('error', 'atyikel tidak ditemukan dengan slug: ' . $slug);
+            return redirect()->to('/')->with('error', 'artikel tidak ditemukan');
         }
 
-        log_message('debug', 'Article Slug (ID): ' . $artikel['slug_artikel_id']);
-        log_message('debug', 'Article Slug (EN): ' . $artikel['slug_artikel_en']);
-        log_message('debug', 'Category Slug (ID): ' . $artikel['slug_kategori_id']);
-        log_message('debug', 'Category Slug (EN): ' . $artikel['slug_kategori_en']);
+        // Ambil kategori artikel berdasarkan ID kategori
+        $categoryModel = new CategoryArtikelModel();
+        $category = $categoryModel->find($artikel['id_kategori_artikel']); // Ambil kategori berdasarkan id_kategori_artikel
 
-        log_message('debug', 'Current Language: ' . $this->lang);
-        log_message('debug', 'Current Article Slug: ' . $articleSlug);
-        log_message('debug', 'Current Category Slug: ' . $categorySlug);
-
-        // Periksa apakah kondisi terpenuhi
-        log_message(
-            'debug',
-            'Slug Comparison: ' .
-                (($this->lang === 'id' && $articleSlug !== $artikel['slug_artikel_id']) ? 'Article Slug mismatch' : 'Article Slug match') .
-                ', ' .
-                (($this->lang === 'en' && $articleSlug !== $artikel['slug_artikel_en']) ? 'Article Slug mismatch' : 'Article Slug match') .
-                ', ' .
-                (($this->lang === 'id' && $categorySlug !== $artikel['slug_kategori_id']) ? 'Category Slug mismatch' : 'Category Slug match') .
-                ', ' .
-                (($this->lang === 'en' && $categorySlug !== $artikel['slug_kategori_en']) ? 'Category Slug mismatch' : 'Category Slug match')
-        );
-
-        // Periksa slug artikel dan kategori
-        if (
-            ($this->lang === 'id' && $articleSlug !== $artikel['slug_artikel_id']) ||
-            ($this->lang === 'en' && $articleSlug !== $artikel['slug_artikel_en']) ||
-            ($this->lang === 'id' && $categorySlug !== $artikel['slug_kategori_id']) ||
-            ($this->lang === 'en' && $categorySlug !== $artikel['slug_kategori_en'])
-        ) {
-
-
-            $correctedArticleSlug = $this->lang === 'id' ? $artikel['slug_artikel_id'] : $artikel['slug_artikel_en'];
-            $correctedCategorySlug = $this->lang === 'id' ? $artikel['slug_kategori_id'] : $artikel['slug_kategori_en'];
-            $correcturl = $this->lang === 'id' ? 'artikel' : 'article';
-            log_message('debug', 'Conditions met for redirection');
-            // dd($correctedCategorySlug);
-
-            $correctUrl = "/$this->lang/$correcturl/{$correctedCategorySlug}/$correctedArticleSlug";
-            log_message('debug', 'Redirecting to: ' . $correctUrl);
-
-            return redirect()->to($correctUrl);
+        // Pastikan kategori ada
+        if (!$category) {
+            log_message('error', 'Kategori tidak ditemukan untuk artikel dengan ID: ' . $artikel['id_kategori_artikel']);
+            return redirect()->to('/')->with('error', 'Kategori artikel tidak ditemukan');
         }
 
-        $allArticle = $this->articleModel
-            ->select('tb_artikel.*, tb_kategori_artikel.slug_kategori_en, tb_kategori_artikel.slug_kategori_id, tb_kategori_artikel.nama_kategori_en, tb_kategori_artikel.nama_kategori_id')
-            ->join('tb_kategori_artikel', 'tb_kategori_artikel.id_kategori_artikel = tb_artikel.id_kategori_artikel', 'left')
-            ->orderBy('tb_artikel.created_at', 'DESC')
-            ->findAll(5); // Limit to 5 related articles
+        // Periksa apakah slug sesuai dengan bahasa yang digunakan
+        if (($lang === 'id' && $slug !== $artikel['slug_artikel_id']) || ($lang === 'en' && $slug !== $artikel['slug_artikel_en'])) {
+            // Log sebelum melakukan redireksi
+            log_message('debug', 'Slug yang sesuai untuk bahasa ' . $lang . ': ' . $artikel['slug_artikel_id'] . ' (ID) / ' . $artikel['slug_artikel_en'] . ' (EN)');
 
+            // redirect ke url yang benar
+            $correctedSlug = $lang === 'id' ? $artikel['slug_artikel_id'] : $artikel['slug_artikel_en'];
+            // Ambil slug kategori yang sesuai dengan bahasa
+            $categorySlug = $lang === 'id' ? $category['slug_kategori_id'] : $category['slug_kategori_en'];
+            // Redirect ke URL yang benar
+            $correctedSlug = $lang === 'id' ? $artikel['slug_artikel_id'] : $artikel['slug_artikel_en'];
+            $urlmenu = $lang === 'id' ? 'artikel' : 'article';
+            log_message('debug', 'Redireksi ke URL yang benar: ' . "$lang/$urlmenu/$categorySlug/$correctedSlug");
+            return redirect()->to("$lang/$urlmenu/$categorySlug/$correctedSlug");
+        }
+
+        // Ambil artikel-artikel terbaru
+        $allArticle = $articleModel
+            ->orderBy('created_at', 'DESC')
+            ->findAll(10);
+        // Tampilkan halaman artikel (misalnya tampilan detail artikel)
         return view('detail_article', [
-            'artikel' => $artikel,
-            'lang' => $this->lang,
-            'category' => $category,
-            'allArticle' => $allArticle,
             'data' => $data,
+            'lang' => $lang,
+            'artikel' => $artikel,
+            'category' => $category,
+            'meta' => $meta,
+            'allArticle' => $allArticle,
         ]);
     }
 }

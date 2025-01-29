@@ -4,13 +4,13 @@
 <head>
     <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
-<?php if (isset($meta)): ?>
-    <title><?= $lang == 'id' ? $meta['title_id'] : $meta['title_en']; ?></title>
-    <meta name="description" content="<?= $lang == 'id' ? $meta['meta_desc_id'] : $meta['meta_desc_en']; ?>">
-<?php else: ?>
-    <title>Default Title</title>
-    <meta name="description" content="Default meta description">
-<?php endif; ?>
+    <?php if (isset($meta)): ?>
+        <title><?= $lang == 'id' ? $meta['title_id'] : $meta['title_en']; ?></title>
+        <meta name="description" content="<?= $lang == 'id' ? $meta['meta_desc_id'] : $meta['meta_desc_en']; ?>">
+    <?php else: ?>
+        <title>Default Title</title>
+        <meta name="description" content="Default meta description">
+    <?php endif; ?>
     <meta name="keywords" content="">
 
     <!-- Favicons -->
@@ -45,13 +45,14 @@
     <header id="header" class="header d-flex align-items-center fixed-top">
         <div class="header-container container-fluid container-xl position-relative d-flex align-items-center justify-content-between">
 
-            <a href="/" class="logo d-flex align-items-center me-auto me-xl-0">
+            <a href="#" class="logo d-flex align-items-center me-auto me-xl-0">
                 <!-- Uncomment the line below if you also wish to use an image logo -->
                 <!-- <img src="assets/img/logo.png" alt=""> -->
                 <h1 class="sitename">Creativenest</h1>
             </a>
 
             <?= $this->include('layouts/navbar'); ?>
+
 
             <a class="btn-getstarted" href="/contact"><?= lang('bahasa.buttonSlider'); ?></a>
 

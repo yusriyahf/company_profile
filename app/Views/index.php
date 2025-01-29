@@ -166,12 +166,15 @@ $indonesia_url = base_url($clean_url);
 
             <?php foreach ($artikel as $a): ?>
                 <div class="col-lg-6" data-aos="fade-up" data-aos-delay="100">
-                    <div class="service-card d-flex align-items-center">
-                        <!-- Ganti icon dengan gambar dan pastikan gambar sejajar dengan teks -->
-                        <div class="flex-shrink-0 me-3">
-                            <img src="<?= base_url('assets/img/artikel/' . $a['foto_artikel']); ?>" alt="<?= $lang == 'id' ? $a['alt_artikel_id'] : $a['alt_artikel_en']; ?>" class="img-fluid" style="width:160px; height: 160px; object-fit: cover; border-radius: 10%;">
+                    <div class="service-card d-flex flex-column flex-md-row align-items-center">
+                        <!-- Gambar di atas untuk tampilan mobile -->
+                        <div class="flex-shrink-0 mb-3 mb-md-0 me-md-3 images position-relative">
+                            <img src="<?= base_url('assets/img/artikel/' . $a['foto_artikel']); ?>"
+                                alt="<?= $lang == 'id' ? $a['alt_artikel_id'] : $a['alt_artikel_en']; ?>"
+                                class="img-fluid"
+                                style="width: 100%; max-width: 160px; height: 160px; object-fit: cover; border-radius: 10%;">
                         </div>
-                        <div>
+                        <div class="text-start">
                             <h3><?= $lang == 'id' ? $a['judul_artikel_id'] : $a['judul_artikel_en']; ?></h3>
                             <p>
                                 <?= $lang == 'id' ? substr($a['snippet_id'], 0, 100) : substr($a['snippet_en'], 0, 100); ?>
@@ -186,6 +189,7 @@ $indonesia_url = base_url($clean_url);
                     </div>
                 </div><!-- End Service Card -->
             <?php endforeach; ?>
+
 
         </div>
 
