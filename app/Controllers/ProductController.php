@@ -43,10 +43,17 @@ class ProductController extends BaseController
 
         $productModel = new ProductModel();
         $metaModel = new MetaModel();
-        $meta = $metaModel->first();
+        // $meta = $metaModel->first();
 
         // Cek apakah produk ada berdasarkan slug untuk bahasa ID atau EN
         $product = $productModel->where('slug_id', $slug)->orWhere('slug_en', $slug)->first();
+
+        $metaData = [
+            'title_id' => $product['title_id'] ?? 'Artikel Tidak Ditemukan',
+            'title_en' => $product['title_en'] ?? 'Article Not Found',
+            'meta_desc_id' => $product['meta_desc_id'] ?? 'Deskripsi artikel tidak tersedia.',
+            'meta_desc_en' => $product['meta_desc_en'] ?? 'Article description not available.',
+        ];
 
         // Log hasil pencarian produk
         log_message('debug', 'Produk ditemukan: ' . print_r($product, true));
@@ -73,7 +80,7 @@ class ProductController extends BaseController
         $data = [
             'product' => $product,
             'lang' => $lang,
-            'meta' => $meta, // Ambil data meta untuk halaman detail produk
+            'meta' => $metaData, // Ambil data meta untuk halaman detail produk
             'activeMenu' => 'product'
         ];
 

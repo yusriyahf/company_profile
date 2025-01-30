@@ -81,8 +81,17 @@ class ArticleeController extends BaseController
         $metaModel = new MetaModel();
         $meta = $metaModel->first();
 
+
+
         // Cek apakah produk ada berdasarkan slug untuk bahasa ID atau EN
         $artikel = $articleModel->where('slug_artikel_id', $slug)->orWhere('slug_artikel_en', $slug)->first();
+
+        $metaData = [
+            'title_id' => $artikel['title_artikel_id'] ?? 'Artikel Tidak Ditemukan',
+            'title_en' => $artikel['title_artikel_en'] ?? 'Article Not Found',
+            'meta_desc_id' => $artikel['meta_desc_id'] ?? 'Deskripsi artikel tidak tersedia.',
+            'meta_desc_en' => $artikel['meta_desc_en'] ?? 'Article description not available.',
+        ];
 
         // Log hasil pencarian produk
         log_message('debug', 'Produk ditemukan: ' . print_r($artikel, true));
@@ -130,7 +139,7 @@ class ArticleeController extends BaseController
             'lang' => $lang,
             'artikel' => $artikel,
             'category' => $category,
-            'meta' => $meta,
+            'meta' => $metaData,
             'allArticle' => $allArticle,
             'data' => $data
         ]);
