@@ -4,13 +4,12 @@
 <!-- Page Title -->
 <div class="page-title light-background">
     <div class="container">
-        <h1>Detail <?= lang('bahasa.article'); ?></h1>
-        <!-- <nav class="breadcrumbs">
-            <ol>
-                <li><a href="index.html">Home</a></li>
-                <li class="current">Service Details</li>
-            </ol>
-        </nav> -->
+
+        <!-- Section Title -->
+        <div class="container section-title" data-aos="fade-up">
+            <h2><?= $lang == 'id' ? $meta['nama_halaman_id'] : $meta['nama_halaman_en']; ?></h2>
+            <p><?= $lang == 'id' ? $meta['deskripsi_halaman_id'] : $meta['deskripsi_halaman_en']; ?></p>
+        </div><!-- End Section Title -->
     </div>
 </div><!-- End Page Title -->
 

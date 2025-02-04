@@ -81,9 +81,7 @@ $indonesia_url = base_url($clean_url);
             <img src="<?= base_url('assets/img/hero-carousel/' . $slider['foto_slider1']); ?>" alt="">
 
             <div class="carousel-container">
-                <h2><?= lang('bahasa.headerSlider'); ?><br></h2>
-                <p><?= $lang == 'id' ? $slider['caption_slider_id'] : $slider['caption_slider_en']; ?></p>
-                <a href="<?= base_url($lang . '/' . $contactLink) ?>" class="btn-get-started"><?= lang('bahasa.buttonSlider'); ?></a>
+                <h2 class="text-center"><?= $lang == 'id' ? $slider['caption_slider_id'] : $slider['caption_slider_en']; ?></h2>
             </div>
         </div><!-- End Carousel Item -->
 
@@ -91,9 +89,7 @@ $indonesia_url = base_url($clean_url);
             <img src="<?= base_url('assets/img/hero-carousel/' . $slider['foto_slider2']); ?>" alt="">
 
             <div class="carousel-container">
-                <h2><?= lang('bahasa.headerSlider'); ?></h2>
-                <p><?= $lang == 'id' ? $slider['caption_slider_id'] : $slider['caption_slider_en']; ?></p>
-                <a href="<?= base_url($lang . '/' . $contactLink) ?>" class="btn-get-started"><?= lang('bahasa.buttonSlider'); ?></a>
+                <h2 class="text-center"><?= $lang == 'id' ? $slider['caption_slider_id'] : $slider['caption_slider_en']; ?></h2>
             </div>
         </div><!-- End Carousel Item -->
 
@@ -101,9 +97,7 @@ $indonesia_url = base_url($clean_url);
             <img src="<?= base_url('assets/img/hero-carousel/' . $slider['foto_slider3']); ?>" alt="">
 
             <div class="carousel-container">
-                <h2><?= lang('bahasa.headerSlider'); ?></h2>
-                <p><?= $lang == 'id' ? $slider['caption_slider_id'] : $slider['caption_slider_en']; ?></p>
-                <a href="<?= base_url($lang . '/' . $contactLink) ?>" class="btn-get-started"><?= lang('bahasa.buttonSlider'); ?></a>
+                <h2 class="text-center"><?= $lang == 'id' ? $slider['caption_slider_id'] : $slider['caption_slider_en']; ?></h2>
             </div>
         </div><!-- End Carousel Item -->
 
@@ -124,14 +118,17 @@ $indonesia_url = base_url($clean_url);
 
 <!-- About Section -->
 <section id="about" class="about section">
+    <div class="container section-title" data-aos="fade-up">
+        <h2><?= $lang == 'id' ? $aboutMeta['nama_halaman_id'] : $aboutMeta['nama_halaman_en']; ?></h2>
+        <p><?= $lang == 'id' ? $aboutMeta['deskripsi_halaman_id'] : $aboutMeta['deskripsi_halaman_en']; ?></p>
+    </div><!-- End Section Title -->
 
     <div class="container" data-aos="fade-up" data-aos-delay="100">
 
         <div class="row gy-4 align-items-center justify-content-between">
 
             <div class="col-xl-5" data-aos="fade-up" data-aos-delay="200">
-                <span class="about-meta"><?= lang('bahasa.titleAbout'); ?></span>
-                <h2 class="about-title"><?= lang('bahasa.headerAbout'); ?></h2>
+                <h2 class="about-title"><?= $profil['nama_perusahaan']; ?></h2>
                 <p class="about-description"><?= $lang == 'id' ? $profil['deskripsi_perusahaan_id'] : $profil['deskripsi_perusahaan_en']; ?></p>
 
             </div>
@@ -156,8 +153,8 @@ $indonesia_url = base_url($clean_url);
 
     <!-- Section Title -->
     <div class="container section-title" data-aos="fade-up">
-        <h2><?= lang('bahasa.article'); ?></h2>
-        <!-- <p>Artikel Terbaru</p> -->
+        <h2><?= $lang == 'id' ? $articleMeta['nama_halaman_id'] : $articleMeta['nama_halaman_en']; ?></h2>
+        <p><?= $lang == 'id' ? $articleMeta['deskripsi_halaman_id'] : $articleMeta['deskripsi_halaman_en']; ?></p>
     </div><!-- End Section Title -->
 
     <div class="container" data-aos="fade-up" data-aos-delay="100">
@@ -201,20 +198,26 @@ $indonesia_url = base_url($clean_url);
 <section id="product" class="product section">
     <!-- Section Title -->
     <div class="container section-title" data-aos="fade-up">
-        <h2><?= lang('bahasa.headerProduk'); ?></h2>
+        <h2><?= $lang == 'id' ? $productMeta['nama_halaman_id'] : $productMeta['nama_halaman_en']; ?></h2>
+        <p><?= $lang == 'id' ? $productMeta['deskripsi_halaman_id'] : $productMeta['deskripsi_halaman_en']; ?></p>
     </div><!-- End Section Title -->
 
     <div class="container" data-aos="fade-up" data-aos-delay="100">
         <div class="row gy-5">
             <?php foreach ($product as $p) : ?>
                 <div class="col-lg-4" data-aos="fade-up" data-aos-delay="100">
-                    <div class="zoom-container card text-bg-primary mb-3" style="box-shadow: 20px 20px 20px 20px rgba(38, 51, 61, 0.1);">
-                        <img src="<?= base_url('assets/img/produk/' . $p["foto_produk"]) ?>" class="card-img-top img-fluid zoom" alt="<?= $lang == 'id' ? $p['alt_produk_id'] : $p['alt_produk_en']; ?>" style="height:300px">
-                        <div class="card-body">
-                            <h5 class="card-title" style="color: whitesmoke;"><?= $lang == 'id' ? $p['nama_produk_id'] : $p['nama_produk_en']; ?></h5>
+                    <a href="<?= base_url($lang == 'id'
+                                    ? 'id/produk/produk-detail/'  . $p['slug_id']
+                                    : 'en/product/product-detail/' . $p['slug_en']); ?>" class="text-decoration-none">
+                        <div class="zoom-container card text-bg-primary mb-3" style="box-shadow: 20px 20px 20px 20px rgba(38, 51, 61, 0.1);">
+                            <img src="<?= base_url('assets/img/produk/' . $p["foto_produk"]) ?>" class="card-img-top img-fluid zoom" alt="<?= $lang == 'id' ? $p['alt_produk_id'] : $p['alt_produk_en']; ?>" style="height:300px">
+                            <div class="card-body">
+                                <h5 class="card-title" style="color: whitesmoke;"><?= $lang == 'id' ? $p['nama_produk_id'] : $p['nama_produk_en']; ?></h5>
+                            </div>
                         </div>
-                    </div>
+                    </a>
                 </div>
+
             <?php endforeach; ?>
         </div>
 </section>
@@ -225,8 +228,8 @@ $indonesia_url = base_url($clean_url);
 
     <!-- Section Title -->
     <div class="container section-title" data-aos="fade-up">
-        <h2><?= lang('bahasa.headerKontak'); ?></h2>
-        <p><?= $lang == 'id' ? $kontak['deskripsi_kontak_id'] : $kontak['deskripsi_kontak_en']; ?></p>
+        <h2><?= $lang == 'id' ? $contactMeta['nama_halaman_id'] : $contactMeta['nama_halaman_en']; ?></h2>
+        <p><?= $lang == 'id' ? $contactMeta['deskripsi_halaman_id'] : $contactMeta['deskripsi_halaman_en']; ?></p>
     </div><!-- End Section Title -->
 
     <div class="container" data-aos="fade-up" data-aos-delay="100">
@@ -234,84 +237,23 @@ $indonesia_url = base_url($clean_url);
         <div class="row g-4 g-lg-5">
             <div class="col-lg-5">
                 <div class="info-box" data-aos="fade-up" data-aos-delay="200">
-                    <h3><?= lang('bahasa.headerKontak'); ?></h3>
-                    <p><?= lang('bahasa.deskripsiKontak'); ?></p>
-
-                    <div class="info-item" data-aos="fade-up" data-aos-delay="300">
-                        <div class="icon-box">
-                            <i class="bi bi-geo-alt"></i>
-                        </div>
-                        <div class="content">
-                            <h4><?= lang('bahasa.location'); ?></h4>
-                            <p>Jl. CreativeNest No. 21</p>
-                            <p>Malang, 12345</p>
-                        </div>
-                    </div>
-
-                    <div class="info-item" data-aos="fade-up" data-aos-delay="400">
-                        <div class="icon-box">
-                            <i class="bi bi-telephone"></i>
-                        </div>
-                        <div class="content">
-                            <h4><?= lang('bahasa.nomor'); ?></h4>
-                            <p>+1 5589 55488 55</p>
-                            <p>+1 6678 254445 41</p>
-                        </div>
-                    </div>
-
-                    <div class="info-item" data-aos="fade-up" data-aos-delay="500">
-                        <div class="icon-box">
-                            <i class="bi bi-envelope"></i>
-                        </div>
-                        <div class="content">
-                            <h4>Email Address</h4>
-                            <p>info@example.com</p>
-                            <p>contact@example.com</p>
-                        </div>
-                    </div>
+                    <?= $lang == 'id' ? $kontak['deskripsi_kontak_id'] : $kontak['deskripsi_kontak_en']; ?>
                 </div>
             </div>
 
             <div class="col-lg-7">
-                <div class="contact-form" data-aos="fade-up" data-aos-delay="300">
-                    <h3><?= lang('bahasa.formHeader'); ?></h3>
-                    <p><?= lang('bahasa.formDescription'); ?></p>
-
-                    <form action="forms/contact.php" method="post" class="php-email-form" data-aos="fade-up" data-aos-delay="200">
-                        <div class="row gy-4">
-
-                            <div class="col-md-6">
-                                <input type="text" name="name" class="form-control" placeholder="<?= lang('bahasa.namePlaceholder'); ?>" required="">
-                            </div>
-
-                            <div class="col-md-6 ">
-                                <input type="email" class="form-control" name="email" placeholder="<?= lang('bahasa.emailPlaceholder'); ?>" required="">
-                            </div>
-
-                            <div class="col-12">
-                                <input type="text" class="form-control" name="subject" placeholder="<?= lang('bahasa.subjectPlaceholder'); ?>" required="">
-                            </div>
-
-                            <div class="col-12">
-                                <textarea class="form-control" name="message" rows="6" placeholder="<?= lang('bahasa.messagePlaceholder'); ?>" required=""></textarea>
-                            </div>
-
-                            <div class="col-12 text-center">
-                                <div class="loading">Loading</div>
-                                <div class="error-message"></div>
-                                <div class="sent-message">Your message has been sent. Thank you!</div>
-
-                                <button type="submit" class="btn"><?= lang('bahasa.formButton'); ?></button>
-                            </div>
-
-                        </div>
-                    </form>
-
+                <div class="contact-map" data-aos="fade-up" data-aos-delay="300">
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3951.2410172253694!2d112.66325561145756!3d-7.974024292017904!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2dd6298db1e5b70b%3A0xaf3552a89f1cc9f0!2sELECOMP%20INDONESIA!5e0!3m2!1sen!2sid!4v1738309308019!5m2!1sen!2sid" 
+                        width="600" 
+                        height="550" 
+                        style="border:0;" 
+                        allowfullscreen="" 
+                        loading="lazy" 
+                        referrerpolicy="no-referrer-when-downgrade">
+                    </iframe>
                 </div>
             </div>
-
         </div>
-
     </div>
 
 </section><!-- /Contact Section -->

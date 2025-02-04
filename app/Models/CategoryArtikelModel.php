@@ -58,7 +58,7 @@ class CategoryArtikelModel extends Model
     public function getCategoryBySlug($slugCategory, $lang = 'id')
     {
         // Return the first result from the query
-        return $this->where('slug_kategori_id',$slugCategory)->orWhere('slug_kategori_en', $slugCategory)
+        return $this->where('slug_kategori_id', $slugCategory)->orWhere('slug_kategori_en', $slugCategory)
             ->first();
     }
 
@@ -76,5 +76,18 @@ class CategoryArtikelModel extends Model
         return $this->select("id_kategori_artikel, $fieldName as nama_kategori, $fieldSlug as slug_kategori")
             ->orderBy('id_kategori_artikel', 'ASC')
             ->findAll();
+    }
+
+    public function getKategoriTerbanyak()
+    {
+        $result = $this->select('tb_kategori_artikel.nama_kategori_id, tb_kategori_artikel.slug_kategori_id')
+            ->selectCount('tb_artikel.id_artikel', 'total_artikel')
+            ->join('tb_artikel', 'tb_artikel.id_kategori_artikel = tb_kategori_artikel.id_kategori_artikel', 'left')
+            ->groupBy('tb_kategori_artikel.id_kategori_artikel')
+            ->orderBy('total_artikel', 'DESC')
+            ->limit(5)
+            ->findAll();
+
+        return $result ?: [];  // Pastikan array dikembalikan
     }
 }

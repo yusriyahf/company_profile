@@ -6,6 +6,7 @@ use App\Controllers\BaseController;
 use App\Models\ArtikelModel;
 use App\Models\CategoryArtikelModel;
 use App\Models\MetaModel;
+use App\Models\ProfilModel;
 
 class ArticleeController extends BaseController
 {
@@ -16,6 +17,9 @@ class ArticleeController extends BaseController
 
         $categoryModel = new CategoryArtikelModel();
         $artikelModel = new ArtikelModel();
+        $metaModel = new MetaModel();
+        $profilModel = new ProfilModel();
+        $dataProfil = $profilModel->first();
 
         // Cek apakah kategori berdasarkan slug ditemukan, sesuai dengan bahasa
         $category = $slugCategory ? $categoryModel->getCategoryBySlug($slugCategory) : null;
@@ -52,12 +56,10 @@ class ArticleeController extends BaseController
         $categories = $categoryModel->getAllCategories($lang);
 
         // Metadata halaman
-        $meta = [
-            'title_id' => $category['title_kategori_id'] ?? 'Semua Artikel',
-            'title_en' => $category['title_kategori_en'] ?? 'All Articles',
-            'meta_desc_id' => $category['meta_desc_id'] ?? 'Kumpulan artikel terkini.',
-            'meta_desc_en' => $category['meta_desc_en'] ?? 'A collection of the latest articles.',
-        ];
+        $meta = $metaModel->where('nama_halaman_en', 'article')->first();
+        $kategoriModel = new CategoryArtikelModel();
+        // Ambil data kategori artikel terbanyak
+        $kategori_teratas= $kategoriModel->getKategoriTerbanyak();
 
         return view('article', [
             'lang' => $lang,
@@ -65,7 +67,9 @@ class ArticleeController extends BaseController
             'kategori' => $categories,
             'categoryId' => $categoryId,
             'meta' => $meta,
-            'data' => $data
+            'data' => $data,
+            'profil' => $dataProfil,
+            'kategori_teratas' => $kategori_teratas
         ]);
     }
 
@@ -79,19 +83,13 @@ class ArticleeController extends BaseController
 
         $articleModel = new ArtikelModel();
         $metaModel = new MetaModel();
-        $meta = $metaModel->first();
-
-
+        $profilModel = new ProfilModel();
+        $dataProfil = $profilModel->first();
 
         // Cek apakah produk ada berdasarkan slug untuk bahasa ID atau EN
         $artikel = $articleModel->where('slug_artikel_id', $slug)->orWhere('slug_artikel_en', $slug)->first();
 
-        $metaData = [
-            'title_id' => $artikel['title_artikel_id'] ?? 'Artikel Tidak Ditemukan',
-            'title_en' => $artikel['title_artikel_en'] ?? 'Article Not Found',
-            'meta_desc_id' => $artikel['meta_desc_id'] ?? 'Deskripsi artikel tidak tersedia.',
-            'meta_desc_en' => $artikel['meta_desc_en'] ?? 'Article description not available.',
-        ];
+        $dataMeta = $metaModel->where('nama_halaman_en', 'Article Detail')->first();
 
         // Log hasil pencarian produk
         log_message('debug', 'Produk ditemukan: ' . print_r($artikel, true));
@@ -134,14 +132,22 @@ class ArticleeController extends BaseController
             ->orderBy('tb_artikel.created_at', 'DESC')  // Menentukan tabel yang dimaksud
             ->findAll(10);
 
+            $kategoriModel = new CategoryArtikelModel();
+        // Ambil data kategori artikel terbanyak
+        $kategori_teratas= $kategoriModel->getKategoriTerbanyak();
+
+
         // Tampilkan halaman artikel (misalnya tampilan detail artikel)
         return view('detail_article', [
             'lang' => $lang,
             'artikel' => $artikel,
             'category' => $category,
-            'meta' => $metaData,
+            'meta' => $dataMeta,
             'allArticle' => $allArticle,
-            'data' => $data
+            'data' => $data,
+            'profil' => $dataProfil,
+            'kategori_teratas' => $kategori_teratas,
+
         ]);
     }
 }

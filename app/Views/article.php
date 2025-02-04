@@ -5,28 +5,25 @@
 <!-- Page Title -->
 <div class="page-title light-background">
     <div class="container">
-        <h1><?= lang('bahasa.article'); ?></h1>
-        <!-- <nav class="breadcrumbs">
-            <ol>
-                <li><a href="index.html">Home</a></li>
-                <li class="current">Service Details</li>
-            </ol>
-        </nav> -->
+        <!-- Section Title -->
+    <div class="container section-title" data-aos="fade-up">
+        <h2><?= $lang == 'id' ? $meta['nama_halaman_id'] : $meta['nama_halaman_en']; ?></h2>
+        <p><?= $lang == 'id' ? $meta['deskripsi_halaman_id'] : $meta['deskripsi_halaman_en']; ?></p>
+    </div><!-- End Section Title -->
     </div>
 </div><!-- End Page Title -->
 
 <!-- Service Details Section -->
 <section id="service-details" class="service-details section features">
-
     <div class="container">
         <div class="d-flex justify-content-center">
             <ul class="nav nav-tabs" data-aos="fade-up" data-aos-delay="100">
+                <!-- navbar kategori -->
                 <li class="nav-item">
                     <a class="nav-link <?= ($categoryId == null) ? 'active' : '' ?>"
                         href="<?= base_url($lang == 'id' ? 'id/artikel' : 'en/article') ?>">
                         <h4><?= $lang == 'id' ? 'Semua Artikel' : 'All Articles'; ?></h4>
                     </a>
-
                 </li>
                 <?php if (!empty($kategori)): ?>
                     <?php foreach ($kategori as $k): ?>
@@ -61,17 +58,13 @@
                                     ); ?>" class="read-more">
                             <?= lang('bahasa.buttonArticle'); ?> <i class="bi bi-arrow-right"></i>
                         </a>
-
-
                     </div>
                 <?php endforeach; ?>
             </div>
 
             <div class="col-lg-4" data-aos="fade-up" data-aos-delay="100">
-
                 <div class="service-box">
                     <h4><?= $lang == 'id' ? 'Artikel Lainnya' : 'Related Articles'; ?></h4>
-
                     <div class="services-list">
                         <?php foreach ($allArticle as $article): ?>
                             <a href="<?= base_url($lang == 'id'
@@ -84,17 +77,11 @@
                                 </div>
                             </a>
                         <?php endforeach; ?>
-
                     </div>
                 </div>
-
-
             </div>
-
         </div>
-
     </div>
-
 </section><!-- /Service Details Section -->
 
 <?= $this->endSection(); ?>

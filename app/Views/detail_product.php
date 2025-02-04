@@ -44,13 +44,11 @@
 <!-- Page Title -->
 <div class="page-title light-background">
     <div class="container">
-        <h1>Produk Detail</h1>
-        <nav class="breadcrumbs">
-            <ol>
-                <li><a href="index.html">Home</a></li>
-                <li class="current">Produk Detail</li>
-            </ol>
-        </nav>
+        <!-- Section Title -->
+        <div class="container section-title" data-aos="fade-up">
+            <h2><?= $lang == 'id' ? $meta['nama_halaman_id'] : $meta['nama_halaman_en']; ?></h2>
+            <p><?= $lang == 'id' ? $meta['deskripsi_halaman_id'] : $meta['deskripsi_halaman_en']; ?></p>
+        </div><!-- End Section Title -->
     </div>
 </div><!-- End Page Title -->
 
@@ -60,45 +58,23 @@
             <div class="col-lg-12">
                 <div class="card border-info mb-3" style="box-shadow: 0 4px 20px rgba(38, 51, 61, 0.1);">
 
-                    <div class="row g-0 mb-3 mt-5"> <!-- Menggunakan row untuk layout gambar dan deskripsi -->
-                        <h5 class="text-center mb-5" style="font-weight: bold; font-size: 1.5rem; color: #333; text-transform: uppercase; letter-spacing: 2px; position: relative;">
+                    <div class="product-container mb-3 mt-5" style="text-align: justify; margin-left: 30px; margin-right: 30px;">
+                        <h5 class="text-center mb-5" style="font-weight: bold; font-size: 1.5rem; color: #333; text-transform: uppercase; letter-spacing: 2px;">
                             <?= $lang == 'id' ? $product['nama_produk_id'] : $product['nama_produk_en']; ?>
                             <span style="display: block; width: 50px; height: 4px; background-color: blue; margin: 10px auto 0;"></span>
                         </h5>
-                        <div class="col-md-6">
-                            <div class="zoom-container" style="box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5); border-radius: 20px; overflow: hidden; margin-left: 20px;">
+
+                        <div style="margin: 0 auto;">
+                            <p style="font-size: 1.1em;">
                                 <img src="<?= base_url('assets/img/produk/' . $product["foto_produk"]) ?>"
-                                    class="img-fluid zoom"
                                     alt="<?= $lang == 'id' ? $product['alt_produk_id'] : $product['alt_produk_en']; ?>"
-                                    style="width: 100%; height: auto; max-width: 650px;">
-                            </div>
-                        </div>
-
-                        <div class="col-md-6">
-                            <div class="container">
-                                <ul class="nav nav-tabs nav-pills flex-column flex-sm-row" id="myTab" role="tablist">
-                                    <li class="nav-item" role="presentation">
-                                        <button class="nav-link active" id="description-tab" data-bs-toggle="tab" data-bs-target="#description" type="button" role="tab" aria-controls="description" aria-selected="true">
-                                            <?= ($lang === 'en') ? 'Description' : 'Deskripsi' ?>
-                                        </button>
-                                    </li>
-                                </ul>
-
-                                <div class="tab-content mt-3" id="myTabContent">
-                                    <div class="tab-pane fade show active" id="description" role="tabpanel" aria-labelledby="description-tab">
-                                        <div class="description-content">
-                                            <h5 class="card-title" style="font-weight: bold;">
-                                                <?= $lang == 'id' ? $product['nama_produk_id'] : $product['nama_produk_en']; ?>
-                                            </h5>
-                                            <p class="card-text" style="font-size: 1.1em;">
-                                                <?= $lang == 'id' ? $product['deskripsi_produk_id'] : $product['deskripsi_produk_en']; ?>
-                                            </p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                                    style="float: left; margin-right: 15px; width: 100%; height: auto; max-width: 500px;">
+                                <?= $lang == 'id' ? $product['deskripsi_produk_id'] : $product['deskripsi_produk_en']; ?>
+                            </p>
                         </div>
                     </div>
+
+                    <div style="clear: both;"></div>
                 </div>
             </div>
         </div>

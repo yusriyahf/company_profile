@@ -2,13 +2,19 @@
 
 <?= $this->section('content'); ?>
 
-<section id="contact" class="contact section light-background mt-5">
-    <!-- Section Title -->
-    <div class="container section-title" data-aos="fade-up">
-        <h2><?= lang('bahasa.headerProduk'); ?></h2>
-    </div><!-- End Section Title -->
+<!-- Page Title -->
+<div class="page-title light-background">
+    <div class="container">
+        <!-- Section Title -->
+        <div class="container section-title" data-aos="fade-up">
+            <h2><?= $lang == 'id' ? $meta['nama_halaman_id'] : $meta['nama_halaman_en']; ?></h2>
+            <p><?= $lang == 'id' ? $meta['deskripsi_halaman_id'] : $meta['deskripsi_halaman_en']; ?></p>
+        </div><!-- End Section Title -->
+    </div>
+</div><!-- End Page Title -->
 
-    <!-- Service Details Section -->
+<!-- Service Details Section -->
+<section id="service-details" class="service-details section features">
     <div class="container" data-aos="fade-up" data-aos-delay="100">
         <div class="row gy-5">
             <?php foreach ($product as $p) : ?>
@@ -21,11 +27,13 @@
                             <p class="card-text"><small class="text-muted"></small></p>
                         </div>
                         <div class="text-end mb-3" style="margin-right: 20px;">
-                            <a href="<?= base_url($lang . '/' . $productLink . '/' . $detailProduct . '/' . $p['slug_' . $lang]) ?>" class="btn btn-info btn-sm" style="color:white"><?= lang('bahasa.button'); ?></a>
+                            <a class="btn-getstarted" href="<?= base_url($lang . '/' . $productLink . '/' . $detailProduct . '/' . $p['slug_' . $lang]) ?>" ><?= lang('bahasa.button'); ?></a>
                         </div>
                     </div>
                 </div>
             <?php endforeach; ?>
         </div>
-        </main>
-        <?= $this->endSection(); ?>
+    </div>
+</section>
+</main>
+<?= $this->endSection(); ?>

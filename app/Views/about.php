@@ -2,6 +2,17 @@
 
 <?= $this->section('content'); ?>
 
+<!-- Page Title -->
+<div class="page-title light-background">
+    <div class="container">
+        <!-- Section Title -->
+        <div class="container section-title" data-aos="fade-up">
+            <h2><?= $lang == 'id' ? $meta['nama_halaman_id'] : $meta['nama_halaman_en']; ?></h2>
+            <p><?= $lang == 'id' ? $meta['deskripsi_halaman_id'] : $meta['deskripsi_halaman_en']; ?></p>
+        </div><!-- End Section Title -->
+    </div>
+</div><!-- End Page Title -->
+
 <section id="about" class="about section mt-5">
 
     <div class="container" data-aos="fade-up" data-aos-delay="100">
@@ -12,10 +23,6 @@
                 <span class="about-meta"><?= lang('bahasa.titleAbout'); ?></span>
                 <h2 class="about-title"><?= lang('bahasa.headerAbout'); ?></h2>
                 <p class="about-description"><?= $lang == 'id' ? $profil['deskripsi_perusahaan_id'] : $profil['deskripsi_perusahaan_en']; ?></p>
-
-
-
-
             </div>
 
             <div class="col-xl-6" data-aos="fade-up" data-aos-delay="300">
@@ -24,14 +31,9 @@
                         <img src="<?= base_url('assets/img/' . $profil['foto_perusahaan']); ?>" alt="<?= $lang == 'id' ? $profil['alt_foto_perusahaan_id'] : $profil['alt_foto_perusahaan_en']; ?>" class="img-fluid main-image rounded-4">
                         <img src="<?= base_url('assets/img/' . $profil['logo_perusahaan']); ?>" alt="<?= $lang == 'id' ? $profil['alt_logo_perusahaan_id'] : $profil['alt_logo_perusahaan_en']; ?>" class="img-fluid small-image rounded-4">
                     </div>
-                    <!-- <div class="experience-badge floating">
-                        <h3>15+ <span>Years</span></h3>
-                        <p>Of experience in business service</p>
-                    </div> -->
                 </div>
             </div>
         </div>
-
     </div>
 
 </section><!-- /About Section -->
