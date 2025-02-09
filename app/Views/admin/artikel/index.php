@@ -36,17 +36,18 @@
                                 <tbody>
                                     <?php foreach ($artikels as $artikel) : ?>
                                         <tr>
-                                            <td><?= $artikel->judul_artikel ?></td>
-                                            <td><?= $artikel->judul_artikel_en ?></td>
-                                            <td><?= $artikel->deskripsi_artikel ?></td>
-                                            <td><?= $artikel->deskripsi_artikel_en ?></td>
-                                            <td><img src="<?= base_url() . 'asset-user/images/' . $artikel->foto_artikel ?>" class="img-fluid" alt="Foto artikel"></td>
+                                            <td><?= $artikel['judul_artikel_id'] ?></td>
+                                            <td><?= $artikel['judul_artikel_en'] ?></td>
+                                            <td><?= $artikel['deskripsi_artikel_id'] ?></td>
+                                            <td><?= $artikel['deskripsi_artikel_en'] ?></td>
+                                            <td><img src="<?= base_url() . 'asset-user/images/' . $artikel['foto_artikel'] ?>" class="img-fluid" alt="Foto artikel"></td>
+
                                             <td valign="middle">
                                                 <div class="d-grid gap-2">
-                                                    <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal<?= $artikel->id_artikel ?>">
+                                                    <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal<?= $artikel['id_artikel'] ?>">
                                                         Hapus
                                                     </button>
-                                                    <a href="<?= base_url('admin/artikel/edit') . '/' . $artikel->id_artikel ?>" class="btn btn-primary">Ubah</a>
+                                                    <a href="<?= base_url('admin/artikel/edit') . '/' . $artikel['id_artikel'] ?>" class="btn btn-primary">Ubah</a>
                                                 </div>
                                             </td>
                                         </tr>
@@ -63,7 +64,7 @@
 
 <!-- Modal Konfirmasi Hapus -->
 <?php foreach ($artikels as $artikel) : ?>
-    <div class="modal fade" id="deleteModal<?= $artikel->id_artikel ?>" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal fade" id="deleteModal<?= $artikel['id_artikel'] ?>" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -75,7 +76,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-                    <a href="<?= base_url('admin/artikel/delete') . '/' . $artikel->id_artikel ?>" class="btn btn-danger">Hapus</a>
+                    <a href="<?= base_url('admin/artikel/delete') . '/' . $artikel['id_artikel'] ?>" class="btn btn-danger">Hapus</a>
                 </div>
             </div>
         </div>

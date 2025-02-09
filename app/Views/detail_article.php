@@ -17,18 +17,14 @@
 <section id="service-details" class="service-details section">
 
     <div class="container">
-
         <div class="row gy-5">
-
-
-
             <div class="col-lg-8 ps-lg-5" data-aos="fade-up" data-aos-delay="200">
                 <img src="<?= base_url('assets/img/artikel/' . $artikel['foto_artikel']); ?>" alt="<?= $lang == 'id' ? $artikel['alt_artikel_id'] : $artikel['alt_artikel_en']; ?>" class="img-fluid services-img">
                 <h1><?= $lang == 'id' ? $artikel['judul_artikel_id'] : $artikel['judul_artikel_en']; ?></h1>
+                <p><?= date('d F Y', strtotime($artikel['created_at'])); ?> - <?= $lang == 'id' ? $artikel['nama_kategori_id'] : $artikel['nama_kategori_en']; ?></p>
                 <p>
                     <?= $lang == 'id' ? $artikel['deskripsi_artikel_id'] : $artikel['deskripsi_artikel_en']; ?>
                 </p>
-
             </div>
             <div class="col-lg-4" data-aos="fade-up" data-aos-delay="100">
                 <div class="service-box">
@@ -42,7 +38,8 @@
                                 <img src="<?= base_url('assets/img/artikel/' . $article['foto_artikel']); ?>" alt="<?= $lang == 'id' ? $article['alt_artikel_id'] : $article['alt_artikel_en']; ?>" class="img-fluid me-3" style="width: 100px; height: 80px; object-fit: cover; border-radius: 5%;">
                                 <div>
                                     <span><?= $lang == 'id' ? $article['judul_artikel_id'] : $article['judul_artikel_en']; ?></span>
-                                    <p style="font-size: 0.875rem; color: #6c757d; margin-top: 4px;"><?= date('d F Y', strtotime($article['created_at'])); ?></p> <!-- Tanggal Artikel -->
+                                    <p style="font-size: 0.875rem; color: #6c757d; margin-top: 4px;"><?= date('d F Y', strtotime($article['created_at'])); ?></p>
+
                                 </div>
                             </a>
                         <?php endforeach; ?>

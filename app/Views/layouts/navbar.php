@@ -15,6 +15,7 @@ $homeLink = ($lang_segment === 'en/') ? '/' : '/';
 $aboutLink = ($lang_segment === 'en/') ? 'about' : 'tentang';
 $contactLink = ($lang_segment === 'en/') ? 'contact' : 'kontak';
 $articleLink = ($lang_segment === 'en/') ? 'article' : 'artikel';
+$activityLink = ($lang_segment === 'en/') ? 'activity' : 'aktivitas';
 $productLink = ($lang_segment === 'en/') ? 'product' : 'produk';
 $detailProduct = ($lang_segment === 'en/') ? 'product-detail' : 'produk-detail';
 
@@ -23,6 +24,7 @@ $replace_map = [
     'kontak' => 'contact',
     'tentang' => 'about',
     'artikel' => 'article',
+    'aktivitas' => 'activity',
     'produk' => 'product',
     'produk-detail' => 'product-detail',
 ];
@@ -71,6 +73,7 @@ $indonesia_url = base_url($clean_url);
         </li>
         <li><a href="<?= base_url($lang . '/' . $aboutLink) ?>" class="<?= isset($data['activeMenu']) && $data['activeMenu'] === 'about' ? 'active' : '' ?>"><?= lang('bahasa.about'); ?></a></li>
         <li><a href="<?= base_url($lang . '/' . $articleLink) ?>" class="<?= isset($data['activeMenu']) && $data['activeMenu'] === 'article' ? 'active' : '' ?>"><?= lang('bahasa.article'); ?></a></li>
+        <li><a href="<?= base_url($lang . '/' . $activityLink) ?>" class="<?= isset($data['activeMenu']) && $data['activeMenu'] === 'activity' ? 'active' : '' ?>"><?= lang('bahasa.activity'); ?></a></li>
         <li><a href="<?= base_url($lang . '/' . $productLink) ?>" class="<?= isset($activeMenu) && $activeMenu === 'product' ? 'active' : '' ?>"><?= lang('bahasa.product'); ?></a></li>
         <li><a href="<?= base_url($lang . '/' . $contactLink) ?>" class="<?= isset($data['activeMenu']) && $data['activeMenu'] === 'contact' ? 'active' : '' ?>"><?= lang('bahasa.contact'); ?></a></li>
 

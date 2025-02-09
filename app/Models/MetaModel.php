@@ -12,7 +12,7 @@ class MetaModel extends Model
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = ['nama_halaman', 'title_id', 'title_en', 'meta_desc_id', 'meta_desc_en'];
+    protected $allowedFields    = ['nama_halaman_en', 'nama_halaman_id', 'deskripsi_halaman_id', 'deskripsi_halaman_en', 'title_id', 'title_en', 'meta_desc_id', 'meta_desc_en'];
 
     protected bool $allowEmptyInserts = false;
     protected bool $updateOnlyChanged = true;
@@ -28,11 +28,14 @@ class MetaModel extends Model
 
     // Validation
     protected $validationRules      = [
-        'nama_halaman' => 'required|max_length[255]',
-        'title_id'     => 'permit_empty|string',
-        'title_en'     => 'permit_empty|string',
-        'meta_desc_id' => 'permit_empty|string',
-        'meta_desc_en' => 'permit_empty|string',
+        'nama_halaman_id' => 'required|max_length[255]',
+        'nama_halaman_en' => 'required|max_length[255]',
+        'deskripsi_halaman_id' => 'required|max_length[255]',
+        'deskripsi_halaman_en' => 'required|max_length[255]',
+        'title_id'        => 'permit_empty|string',
+        'title_en'        => 'permit_empty|string',
+        'meta_desc_id'    => 'permit_empty|string',
+        'meta_desc_en'    => 'permit_empty|string',
     ];
     protected $validationMessages   = [];
     protected $skipValidation       = false;

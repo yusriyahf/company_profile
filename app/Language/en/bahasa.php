@@ -13,6 +13,7 @@ return [
     'about' => 'About',
     'contact' => 'Contact',
     'article' => 'Article',
+    'activity' => 'Activity',
     'product' => 'Product',
 
     // SLIDER

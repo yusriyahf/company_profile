@@ -16,29 +16,42 @@
                         </div>
                     <?php endif; ?>
 
-                    <form action="<?= base_url('admin/meta/proses_edit/' . $meta['id_seo']) ?>" method="POST" enctype="multipart/form-data">
+                    <form action="<?= base_url('admin/meta/proses_edit/' . $meta['id_meta']) ?>" method="POST" enctype="multipart/form-data">
                         <?= csrf_field(); ?>
                         <div class="row">
                             <div class="col">
                                 <div class="mb-3">
-                                    <label class="form-label">Nama Halaman</label>
-                                    <input type="text" class="form-control" id="nama_halaman" name="nama_halaman" placeholder="Masukkan Nama Halaman" value="<?= old('nama_halaman', $meta['nama_halaman']) ?>">
+                                    <label class="form-label">Nama Halaman (ID)</label>
+                                    <input type="text" class="form-control" id="nama_halaman_id" name="nama_halaman_id" placeholder="Masukkan Nama Halaman" value="<?= old('nama_halaman_id', $meta['nama_halaman_id']) ?>">
                                 </div>
                                 <div class="mb-3">
+                                    <label class="form-label">Deskripsi Halaman (ID)</label>
+                                    <input type="text" class="form-control" id="deskripsi_halaman_id" name="deskripsi_halaman_id" placeholder="Masukkan Nama Halaman" value="<?= old('deskripsi_halaman_id', $meta['deskripsi_halaman_id']) ?>">
+                                </div>
+
+                                <div class="mb-3">
                                     <label class="form-label">Meta Title (ID)</label>
-                                    <input type="text" class="form-control" id="meta_title_id" name="meta_title_id" placeholder="Masukkan Meta Title (ID)" value="<?= old('meta_title_id', $meta['meta_title_id']) ?>">
+                                    <input type="text" class="form-control" id="title_id" name="title_id" placeholder="Masukkan Meta Title (ID)" value="<?= old('title_id', $meta['title_id']) ?>">
                                 </div>
                                 <div class="mb-3">
                                     <label class="form-label">Meta Description (ID)</label>
-                                    <input type="text" class="form-control" id="meta_description_id" name="meta_description_id" placeholder="Masukkan Meta Description (ID)" value="<?= old('meta_description_id', $meta['meta_description_id']) ?>">
+                                    <input type="text" class="form-control" id="meta_desc_id" name="meta_desc_id" placeholder="Masukkan Meta Description (ID)" value="<?= old('meta_desc_id', $meta['meta_desc_id']) ?>">
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Nama Halaman (EN)</label>
+                                    <input type="text" class="form-control" id="nama_halaman_en" name="nama_halaman_en" placeholder="Masukkan Nama Halaman" value="<?= old('nama_halaman_en', $meta['nama_halaman_en']) ?>">
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Deskripsi Halaman (EN)</label>
+                                    <input type="text" class="form-control" id="deskripsi_halaman_en" name="deskripsi_halaman_en" placeholder="Masukkan Nama Halaman" value="<?= old('deskripsi_halaman_en', $meta['deskripsi_halaman_en']) ?>">
                                 </div>
                                 <div class="mb-3">
                                     <label class="form-label">Meta Title (EN)</label>
-                                    <input type="text" class="form-control" id="meta_title_en" name="meta_title_en" placeholder="Masukkan Meta Title (EN)" value="<?= old('meta_title_en', $meta['meta_title_en']) ?>">
+                                    <input type="text" class="form-control" id="title_en" name="title_en" placeholder="Masukkan Meta Title (EN)" value="<?= old('title_en', $meta['title_en']) ?>">
                                 </div>
                                 <div class="mb-3">
                                     <label class="form-label">Meta Description (EN)</label>
-                                    <input type="text" class="form-control" id="meta_description_en" name="meta_description_en" placeholder="Masukkan Meta Description (EN)" value="<?= old('meta_description_en', $meta['meta_description_en']) ?>">
+                                    <input type="text" class="form-control" id="meta_desc_en" name="meta_desc_en" placeholder="Masukkan Meta Description (EN)" value="<?= old('meta_desc_en', $meta['meta_desc_en']) ?>">
                                 </div>
                             </div>
 

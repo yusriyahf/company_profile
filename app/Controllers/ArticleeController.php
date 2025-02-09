@@ -28,7 +28,7 @@ class ArticleeController extends BaseController
         // Log untuk kategori yang dicari
         log_message('info', 'Mencari kategori dengan slug: ' . $slugCategory);
 
-        // Jika kategori tidak ditemukan, redirect ke halaman utama artikel
+        // Jika kategori tidak ditemukan, redire    ct ke halaman utama artikel
         if ($slugCategory && !$category) {
             log_message('warning', 'Kategori tidak ditemukan untuk slug: ' . $slugCategory);
             return redirect()->to(base_url($lang === 'id' ? 'id/artikel' : 'en/article'));
@@ -49,24 +49,35 @@ class ArticleeController extends BaseController
         $categoryId = $category ? $category['id_kategori_artikel'] : null;
         $allArticles = $artikelModel->getArticlesWithCategory($categoryId, $lang);
 
+        $sideArticles = $artikelModel->getSideArticlesWithCategory($categoryId, $lang);
+
         // Log jumlah artikel yang ditemukan
         log_message('info', 'Jumlah artikel yang ditemukan: ' . count($allArticles));
 
         // Ambil semua kategori untuk navigasi
         $categories = $categoryModel->getAllCategories($lang);
 
-        // Metadata halaman
+        // Metadata halaman, prioritas dari kategori jika ada
         $meta = $metaModel->where('nama_halaman_en', 'article')->first();
+        $metaCategory = $category ? [
+            'title_id' => $category['title_kategori_id'] ?? '',
+            'title_en' => $category['title_kategori_en'] ?? '',
+            'meta_desc_id' => $category['meta_desc_id'] ?? '',
+            'meta_desc_en' => $category['meta_desc_en'] ?? ''
+        ] : null;
+
         $kategoriModel = new CategoryArtikelModel();
         // Ambil data kategori artikel terbanyak
-        $kategori_teratas= $kategoriModel->getKategoriTerbanyak();
+        $kategori_teratas = $kategoriModel->getKategoriTerbanyak();
 
         return view('article', [
             'lang' => $lang,
             'allArticle' => $allArticles,
+            'sideArticle' => $sideArticles,
             'kategori' => $categories,
             'categoryId' => $categoryId,
             'meta' => $meta,
+            'metaCategory' => $metaCategory,
             'data' => $data,
             'profil' => $dataProfil,
             'kategori_teratas' => $kategori_teratas
@@ -87,9 +98,16 @@ class ArticleeController extends BaseController
         $dataProfil = $profilModel->first();
 
         // Cek apakah produk ada berdasarkan slug untuk bahasa ID atau EN
-        $artikel = $articleModel->where('slug_artikel_id', $slug)->orWhere('slug_artikel_en', $slug)->first();
+        $artikel = $articleModel->getArtikelWithCategory($slug);
 
         $dataMeta = $metaModel->where('nama_halaman_en', 'Article Detail')->first();
+
+        $metaCategory = $artikel ? [
+            'title_id' => $artikel['title_artikel_id'] ?? '',
+            'title_en' => $artikel['title_artikel_en'] ?? '',
+            'meta_desc_id' => $artikel['meta_desc_id'] ?? '',
+            'meta_desc_en' => $artikel['meta_desc_en'] ?? ''
+        ] : null;
 
         // Log hasil pencarian produk
         log_message('debug', 'Produk ditemukan: ' . print_r($artikel, true));
@@ -120,22 +138,22 @@ class ArticleeController extends BaseController
             // Ambil slug kategori yang sesuai dengan bahasa
             $categorySlug = $lang === 'id' ? $category['slug_kategori_id'] : $category['slug_kategori_en'];
             // Redirect ke URL yang benar
-            $correctedSlug = $lang === 'id' ? $artikel['slug_artikel_id'] : $artikel['slug_artikel_en'];
             $urlmenu = $lang === 'id' ? 'artikel' : 'article';
             log_message('debug', 'Redireksi ke URL yang benar: ' . "$lang/$urlmenu/$categorySlug/$correctedSlug");
             return redirect()->to("$lang/$urlmenu/$categorySlug/$correctedSlug");
         }
 
-        // Ambil artikel-artikel terbaru
+        // Ambil artikel-artikel terbaru berdasarkan kategori yang sama
         $allArticle = $articleModel
             ->join('tb_kategori_artikel', 'tb_kategori_artikel.id_kategori_artikel = tb_artikel.id_kategori_artikel', 'left')
-            ->orderBy('tb_artikel.created_at', 'DESC')  // Menentukan tabel yang dimaksud
-            ->findAll(10);
+            ->where('tb_artikel.id_artikel !=', $artikel['id_artikel']) // Menghindari artikel saat ini
+            ->where('tb_artikel.id_kategori_artikel', $artikel['id_kategori_artikel']) // Hanya artikel dari kategori yang sama
+            ->orderBy('tb_artikel.created_at', 'DESC')
+            ->findAll(5);
 
-            $kategoriModel = new CategoryArtikelModel();
+        $kategoriModel = new CategoryArtikelModel();
         // Ambil data kategori artikel terbanyak
-        $kategori_teratas= $kategoriModel->getKategoriTerbanyak();
-
+        $kategori_teratas = $kategoriModel->getKategoriTerbanyak();
 
         // Tampilkan halaman artikel (misalnya tampilan detail artikel)
         return view('detail_article', [
@@ -145,9 +163,9 @@ class ArticleeController extends BaseController
             'meta' => $dataMeta,
             'allArticle' => $allArticle,
             'data' => $data,
+            'metaCategory' => $metaCategory,
             'profil' => $dataProfil,
             'kategori_teratas' => $kategori_teratas,
-
         ]);
     }
 }

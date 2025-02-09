@@ -13,6 +13,7 @@ return [
     'about' => 'Tentang',
     'contact' => 'Kontak',
     'article' => 'Artikel',
+    'activity' => 'Aktivitas',
     'product' => 'Produk',
 
     // SLIDER

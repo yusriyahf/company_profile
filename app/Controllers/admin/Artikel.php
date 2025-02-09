@@ -3,14 +3,17 @@
 namespace App\Controllers\admin;
 
 use App\Models\ArtikelModel;
+use App\Models\KategoriModel;
 
 class Artikel extends BaseController
 {
     private $artikelModel;
+    private $kategoriModel;
 
     public function __construct()
     {
         $this->artikelModel = new ArtikelModel();
+        $this->kategoriModel = new KategoriModel();
     }
 
     public function generateSlug($string)
@@ -58,7 +61,7 @@ class Artikel extends BaseController
             return redirect()->to(base_url('login')); // Sesuaikan dengan halaman login Anda
         }
 
-        $judul_artikel = $this->request->getVar('judul_artikel');
+        $judul_artikel_id = $this->request->getVar('judul_artikel');
         $judul_artikel_en = $this->request->getVar('judul_artikel_en');
         $deskripsi_artikel = $this->request->getVar('deskripsi_artikel');
         $deskripsi_artikel_en = $this->request->getVar('deskripsi_artikel_en');
@@ -134,10 +137,12 @@ class Artikel extends BaseController
         }
 
         $artikelData = $this->artikelModel->find($id_artikel);
+        $kategori = $this->kategoriModel->findAll();
         $validation = \Config\Services::validation();
 
         return view('admin/artikel/edit', [
             'artikelData' => $artikelData,
+            'kategori' => $kategori,
             'validation' => $validation
         ]);
     }
@@ -153,63 +158,74 @@ class Artikel extends BaseController
             return redirect()->back();
         }
 
-        $judul_artikel = $this->request->getVar("judul_artikel");
+        $id_kategori_artikel = $this->request->getVar("id_kategori_artikel");
+        $judul_artikel_id = $this->request->getVar("judul_artikel_id");
         $judul_artikel_en = $this->request->getVar("judul_artikel_en");
-        $deskripsi_artikel = $this->request->getVar("deskripsi_artikel");
+        $snippet_id = $this->request->getVar("snippet_id");
+        $snippet_en = $this->request->getVar("snippet_en");
+        $deskripsi_artikel_id = $this->request->getVar("deskripsi_artikel_id");
         $deskripsi_artikel_en = $this->request->getVar("deskripsi_artikel_en");
-        $meta_title_id = $this->request->getVar("meta_title_id");
-        $meta_title_en = $this->request->getVar("meta_title_en");
-        $meta_description_id = $this->request->getVar("meta_description_id");
-        $meta_description_en = $this->request->getVar("meta_description_en");
+        $alt_artikel_id = $this->request->getVar("alt_artikel_id");
+        $alt_artikel_en = $this->request->getVar("alt_artikel_en");
+        $title_artikel_id = $this->request->getVar("title_artikel_id");
+        $title_artikel_en = $this->request->getVar("title_artikel_en");
+        $meta_desc_id = $this->request->getVar("meta_desc_id");
+        $meta_desc_en = $this->request->getVar("meta_desc_en");
 
         // Buat slug_id dari judul_artikel
-        $slug_id = $this->generateSlug($judul_artikel);
+        $slug_id = $this->generateSlug($judul_artikel_id);
         $slug_en = $this->generateSlug($judul_artikel_en);
 
         // Validasi judul artikel dalam bahasa Indonesia
-        if (!preg_match('/^[a-zA-Z0-9\s]+$/', $judul_artikel)) {
-            session()->setFlashdata('error', 'Judul artikel dalam bahasa Indonesia hanya boleh berisi huruf dan angka.');
-            return redirect()->back()->withInput();
-        }
+        // if (!preg_match('/^[a-zA-Z0-9\s]+$/', $judul_artikel_id)) {
+        //     session()->setFlashdata('error', 'Judul artikel dalam bahasa Indonesia hanya boleh berisi huruf dan angka.');
+        //     return redirect()->back()->withInput();
+        // }
 
-        // Validasi judul artikel dalam bahasa Inggris
-        if (!preg_match('/^[a-zA-Z0-9\s]+$/', $judul_artikel_en)) {
-            session()->setFlashdata('error', 'Judul artikel dalam bahasa Inggris hanya boleh berisi huruf dan angka.');
-            return redirect()->back()->withInput();
-        }
+        // // Validasi judul artikel dalam bahasa Inggris
+        // if (!preg_match('/^[a-zA-Z0-9\s]+$/', $judul_artikel_en)) {
+        //     session()->setFlashdata('error', 'Judul artikel dalam bahasa Inggris hanya boleh berisi huruf dan angka.');
+        //     return redirect()->back()->withInput();
+        // }
 
-        $file_foto = $this->request->getFile('foto_artikel');
+        // $file_foto = $this->request->getFile('foto_artikel');
 
-        // Jika file foto di-upload
-        if ($file_foto->isValid()) {
-            // Hapus foto lama jika ada
-            $artikelData = $this->artikelModel->find($id_artikel);
-            $oldFilePath = 'asset-user/images/' . $artikelData->foto_artikel;
-            if (file_exists($oldFilePath)) {
-                unlink($oldFilePath);
-            }
+        // // Jika file foto di-upload
+        // if ($file_foto->isValid()) {
+        //     // Hapus foto lama jika ada
+        //     $artikelData = $this->artikelModel->find($id_artikel);
+        //     $oldFilePath = 'assets/img/artikel/' . $artikelData->foto_artikel;
+        //     if (file_exists($oldFilePath)) {
+        //         unlink($oldFilePath);
+        //     }
 
-            // Simpan foto baru
-            $newFileName = $file_foto->getRandomName();
-            $file_foto->move('asset-user/images', $newFileName);
-        } else {
-            $artikelData = $this->artikelModel->find($id_artikel);
-            $newFileName = $artikelData->foto_artikel;
-        }
+        //     // Simpan foto baru
+        //     $newFileName = $file_foto->getRandomName();
+        //     $file_foto->move('asset-user/images', $newFileName);
+        // } else {
+        //     $artikelData = $this->artikelModel->find($id_artikel);
+        //     $newFileName = $artikelData->foto_artikel;
+        // }
 
         // Update data artikel
         $data = [
-            'judul_artikel' => $judul_artikel,
+            'id_kategori_artikel' => $id_kategori_artikel,
+            'judul_artikel_id' => $judul_artikel_id,
             'judul_artikel_en' => $judul_artikel_en,
-            'deskripsi_artikel' => $deskripsi_artikel,
+            'slug_artikel_id' => $slug_id,
+            'slug_artikel_en' => $slug_en,
+            'snippet_id' => $snippet_id,
+            'snippet_en' => $snippet_en,
+            'deskripsi_artikel_id' => $deskripsi_artikel_id,
             'deskripsi_artikel_en' => $deskripsi_artikel_en,
-            'foto_artikel' => $newFileName,
-            'meta_title_id' => $meta_title_id,
-            'meta_title_en' => $meta_title_en,
-            'meta_description_id' => $meta_description_id,
-            'meta_description_en' => $meta_description_en,
-            'slug_id' => $slug_id,
-            'slug_en' => $slug_en,
+            // 'foto_artikel' => $newFileName,
+            'alt_artikel_id' => $alt_artikel_id,
+            'alt_artikel_en' => $alt_artikel_en,
+            'title_artikel_id' => $title_artikel_id,
+            'title_artikel_en' => $title_artikel_en,
+            'meta_desc_id' => $meta_desc_id,
+            'meta_desc_en' => $meta_desc_en,
+
         ];
 
         $this->artikelModel->update($id_artikel, $data);

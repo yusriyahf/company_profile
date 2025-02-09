@@ -27,7 +27,7 @@
                             <p class="card-text"><small class="text-muted"></small></p>
                         </div>
                         <div class="text-end mb-3" style="margin-right: 20px;">
-                            <a class="btn-getstarted" href="<?= base_url($lang . '/' . $productLink . '/' . $detailProduct . '/' . $p['slug_' . $lang]) ?>" ><?= lang('bahasa.button'); ?></a>
+                            <a class="btn-getstarted" href="<?= base_url($lang . '/' . $productLink . '/' . $detailProduct . '/' . $p['slug_' . $lang]) ?>"><?= lang('bahasa.button'); ?></a>
                         </div>
                     </div>
                 </div>

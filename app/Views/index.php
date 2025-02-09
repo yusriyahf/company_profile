@@ -78,7 +78,7 @@ $indonesia_url = base_url($clean_url);
     <div id="hero-carousel" class="carousel slide carousel-fade" data-bs-ride="carousel" data-bs-interval="5000">
 
         <div class="carousel-item active">
-            <img src="<?= base_url('assets/img/hero-carousel/' . $slider['foto_slider1']); ?>" alt="">
+            <img src="<?= base_url('assets/img/hero-carousel/' . $slider['foto_slider1']); ?>" alt="<?= $lang == 'id' ? $slider['alt_foto_slider1_id'] : $slider['alt_foto_slider1_en']; ?>">
 
             <div class="carousel-container">
                 <h2 class="text-center"><?= $lang == 'id' ? $slider['caption_slider_id'] : $slider['caption_slider_en']; ?></h2>
@@ -86,7 +86,7 @@ $indonesia_url = base_url($clean_url);
         </div><!-- End Carousel Item -->
 
         <div class="carousel-item">
-            <img src="<?= base_url('assets/img/hero-carousel/' . $slider['foto_slider2']); ?>" alt="">
+            <img src="<?= base_url('assets/img/hero-carousel/' . $slider['foto_slider2']); ?>" alt="<?= $lang == 'id' ? $slider['alt_foto_slider2_id'] : $slider['alt_foto_slider2_en']; ?>">
 
             <div class="carousel-container">
                 <h2 class="text-center"><?= $lang == 'id' ? $slider['caption_slider_id'] : $slider['caption_slider_en']; ?></h2>
@@ -94,7 +94,7 @@ $indonesia_url = base_url($clean_url);
         </div><!-- End Carousel Item -->
 
         <div class="carousel-item">
-            <img src="<?= base_url('assets/img/hero-carousel/' . $slider['foto_slider3']); ?>" alt="">
+            <img src="<?= base_url('assets/img/hero-carousel/' . $slider['foto_slider3']); ?>" alt="<?= $lang == 'id' ? $slider['alt_foto_slider3_id'] : $slider['alt_foto_slider3_en']; ?>">
 
             <div class="carousel-container">
                 <h2 class="text-center"><?= $lang == 'id' ? $slider['caption_slider_id'] : $slider['caption_slider_en']; ?></h2>
@@ -243,12 +243,12 @@ $indonesia_url = base_url($clean_url);
 
             <div class="col-lg-7">
                 <div class="contact-map" data-aos="fade-up" data-aos-delay="300">
-                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3951.2410172253694!2d112.66325561145756!3d-7.974024292017904!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2dd6298db1e5b70b%3A0xaf3552a89f1cc9f0!2sELECOMP%20INDONESIA!5e0!3m2!1sen!2sid!4v1738309308019!5m2!1sen!2sid" 
-                        width="600" 
-                        height="550" 
-                        style="border:0;" 
-                        allowfullscreen="" 
-                        loading="lazy" 
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3951.2410172253694!2d112.66325561145756!3d-7.974024292017904!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2dd6298db1e5b70b%3A0xaf3552a89f1cc9f0!2sELECOMP%20INDONESIA!5e0!3m2!1sen!2sid!4v1738309308019!5m2!1sen!2sid"
+                        width="600"
+                        height="550"
+                        style="border:0;"
+                        allowfullscreen=""
+                        loading="lazy"
                         referrerpolicy="no-referrer-when-downgrade">
                     </iframe>
                 </div>

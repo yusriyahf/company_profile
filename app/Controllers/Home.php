@@ -38,24 +38,30 @@ class Home extends BaseController
             ->select('tb_artikel.*, tb_kategori_artikel.slug_kategori_id, tb_kategori_artikel.slug_kategori_en')
             ->join('tb_kategori_artikel', 'tb_kategori_artikel.id_kategori_artikel = tb_artikel.id_kategori_artikel', 'left')
             ->orderBy('tb_artikel.created_at', 'DESC')
+            ->limit(4)
             ->findAll();
+
         $dataSlider = $sliderModel->first();
         $dataKontak = $contactModel->first();
         $dataProfil = $profilModel->first();
         $product = $productModel->findAll();
         $kategoriModel = new CategoryArtikelModel();
         // Ambil data kategori artikel terbanyak
-        $kategori_teratas= $kategoriModel->getKategoriTerbanyak();
+        $kategori_teratas = $kategoriModel->getKategoriTerbanyak();
         return view('index', [
-            'meta' => $dataMeta, 
-            'articleMeta' => $articleMeta, 
-            'aboutMeta' => $aboutMeta, 
-            'productMeta' => $productMeta, 
-            'contactMeta' => $contactMeta, 
-            'slider' => $dataSlider, 
-            'profil' => $dataProfil, 
+            'meta' => $dataMeta,
+            'articleMeta' => $articleMeta,
+            'aboutMeta' => $aboutMeta,
+            'productMeta' => $productMeta,
+            'contactMeta' => $contactMeta,
+            'slider' => $dataSlider,
+            'profil' => $dataProfil,
             'kategori_teratas' => $kategori_teratas,
-            'kontak' => $dataKontak, 'lang' => $this->lang, 'data' => $data, 'artikel' => $dataArtikel, 'product' => $product]);
-            
+            'kontak' => $dataKontak,
+            'lang' => $this->lang,
+            'data' => $data,
+            'artikel' => $dataArtikel,
+            'product' => $product
+        ]);
     }
 }

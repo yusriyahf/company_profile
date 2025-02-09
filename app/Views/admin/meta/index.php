@@ -38,18 +38,18 @@
                                 <tbody>
                                     <?php foreach ($all_data_meta as $tampilMeta) : ?>
                                         <tr>
-                                            <td><?= $tampilMeta['nama_halaman'] ?></td>
-                                            <td><?= $tampilMeta['meta_title_id'] ?></td>
-                                            <td><?= $tampilMeta['meta_description_id'] ?></td>
-                                            <td><?= $tampilMeta['meta_title_en'] ?></td>
-                                            <td><?= $tampilMeta['meta_description_en'] ?></td>
+                                            <td><?= $tampilMeta['nama_halaman_id'] ?></td>
+                                            <td><?= $tampilMeta['title_id'] ?></td>
+                                            <td><?= $tampilMeta['meta_desc_id'] ?></td>
+                                            <td><?= $tampilMeta['title_en'] ?></td>
+                                            <td><?= $tampilMeta['meta_desc_en'] ?></td>
                                             <td valign="middle">
                                                 <div class="d-grid gap-2">
-                                                    <!--<a href="<?= base_url('admin/meta/delete') . '/' . $tampilMeta['id_seo'] ?>" class="btn btn-danger">Hapus</a>-->
-                                                    <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal<?= $tampilMeta['id_seo'] ?>">
+                                                    <!--<a href="<?= base_url('admin/meta/delete') . '/' . $tampilMeta['id_meta'] ?>" class="btn btn-danger">Hapus</a>-->
+                                                    <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal<?= $tampilMeta['id_meta'] ?>">
                                                         Hapus
                                                     </button>
-                                                    <a href="<?= base_url('admin/meta/edit') . '/' . $tampilMeta['id_seo'] ?>" class="btn btn-primary">Ubah</a>
+                                                    <a href="<?= base_url('admin/meta/edit') . '/' . $tampilMeta['id_meta'] ?>" class="btn btn-primary">Ubah</a>
                                                 </div>
                                             </td>
                                         </tr>
@@ -66,7 +66,7 @@
 
 <!-- Modal Konfirmasi Hapus -->
 <?php foreach ($all_data_meta as $meta) : ?>
-    <div class="modal fade" id="deleteModal<?= $meta['id_seo'] ?>" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal fade" id="deleteModal<?= $meta['id_meta'] ?>" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -78,7 +78,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-                    <a href="<?= base_url('admin/meta/delete') . '/' . $meta['id_seo'] ?>" class="btn btn-danger">Hapus</a>
+                    <a href="<?= base_url('admin/meta/delete') . '/' . $meta['id_meta'] ?>" class="btn btn-danger">Hapus</a>
                 </div>
             </div>
         </div>
