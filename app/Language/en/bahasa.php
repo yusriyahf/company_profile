@@ -5,8 +5,10 @@ return [
     'buttonArticle' => 'Read More',
 
     // FOOTER
-    'headerService' => 'Our Services',
+    'headerService' => 'Our Article',
     'headerLink' => 'Useful Links',
+    'sosmedLink' => 'Follow us on:',
+    'marketplaceLink' => 'Our Marketplace',
 
     // NAVBAR
     'home' => 'Home',
@@ -49,6 +51,6 @@ return [
 
     // PRODUK MENU
     'headerProduk' => 'Our Products',
-    'button' => 'Read More..',
+    'updated' => 'Updated on:'
 
 ];

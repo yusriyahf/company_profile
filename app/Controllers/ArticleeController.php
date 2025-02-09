@@ -5,16 +5,20 @@ namespace App\Controllers;
 use App\Controllers\BaseController;
 use App\Models\ArtikelModel;
 use App\Models\CategoryArtikelModel;
+use App\Models\KontakModel;
+use App\Models\MarketplaceModel;
 use App\Models\MetaModel;
 use App\Models\ProfilModel;
+use App\Models\SosmedModel;
 
 class ArticleeController extends BaseController
 {
     public function index($slugCategory = null)
     {
         $data['activeMenu'] = 'article';
-        $lang = session()->get('lang') ?? 'id';  // Mendapatkan bahasa aktif dari sesi
+        $lang = session()->get('lang') ?? 'id'; // Mendapatkan bahasa aktif dari sesi
 
+        // Inisialisasi model
         $categoryModel = new CategoryArtikelModel();
         $artikelModel = new ArtikelModel();
         $metaModel = new MetaModel();
@@ -67,8 +71,20 @@ class ArticleeController extends BaseController
         ] : null;
 
         $kategoriModel = new CategoryArtikelModel();
+
         // Ambil data kategori artikel terbanyak
         $kategori_teratas = $kategoriModel->getKategoriTerbanyak();
+        // Ambil data sosial media
+        $sosmedModel = new SosmedModel();
+        $sosmed = $sosmedModel->findAll();
+
+        // Ambil data marketplace
+        $marketplaceModel = new MarketplaceModel();
+        $marketplace = $marketplaceModel->findAll();
+
+        // Ambil data kontak
+        $kontakModel = new KontakModel();
+        $kontak = $kontakModel->first();
 
         return view('article', [
             'lang' => $lang,
@@ -80,18 +96,22 @@ class ArticleeController extends BaseController
             'metaCategory' => $metaCategory,
             'data' => $data,
             'profil' => $dataProfil,
-            'kategori_teratas' => $kategori_teratas
+            'kategori_teratas' => $kategori_teratas,
+            'sosmed' => $sosmed,
+            'marketplace' => $marketplace,
+            'kontak' => $kontak
         ]);
     }
 
     public function detail($categorySlug, $slug)
     {
         $data['activeMenu'] = 'article';
-        // cek lang nya
-        $lang = session()->get('lang') ?? 'id';
+        $lang = session()->get('lang') ?? 'id'; // cek lang nya
+
         // Menambahkan log untuk melacak nilai slug yang diterima
         log_message('debug', 'Slug yang diterima: ' . $slug);
 
+        // Inisialisasi model
         $articleModel = new ArtikelModel();
         $metaModel = new MetaModel();
         $profilModel = new ProfilModel();
@@ -114,13 +134,13 @@ class ArticleeController extends BaseController
 
         // Jika produk tidak ditemukan, redirect atau tampilkan error
         if (!$artikel) {
-            log_message('error', 'atyikel tidak ditemukan dengan slug: ' . $slug);
-            return redirect()->to('/')->with('error', 'artikel tidak ditemukan');
+            log_message('error', 'Artikel tidak ditemukan dengan slug: ' . $slug);
+            return redirect()->to('/')->with('error', 'Artikel tidak ditemukan');
         }
 
         // Ambil kategori artikel berdasarkan ID kategori
         $categoryModel = new CategoryArtikelModel();
-        $category = $categoryModel->find($artikel['id_kategori_artikel']); // Ambil kategori berdasarkan id_kategori_artikel
+        $category = $categoryModel->find($artikel['id_kategori_artikel']);
 
         // Pastikan kategori ada
         if (!$category) {
@@ -133,11 +153,9 @@ class ArticleeController extends BaseController
             // Log sebelum melakukan redireksi
             log_message('debug', 'Slug yang sesuai untuk bahasa ' . $lang . ': ' . $artikel['slug_artikel_id'] . ' (ID) / ' . $artikel['slug_artikel_en'] . ' (EN)');
 
-            // redirect ke url yang benar
-            $correctedSlug = $lang === 'id' ? $artikel['slug_artikel_id'] : $artikel['slug_artikel_en'];
-            // Ambil slug kategori yang sesuai dengan bahasa
-            $categorySlug = $lang === 'id' ? $category['slug_kategori_id'] : $category['slug_kategori_en'];
             // Redirect ke URL yang benar
+            $correctedSlug = $lang === 'id' ? $artikel['slug_artikel_id'] : $artikel['slug_artikel_en'];
+            $categorySlug = $lang === 'id' ? $category['slug_kategori_id'] : $category['slug_kategori_en'];
             $urlmenu = $lang === 'id' ? 'artikel' : 'article';
             log_message('debug', 'Redireksi ke URL yang benar: ' . "$lang/$urlmenu/$categorySlug/$correctedSlug");
             return redirect()->to("$lang/$urlmenu/$categorySlug/$correctedSlug");
@@ -153,7 +171,20 @@ class ArticleeController extends BaseController
 
         $kategoriModel = new CategoryArtikelModel();
         // Ambil data kategori artikel terbanyak
+
         $kategori_teratas = $kategoriModel->getKategoriTerbanyak();
+
+        // Ambil data sosial media
+        $sosmedModel = new SosmedModel();
+        $sosmed = $sosmedModel->findAll();
+
+        // Ambil data marketplace
+        $marketplaceModel = new MarketplaceModel();
+        $marketplace = $marketplaceModel->findAll();
+
+        // Ambil data kontak
+        $kontakModel = new KontakModel();
+        $kontak = $kontakModel->first();
 
         // Tampilkan halaman artikel (misalnya tampilan detail artikel)
         return view('detail_article', [
@@ -166,6 +197,9 @@ class ArticleeController extends BaseController
             'metaCategory' => $metaCategory,
             'profil' => $dataProfil,
             'kategori_teratas' => $kategori_teratas,
+            'sosmed' => $sosmed,
+            'marketplace' => $marketplace,
+            'kontak' => $kontak
         ]);
     }
 }

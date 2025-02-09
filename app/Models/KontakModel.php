@@ -12,7 +12,7 @@ class KontakModel extends Model
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = ['deskripsi_kontak_id', 'deskripsi_kontak_en'];
+    protected $allowedFields    = ['deskripsi_kontak_id', 'deskripsi_kontak_en', 'link_wa'];
 
     protected bool $allowEmptyInserts = false;
     protected bool $updateOnlyChanged = true;

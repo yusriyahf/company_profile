@@ -77,38 +77,28 @@ $indonesia_url = base_url($clean_url);
 
     <div id="hero-carousel" class="carousel slide carousel-fade" data-bs-ride="carousel" data-bs-interval="5000">
 
-        <div class="carousel-item active">
-            <img src="<?= base_url('assets/img/hero-carousel/' . $slider['foto_slider1']); ?>" alt="<?= $lang == 'id' ? $slider['alt_foto_slider1_id'] : $slider['alt_foto_slider1_en']; ?>">
-
-            <div class="carousel-container">
-                <h2 class="text-center"><?= $lang == 'id' ? $slider['caption_slider_id'] : $slider['caption_slider_en']; ?></h2>
-            </div>
-        </div><!-- End Carousel Item -->
-
-        <div class="carousel-item">
-            <img src="<?= base_url('assets/img/hero-carousel/' . $slider['foto_slider2']); ?>" alt="<?= $lang == 'id' ? $slider['alt_foto_slider2_id'] : $slider['alt_foto_slider2_en']; ?>">
-
-            <div class="carousel-container">
-                <h2 class="text-center"><?= $lang == 'id' ? $slider['caption_slider_id'] : $slider['caption_slider_en']; ?></h2>
-            </div>
-        </div><!-- End Carousel Item -->
-
-        <div class="carousel-item">
-            <img src="<?= base_url('assets/img/hero-carousel/' . $slider['foto_slider3']); ?>" alt="<?= $lang == 'id' ? $slider['alt_foto_slider3_id'] : $slider['alt_foto_slider3_en']; ?>">
-
-            <div class="carousel-container">
-                <h2 class="text-center"><?= $lang == 'id' ? $slider['caption_slider_id'] : $slider['caption_slider_en']; ?></h2>
-            </div>
-        </div><!-- End Carousel Item -->
-
+        <?php $isActive = 'active'; ?>
+        <?php if ($slider): ?>
+            <?php foreach (['foto_slider1', 'foto_slider2', 'foto_slider3'] as $foto): ?>
+                <?php if (!empty($slider[$foto])): ?>
+                    <div class="carousel-item <?= $isActive; ?>">
+                        <img src="<?= base_url('assets/img/slider/' . $slider[$foto]) ?>" class="d-block w-100" alt="<?= $foto ?>">
+                        <div class="carousel-container">
+                            <h1 style="text-align: center; font-weight: bold; ">
+                                <?= $lang == 'id' ? $slider['caption_slider_id'] : $slider['caption_slider_en']; ?>
+                            </h1>
+                        </div>
+                    </div>
+                    <?php $isActive = ''; ?>
+                <?php endif; ?>
+            <?php endforeach; ?>
+        <?php endif; ?>
         <a class="carousel-control-prev" href="#hero-carousel" role="button" data-bs-slide="prev">
             <span class="carousel-control-prev-icon bi bi-chevron-left" aria-hidden="true"></span>
         </a>
-
         <a class="carousel-control-next" href="#hero-carousel" role="button" data-bs-slide="next">
             <span class="carousel-control-next-icon bi bi-chevron-right" aria-hidden="true"></span>
         </a>
-
         <ol class="carousel-indicators"></ol>
 
     </div>
@@ -136,8 +126,8 @@ $indonesia_url = base_url($clean_url);
             <div class="col-xl-6" data-aos="fade-up" data-aos-delay="300">
                 <div class="image-wrapper">
                     <div class="images position-relative" data-aos="zoom-out" data-aos-delay="400">
-                        <img src="<?= base_url('assets/img/' . $profil['foto_perusahaan']); ?>" alt="<?= $lang == 'id' ? $profil['alt_foto_perusahaan_id'] : $profil['alt_foto_perusahaan_en']; ?>" class="img-fluid main-image rounded-4">
-                        <img src="<?= base_url('assets/img/' . $profil['logo_perusahaan']); ?>" alt="<?= $lang == 'id' ? $profil['alt_logo_perusahaan_id'] : $profil['alt_logo_perusahaan_en']; ?>" class="img-fluid small-image rounded-4">
+                        <img src="<?= base_url('assets/img/profil/' . $profil['foto_perusahaan']); ?>" alt="<?= $lang == 'id' ? $profil['alt_foto_perusahaan_id'] : $profil['alt_foto_perusahaan_en']; ?>" class="img-fluid main-image rounded-4">
+                        <img src="<?= base_url('assets/img/profil/' . $profil['logo_perusahaan']); ?>" alt="<?= $lang == 'id' ? $profil['alt_logo_perusahaan_id'] : $profil['alt_logo_perusahaan_en']; ?>" class="img-fluid small-image rounded-4">
                     </div>
                 </div>
             </div>

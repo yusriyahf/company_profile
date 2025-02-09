@@ -66,14 +66,14 @@ $indonesia_url = base_url($clean_url);
 
     <div class="container footer-top">
         <div class="row gy-4">
-            <div class="col-lg-4 col-md-6 footer-about">
+            <div class="col-lg-2 col-md-6 footer-about">
                 <a href="index.html" class="logo d-flex align-items-center">
                     <span class="sitename">Creativenest</span>
                 </a>
-                <img src="<?= base_url('assets/img/' . $profil['logo_perusahaan']); ?>" alt="<?= $lang == 'id' ? $profil['alt_logo_perusahaan_id'] : $profil['alt_logo_perusahaan_en']; ?>" class="img-fluid rounded-4" style="width: 30%;">
+                <img src="<?= base_url('assets/img/profil/' . $profil['logo_perusahaan']); ?>" alt="<?= $lang == 'id' ? $profil['alt_logo_perusahaan_id'] : $profil['alt_logo_perusahaan_en']; ?>" class="img-fluid rounded-4" style="width: 30%;">
             </div>
 
-            <div class="col-lg-4 col-md-3 footer-links">
+            <div class="col-lg-2 col-md-3 footer-links">
                 <h4><?= lang('bahasa.headerLink'); ?></h4>
                 <ul>
                     <li>
@@ -89,7 +89,7 @@ $indonesia_url = base_url($clean_url);
                 </ul>
             </div>
 
-            <div class="col-lg-4 col-md-3 footer-links">
+            <div class="col-lg-2 col-md-3 footer-links">
                 <h4><?= lang('bahasa.headerService'); ?></h4>
                 <ul>
                     <?php if (!empty($kategori_teratas) && is_array($kategori_teratas)): ?>
@@ -102,6 +102,42 @@ $indonesia_url = base_url($clean_url);
                         <?php endforeach; ?>
                     <?php else: ?>
                         <li>No categories available</li>
+                    <?php endif; ?>
+                </ul>
+            </div>
+
+            <div class="col-lg-2 col-md-3 footer-links">
+                <h4><?= lang('bahasa.sosmedLink'); ?></h4>
+                <ul>
+                    <?php if (!empty($sosmed) && is_array($sosmed)): ?>
+                        <?php foreach ($sosmed as $s): ?>
+                            <li>
+                                <a href="<?= $s['link_sosmed']; ?>" target="_blank">
+                                    <img src="<?= base_url('assets/img/logo/' . $s['logo_sosmed']); ?>" alt="<?= $s['nama_sosmed']; ?>" style="width: 20px; height: 20px; margin-right: 5px;">
+                                    <?= $s['nama_sosmed']; ?>
+                                </a>
+                            </li>
+                        <?php endforeach; ?>
+                    <?php else: ?>
+                        <li>No social media available</li>
+                    <?php endif; ?>
+                </ul>
+            </div>
+
+            <div class="col-lg-2 col-md-3 footer-links">
+                <h4><?= lang('bahasa.marketplaceLink'); ?></h4>
+                <ul>
+                    <?php if (!empty($marketplace) && is_array($marketplace)): ?>
+                        <?php foreach ($marketplace as $s): ?>
+                            <li>
+                                <a href="<?= $s['link_marketplace']; ?>" target="_blank">
+                                    <img src="<?= base_url('assets/img/logo/' . $s['logo_marketplace']); ?>" alt="<?= $s['nama_marketplace']; ?>" style="width: 20px; height: 20px; margin-right: 5px;">
+                                    <?= $s['nama_marketplace']; ?>
+                                </a>
+                            </li>
+                        <?php endforeach; ?>
+                    <?php else: ?>
+                        <li>No social media available</li>
                     <?php endif; ?>
                 </ul>
             </div>

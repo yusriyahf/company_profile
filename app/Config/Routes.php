@@ -17,7 +17,7 @@ $routes->get('admin/dashboard', 'admin\DashboardController::index');
 
 // ADMIN PROFILE
 $routes->get('admin/profil/edit', 'admin\Profil::edit');
-$routes->post('admin/profil/proses_edit', 'admin\Profil::edit');
+$routes->post('admin/profil/proses_edit', 'admin\Profil::proses_edit');
 
 // ADMIN PRODUCTS
 $routes->get('admin/produk/index', 'admin\Produk::index');

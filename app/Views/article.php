@@ -8,7 +8,7 @@
         <!-- Section Title -->
         <div class="container section-title" data-aos="fade-up">
             <h2><?= $lang == 'id' ? $meta['nama_halaman_id'] : $meta['nama_halaman_en']; ?></h2>
-            <p><?= $lang == 'id' ? $meta['deskripsi_halaman_id'] : $meta['deskripsi_halaman_en']; ?></p>
+            <h1><?= $lang == 'id' ? $meta['deskripsi_halaman_id'] : $meta['deskripsi_halaman_en']; ?></h1>
         </div><!-- End Section Title -->
     </div>
 </div><!-- End Page Title -->

@@ -79,7 +79,6 @@ a:hover {
   text-decoration: none;
 }
 
-h1,
 h2,
 h3,
 h4,
@@ -88,6 +87,9 @@ h6 {
   color: var(--heading-color);
   font-family: var(--heading-font);
 }
+
+
+
 
 /* PHP Email Form Messages
 ------------------------------*/
@@ -703,6 +705,16 @@ section,
   position: relative;
 }
 
+.section-title h1 {
+  font-size: 16px; /* Ukuran font seperti paragraf */
+  font-weight: normal; /* Tidak tebal seperti h1 biasa */
+  line-height: 1.5; /* Sesuaikan dengan paragraf */
+  margin: 0; /* Hilangkan margin default */
+  color: inherit; /* Gunakan warna teks default */
+  font-family: inherit; /* Gunakan font default halaman */
+  display: block; /* Pastikan tetap sebagai blok */
+}
+
 .section-title h2:after {
   content: "";
   position: absolute;
@@ -1023,7 +1035,7 @@ section,
   z-index: 3;
 }
 
-.hero h2 {
+.hero h1 {
   margin-bottom: 30px;
   font-size: 48px;
   font-weight: 700;
@@ -1031,7 +1043,7 @@ section,
 }
 
 @media (max-width: 768px) {
-  .hero h2 {
+  .hero h1 {
     font-size: 30px;
   }
 }
@@ -1042,7 +1054,7 @@ section,
 
 @media (min-width: 1024px) {
 
-  .hero h2,
+  .hero h1,
   .hero p {
     max-width: 60%;
   }

@@ -49,13 +49,18 @@
             <a href="/" class="logo d-flex align-items-center me-auto me-xl-0">
                 <!-- Uncomment the line below if you also wish to use an image logo -->
                 <!-- <img src="assets/img/logo.png" alt=""> -->
-                <h1 class="sitename">Creativenest</h1>
+                <!-- <h1 class="sitename">Creativenest</h1> -->
+                <img src="<?= base_url('creativenest-favicon.ico'); ?>" alt="CreativeNest Logo">
             </a>
 
             <?= $this->include('layouts/navbar'); ?>
 
 
-            <a class="btn-getstarted" href="/contact"><?= lang('bahasa.buttonSlider'); ?></a>
+            <a class="btn-getstarted" href="https://<?= $kontak['link_wa']; ?>" target="_blank">
+                <img src="<?= base_url('assets/img/logo/whatsapp.png'); ?>" alt="WhatsApp" style="width: 20px; height: 20px; margin-right: 8px;">
+                <?= lang('bahasa.buttonSlider'); ?>
+            </a>
+
 
         </div>
     </header>

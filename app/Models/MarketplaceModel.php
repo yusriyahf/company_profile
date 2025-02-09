@@ -4,18 +4,15 @@ namespace App\Models;
 
 use CodeIgniter\Model;
 
-class SliderModel extends Model
+class MarketplaceModel extends Model
 {
-    protected $table            = 'tb_slider';
-    protected $primaryKey       = 'id_slider';
+    protected $table            = 'tb_marketplace';
+    protected $primaryKey       = 'id_marketplace';
     protected $useAutoIncrement = true;
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = [
-        'file_foto_slider', 'alt_foto_slider_id', 'alt_foto_slider_en'
-
-    ];
+    protected $allowedFields    = [];
 
     protected bool $allowEmptyInserts = false;
     protected bool $updateOnlyChanged = true;
