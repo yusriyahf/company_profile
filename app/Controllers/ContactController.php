@@ -6,8 +6,9 @@ use App\Models\MetaModel;
 use App\Controllers\BaseController;
 use App\Models\CategoryArtikelModel;
 use App\Models\KontakModel;
+use App\Models\MarketplaceModel;
 use App\Models\ProfilModel;
-use CodeIgniter\HTTP\ResponseInterface;
+use App\Models\SosmedModel;
 
 class ContactController extends BaseController
 {
@@ -15,24 +16,41 @@ class ContactController extends BaseController
 
     public function __construct()
     {
+        // Set bahasa default dari sesi atau gunakan 'id'
         $this->lang = session()->get('lang') ?? 'id';
     }
 
     public function index()
     {
+        // Set menu aktif
         $data['activeMenu'] = 'contact';
+
+        // Instansiasi model yang dibutuhkan
         $metaModel = new MetaModel();
         $kontakModel = new KontakModel();   
         $profilModel = new ProfilModel();
-        $dataProfil = $profilModel->first();
-        
+        $kategoriModel = new CategoryArtikelModel();
+        $sosmedModel = new SosmedModel();
+        $marketplaceModel = new MarketplaceModel();
 
+        // Ambil data dari database
         $dataMeta = $metaModel->where('nama_halaman_en', 'contact')->first();
         $dataKontak = $kontakModel->first();
-        $kategoriModel = new CategoryArtikelModel();
-        // Ambil data kategori artikel terbanyak
-        $kategori_teratas= $kategoriModel->getKategoriTerbanyak();
+        $dataProfil = $profilModel->first();
+        $kategoriTeratas = $kategoriModel->getKategoriTerbanyak();
+        $sosmed = $sosmedModel->findAll();
+        $marketplace = $marketplaceModel->findAll();
 
-        return view('contact', ['meta' => $dataMeta, 'kontak' => $dataKontak, 'lang' => $this->lang, 'data' => $data, 'profil' => $dataProfil, 'kategori_teratas' => $kategori_teratas]);
+        // Kirim data ke view
+        return view('contact', [
+            'meta' => $dataMeta,
+            'kontak' => $dataKontak,
+            'lang' => $this->lang,
+            'data' => $data,
+            'profil' => $dataProfil,
+            'kategori_teratas' => $kategoriTeratas,
+            'sosmed' => $sosmed,
+            'marketplace' => $marketplace
+        ]);
     }
 }

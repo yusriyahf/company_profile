@@ -59,10 +59,10 @@
                 <div class="card border-info mb-3" style="box-shadow: 0 4px 20px rgba(38, 51, 61, 0.1);">
 
                     <div class="product-container mb-3 mt-5" style="text-align: justify; margin-left: 30px; margin-right: 30px;">
-                        <h5 class="text-center mb-5" style="font-weight: bold; font-size: 1.5rem; color: #333; text-transform: uppercase; letter-spacing: 2px;">
+                        <h1 class="text-center mb-5" style="font-weight: bold; font-size: 1.5rem; color: #333; text-transform: uppercase; letter-spacing: 2px;">
                             <?= $lang == 'id' ? $product['nama_produk_id'] : $product['nama_produk_en']; ?>
                             <span style="display: block; width: 50px; height: 4px; background-color: blue; margin: 10px auto 0;"></span>
-                        </h5>
+                        </h1>
 
                         <div style="margin: 0 auto;">
                             <p style="font-size: 1.1em;">

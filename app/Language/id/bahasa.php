@@ -5,8 +5,10 @@ return [
     'buttonArticle' => 'Selengkapnya',
 
     // FOOTER
-    'headerService' => 'Layanan Kami',
+    'headerService' => 'Artikel Kami',
     'headerLink' => 'Tautan Berguna',
+    'sosmedLink' => 'Ikuti kami di:',
+    'marketplaceLink' => 'Marketplace Kami',
 
     // NAVBAR
     'home' => 'Beranda',
@@ -48,5 +50,5 @@ return [
 
     // PRODUK MENU
     'headerProduk' => 'Produk Kami',
-    'button' => 'Baca Selengkapnya..',
+    'updated' => 'Diperbarui pada:',
 ];

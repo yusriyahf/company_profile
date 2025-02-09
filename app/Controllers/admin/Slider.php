@@ -76,65 +76,64 @@ class Slider extends BaseController
             return redirect()->to(base_url('admin/slider/index'));
         }
     }
-    
+
     public function edit($id_slider)
     {
-        // Pengecekan apakah pengguna sudah login atau belum
-        if (!session()->get('logged_in')) {
-            return redirect()->to(base_url('login')); // Ubah 'login' sesuai dengan halaman login kamu
-        }
-        $slider_model = new SliderModel();
-        $sliderData = $slider_model->find($id_slider);
-        $validation = \Config\Services::validation();
-
-        return view('admin/slider/edit', [
-            'sliderData' => $sliderData,
-            'validation' => $validation
-        ]);
-    }
-
-    public function proses_edit($id_slider = null)
-    {
-        $profilModel = new ProfilModel();
-        $profilData = $profilModel->first();
-        if (!$profilData) {
-            return redirect()->back()->with('error', 'Data profil tidak ditemukan');
-        }
-        $nama_perusahaan = $profilData->nama_perusahaan;        
-        $nama_perusahaan = str_replace(' ', '-', $nama_perusahaan);
-
-        date_default_timezone_set('Asia/Jakarta');
-        $file_foto = $this->request->getFile('file_foto_slider');
-        $currentDateTime = date('dmYHis');
-
-        if (!$id_slider) {
-            return redirect()->back();
-        }
-
         $sliderModel = new SliderModel();
         $sliderData = $sliderModel->find($id_slider);
 
-        // Check if new 'foto_produk' file is uploaded
-        if ($this->request->getFile('file_foto_slider')->isValid()) {
-            // Delete the old 'foto_produk' file
-            unlink('asset-user/images/' . $sliderData->file_foto_slider);
-
-            // Upload the new 'foto_produk' file
-            $newFileName = "{$nama_perusahaan}_{$currentDateTime}.{$file_foto->getExtension()}";
-            $file_foto->move('asset-user/images', $newFileName);
-
-            // Update the 'foto_produk' field in the database with a "where" clause
-            $sliderModel->where('id_slider', $id_slider)->set([
-                'file_foto_slider' => $newFileName,
-            ])->update();
-
-            session()->setFlashdata('success', 'Berkas berhasil diperbarui');
-            return redirect()->to(base_url('admin/slider/index'));
+        if (!$sliderData) {
+            return redirect()->to('/admin/slider')->with('error', 'Data slider tidak ditemukan.');
         }
 
-        session()->setFlashdata('success', 'Berkas berhasil diperbarui');
-        return redirect()->to(base_url('admin/slider/index'));
+        return view('admin/slider/edit', ['sliderData' => $sliderData]);
     }
+
+    public function proses_edit($id_slider)
+    {
+        $sliderModel = new SliderModel();
+        if (!$id_slider || !$sliderModel->find($id_slider)) {
+            return redirect()->back()->with('error', 'Data slider tidak ditemukan.');
+        }
+
+        $dataToUpdate = [];
+
+        foreach (['file_foto_slider1', 'file_foto_slider2', 'file_foto_slider3'] as $fileField) {
+            $file = $this->request->getFile($fileField);
+            if ($file && $file->isValid() && !$file->hasMoved()) {
+                $newFileName = time() . '_' . $file->getRandomName();
+                $file->move('assets/img/slider', $newFileName);
+                $dataToUpdate[$fileField] = $newFileName;
+            }
+        }
+
+        // Menambahkan hanya jika ada input baru
+        $altFields = [
+            'alt_foto_slider1_id',
+            'alt_foto_slider1_en',
+            'alt_foto_slider2_id',
+            'alt_foto_slider2_en',
+            'alt_foto_slider3_id',
+            'alt_foto_slider3_en'
+        ];
+
+        foreach ($altFields as $field) {
+            $value = $this->request->getPost($field);
+            if ($value !== null) {
+                $dataToUpdate[$field] = $value;
+            }
+        }
+
+        // Jika tidak ada data yang diupdate, kembalikan tanpa error
+        if (empty($dataToUpdate)) {
+            return redirect()->back()->with('warning', 'Tidak ada perubahan yang disimpan.');
+        }
+
+        // Update hanya jika ada perubahan
+        $sliderModel->update($id_slider, $dataToUpdate);
+        return redirect()->to(base_url('admin/slider'))->with('success', 'Slider berhasil diperbarui.');
+    }
+
 
     public function delete($id = false)
     {

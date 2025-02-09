@@ -2,6 +2,7 @@
 
 namespace App\Controllers\admin;
 
+use App\Models\ProductModel;
 use App\Models\ProdukModel;
 
 class Produk extends BaseController
@@ -23,7 +24,7 @@ class Produk extends BaseController
         if (!session()->get('logged_in')) {
             return redirect()->to(base_url('login')); // Ubah 'login' sesuai dengan halaman login kamu
         }
-        $produk_model = new ProdukModel();
+        $produk_model = new ProductModel();
         $all_data_produk = $produk_model->findAll();
         $validation = \Config\Services::validation();
         return view('admin/produk/index', [
@@ -38,7 +39,7 @@ class Produk extends BaseController
         if (!session()->get('logged_in')) {
             return redirect()->to(base_url('login')); // Ubah 'login' sesuai dengan halaman login kamu
         }
-        $produk_model = new ProdukModel();
+        $produk_model = new ProductModel();
         $all_data_produk = $produk_model->findAll();
         $validation = \Config\Services::validation();
         return view('admin/produk/tambah', [
@@ -100,7 +101,7 @@ class Produk extends BaseController
             $newFileName = "{$nama_produk_in_sanitized}_{$nama_produk_en_sanitized}_{$currentDateTime}.{$file_foto->getExtension()}";
             $file_foto->move('asset-user/images', $newFileName);
 
-            $produkModel = new ProdukModel();
+            $produkModel = new ProductModel();
             $data = [
                 'nama_produk_in' => $this->request->getVar("nama_produk_in"),
                 'nama_produk_en' => $this->request->getVar("nama_produk_en"),
@@ -128,7 +129,7 @@ class Produk extends BaseController
         if (!session()->get('logged_in')) {
             return redirect()->to(base_url('login')); // Ubah 'login' sesuai dengan halaman login kamu
         }
-        $produk_model = new ProdukModel();
+        $produk_model = new ProductModel();
         $produkData = $produk_model->find($id_produk);
         $validation = \Config\Services::validation();
 
@@ -145,7 +146,7 @@ class Produk extends BaseController
             return redirect()->back();
         }
 
-        $produkModel = new ProdukModel();
+        $produkModel = new ProductModel();
         $produkData = $produkModel->find($id_produk);
 
         $nama_produk_in = $this->request->getVar("nama_produk_in");
@@ -225,7 +226,7 @@ class Produk extends BaseController
         if (!session()->get('logged_in')) {
             return redirect()->to(base_url('login')); // Ubah 'login' sesuai dengan halaman login kamu
         }
-        $produkModel = new ProdukModel();
+        $produkModel = new ProductModel();
 
         $data = $produkModel->find($id);
 
