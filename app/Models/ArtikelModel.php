@@ -84,6 +84,26 @@ class ArtikelModel extends Model
         return $this->paginate($perPage);
     }
 
+    public function getArticle($lang = 'id', $categoryId = null)
+    {
+        $this->select(
+            'tb_artikel.*, ' .
+                'tb_kategori_artikel.slug_kategori_id, ' .
+                'tb_kategori_artikel.slug_kategori_en, ' .
+                ($lang === 'id' ? 'tb_kategori_artikel.nama_kategori_id' : 'tb_kategori_artikel.nama_kategori_en') . ' as nama_kategori, ' .
+                ($lang === 'id' ? 'tb_kategori_artikel.slug_kategori_id' : 'tb_kategori_artikel.slug_kategori_en') . ' as slug_kategori'
+        );
+
+        // Tidak memeriksa kategori, cukup ambil artikel acak
+        $this->join('tb_kategori_artikel', 'tb_kategori_artikel.id_kategori_artikel = tb_artikel.id_kategori_artikel', 'left');
+
+        // Ambil secara acak dan batasi satu hasil
+        $this->orderBy('RAND()');
+        $this->limit(1);
+
+        return $this->findAll();  // Kembalikan hasil sebagai array
+    }
+
 
     public function getArticlesWithCategory($categoryId = null, $lang = 'id')
     {
@@ -135,6 +155,28 @@ class ArtikelModel extends Model
 
         return $this->findAll(5); // Return only 5 results
     }
+
+    public function getSideArticlesWithCategoryRand($lang = 'id')
+    {
+        // Select columns properly based on language
+        $this->select(
+            'tb_artikel.*, ' .
+                'tb_kategori_artikel.slug_kategori_id, ' .
+                'tb_kategori_artikel.slug_kategori_en, ' .
+                ($lang === 'id' ? 'tb_kategori_artikel.nama_kategori_id' : 'tb_kategori_artikel.nama_kategori_en') . ' as nama_kategori, ' .
+                ($lang === 'id' ? 'tb_kategori_artikel.slug_kategori_id' : 'tb_kategori_artikel.slug_kategori_en') . ' as slug_kategori'
+        );
+
+        // Join the category table properly
+        $this->join('tb_kategori_artikel', 'tb_kategori_artikel.id_kategori_artikel = tb_artikel.id_kategori_artikel', 'left');
+
+        // Order by random
+        $this->orderBy('RAND()');
+
+        // Limit the result to 5 random articles
+        return $this->findAll(5); // Return only 5 random results
+    }
+
 
 
     public function getArtikelWithCategory($slug)
