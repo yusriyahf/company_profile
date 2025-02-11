@@ -69,10 +69,12 @@ class ActivityController extends BaseController
             'meta_desc_en' => $category['meta_desc_en'] ?? ''
         ] : null;
 
-        $kategoriModel = new CategoryActivityModel();
         $kategoriArtikelModel = new CategoryArtikelModel();
+        $kategoriAktivitasModel = new CategoryActivityModel();
         // Ambil data kategori artikel terbanyak
         $kategori_teratas = $kategoriArtikelModel->getKategoriTerbanyak();
+        $categoriess = $kategoriArtikelModel->findAll();
+        $categoriesAktivitas = $kategoriAktivitasModel->findAll();
 
         $sosmedModel = new SosmedModel();
         $sosmed = $sosmedModel->findAll();
@@ -97,7 +99,9 @@ class ActivityController extends BaseController
             'kategori_teratas' => $kategori_teratas,
             'sosmed' => $sosmed,
             'marketplace' => $marketplace,
-            'kontak' => $kontak
+            'kontak' => $kontak,
+            'categories' => $categoriess,
+            'categoriesAktivitas' => $categoriesAktivitas
         ]);
     }
 
@@ -129,6 +133,7 @@ class ActivityController extends BaseController
         ] : null;
 
         $kategoriModel = new CategoryArtikelModel();
+        $categories = $kategoriModel->findAll();
 
         // Ambil data kategori artikel terbanyak
         $kategori_teratas = $kategoriModel->getKategoriTerbanyak();
@@ -187,13 +192,8 @@ class ActivityController extends BaseController
             ->orderBy('tb_aktivitas.created_at', 'DESC')  // Menentukan tabel yang dimaksud
             ->findAll(5);
 
-
-
-
-        $kategoriModel = new CategoryActivityModel();
-        $kategoriArtikelModel = new CategoryArtikelModel();
         // Ambil data kategori artikel terbanyak
-        $kategori_teratas = $kategoriArtikelModel->getKategoriTerbanyak();
+        $kategori_teratas = $kategoriModel->getKategoriTerbanyak();
 
 
         // Tampilkan halaman artikel (misalnya tampilan detail artikel)
@@ -209,7 +209,8 @@ class ActivityController extends BaseController
             'kategori_teratas' => $kategori_teratas,
             'sosmed' => $sosmed,
             'marketplace' => $marketplace,
-            'kontak' => $kontak
+            'kontak' => $kontak,
+            'categories'=>$categories,
 
         ]);
     }

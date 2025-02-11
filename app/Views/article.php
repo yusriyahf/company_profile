@@ -16,32 +16,10 @@
 <!-- Service Details Section -->
 <section id="service-details" class="service-details section features">
     <div class="container">
-        <div class="d-flex justify-content-center">
-            <ul class="nav nav-tabs" data-aos="fade-up" data-aos-delay="100">
-                <!-- navbar kategori -->
-                <li class="nav-item">
-                    <a class="nav-link <?= ($categoryId == null) ? 'active' : '' ?>"
-                        href="<?= base_url($lang == 'id' ? 'id/artikel' : 'en/article') ?>">
-                        <h4><?= $lang == 'id' ? 'Semua Artikel' : 'All Articles'; ?></h4>
-                    </a>
-                </li>
-                <?php if (!empty($kategori)): ?>
-                    <?php foreach ($kategori as $k): ?>
-                        <li class="nav-item">
-                            <a class="nav-link <?= ($categoryId == $k['id_kategori_artikel']) ? 'active' : '' ?>"
-                                href="<?= base_url($lang == 'id' && isset($k['slug_kategori']) ? 'id/artikel/' . $k['slug_kategori'] : 'en/article/' . $k['slug_kategori']) ?>">
-                                <h4><?= isset($k['nama_kategori']) ? $k['nama_kategori'] : 'No Name'; ?></h4>
-                            </a>
-                        </li>
-                    <?php endforeach; ?>
-                <?php else: ?>
-                    <li class="nav-item">No categories available</li>
-                <?php endif; ?>
-            </ul>
-        </div>
+        <!--  -->
 
 
-        <div class="row gy-5 mt-1">
+        <div class="row gy-5">
 
             <div class="col-lg-8 ps-lg-5" data-aos="fade-up" data-aos-delay="200">
                 <?php foreach ($allArticle as $article): ?>

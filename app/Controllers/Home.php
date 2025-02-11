@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Models\ArtikelModel;
+use App\Models\CategoryActivityModel;
 use App\Models\CategoryArtikelModel;
 use App\Models\KategoriModel;
 use App\Models\KontakModel;
@@ -35,8 +36,10 @@ class Home extends BaseController
         $sliderModel = new SliderModel();
         $productModel = new ProductModel();
         $kategoriModel = new CategoryArtikelModel();
+        $kategoriAktivitasModel = new CategoryActivityModel();
         $sosmedModel = new SosmedModel();
         $marketplaceModel = new MarketplaceModel();
+    
 
         // Ambil data meta
         $dataMeta = $metaModel->where('nama_halaman_en', 'home')->first();
@@ -44,6 +47,8 @@ class Home extends BaseController
         $articleMeta = $metaModel->where('nama_halaman_en', 'article')->first();
         $productMeta = $metaModel->where('nama_halaman_en', 'product')->first();
         $contactMeta = $metaModel->where('nama_halaman_en', 'contact')->first();
+        $categories = $kategoriModel->findAll();
+        $categoriesAktivitas = $kategoriAktivitasModel->findAll();
 
         // Ambil data artikel
         $dataArtikel = $articleModel
@@ -86,7 +91,9 @@ class Home extends BaseController
             'lang' => $this->lang,
             'data' => $data,
             'artikel' => $dataArtikel,
-            'product' => $product
+            'product' => $product,
+            'categories' => $categories,
+            'categoriesAktivitas' => $categoriesAktivitas,
         ]);
     }
 }

@@ -3,7 +3,9 @@
 namespace App\Controllers;
 
 use App\Controllers\BaseController;
+use App\Models\CategoryActivityModel;
 use App\Models\CategoryArtikelModel;
+use App\Models\KategoriModel;
 use App\Models\KontakModel;
 use App\Models\MarketplaceModel;
 use App\Models\MetaModel;
@@ -30,6 +32,10 @@ class ProductController extends BaseController
         $kategoriModel = new CategoryArtikelModel();
         // Ambil data kategori artikel terbanyak
         $kategoriTeratas = $kategoriModel->getKategoriTerbanyak();
+        $categories = $kategoriModel->findAll();
+
+        $kategoriAktivitasModel= new CategoryActivityModel();
+        $categoriesAktivitas = $kategoriAktivitasModel->findAll();
 
         // Ambil metadata halaman
         $dataMeta = $metaModel->where('nama_halaman_en', 'product')->first();
@@ -62,6 +68,8 @@ class ProductController extends BaseController
             'sosmed' => $sosmed,
             'marketplace' => $marketplace,
             'kontak' => $kontak,
+            'categories' => $categories,
+            'categoriesAktivitas' => $categoriesAktivitas,
         ];
 
         return view('product.php', $data);
@@ -81,6 +89,10 @@ class ProductController extends BaseController
         $kategoriModel = new CategoryArtikelModel();
         // Ambil data kategori artikel terbanyak
         $kategoriTeratas = $kategoriModel->getKategoriTerbanyak();
+        $categories = $kategoriModel->findAll();
+
+        $kategoriAktivitasModel = new CategoryActivityModel();
+        $categoriesAktivitas = $kategoriAktivitasModel->findAll();
 
         // Cari produk berdasarkan slug (ID atau EN)
         $product = $productModel->where('slug_id', $slug)->orWhere('slug_en', $slug)->first();
@@ -132,6 +144,9 @@ class ProductController extends BaseController
             'sosmed' => $sosmed,
             'marketplace' => $marketplace,
             'kontak' => $kontak,
+            'categories' => $categories,
+            'categoriesAktivitas' => $categoriesAktivitas,
+
         ];
 
         return view('detail_product', $data);

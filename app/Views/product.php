@@ -17,10 +17,14 @@
 <section id="service-details" class="service-details section features">
     <div class="container" data-aos="fade-up" data-aos-delay="100">
         <?php
-        // Urutkan produk berdasarkan 'updated_at' dari yang terbaru ke yang lama
-        usort($product, function ($a, $b) {
-            return strtotime($b['updated_at']) - strtotime($a['updated_at']);
-        });
+        // Pastikan $product adalah array sebelum melakukan usort
+        if (!empty($product) && is_array($product)) {
+            usort($product, function ($a, $b) {
+                return strtotime($b['updated_at']) - strtotime($a['updated_at']);
+            });
+        } else {
+            echo "<p>Produk tidak tersedia.</p>";
+        }
         ?>
 
         <div class="row gy-5">

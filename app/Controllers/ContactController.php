@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use App\Models\MetaModel;
 use App\Controllers\BaseController;
+use App\Models\CategoryActivityModel;
 use App\Models\CategoryArtikelModel;
 use App\Models\KontakModel;
 use App\Models\MarketplaceModel;
@@ -32,14 +33,18 @@ class ContactController extends BaseController
         $kategoriModel = new CategoryArtikelModel();
         $sosmedModel = new SosmedModel();
         $marketplaceModel = new MarketplaceModel();
+        $kategoriAktivitasModel = new CategoryActivityModel();
+
 
         // Ambil data dari database
         $dataMeta = $metaModel->where('nama_halaman_en', 'contact')->first();
         $dataKontak = $kontakModel->first();
         $dataProfil = $profilModel->first();
         $kategoriTeratas = $kategoriModel->getKategoriTerbanyak();
+        $categories = $kategoriModel->findAll();
         $sosmed = $sosmedModel->findAll();
         $marketplace = $marketplaceModel->findAll();
+        $categoriesAktivitas = $kategoriAktivitasModel->findAll();
 
         // Kirim data ke view
         return view('contact', [
@@ -50,7 +55,9 @@ class ContactController extends BaseController
             'profil' => $dataProfil,
             'kategori_teratas' => $kategoriTeratas,
             'sosmed' => $sosmed,
-            'marketplace' => $marketplace
+            'marketplace' => $marketplace,
+            'categories' => $categories,
+            'categoriesAktivitas' => $categoriesAktivitas
         ]);
     }
 }

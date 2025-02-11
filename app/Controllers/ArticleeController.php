@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use App\Controllers\BaseController;
 use App\Models\ArtikelModel;
+use App\Models\CategoryActivityModel;
 use App\Models\CategoryArtikelModel;
 use App\Models\KontakModel;
 use App\Models\MarketplaceModel;
@@ -60,6 +61,7 @@ class ArticleeController extends BaseController
 
         // Ambil semua kategori untuk navigasi
         $categories = $categoryModel->getAllCategories($lang);
+        $categoriess = $categoryModel->findAll();
 
         // Metadata halaman, prioritas dari kategori jika ada
         $meta = $metaModel->where('nama_halaman_en', 'article')->first();
@@ -71,9 +73,11 @@ class ArticleeController extends BaseController
         ] : null;
 
         $kategoriModel = new CategoryArtikelModel();
+        $kategoriAktivitasModel = new CategoryActivityModel();
 
         // Ambil data kategori artikel terbanyak
         $kategori_teratas = $kategoriModel->getKategoriTerbanyak();
+        
         // Ambil data sosial media
         $sosmedModel = new SosmedModel();
         $sosmed = $sosmedModel->findAll();
@@ -85,6 +89,9 @@ class ArticleeController extends BaseController
         // Ambil data kontak
         $kontakModel = new KontakModel();
         $kontak = $kontakModel->first();
+
+        $categoriesAktivitas = $kategoriAktivitasModel->findAll();
+        
 
         return view('article', [
             'lang' => $lang,
@@ -100,7 +107,10 @@ class ArticleeController extends BaseController
             'sosmed' => $sosmed,
             'marketplace' => $marketplace,
             'kontak' => $kontak,
-            'pager' => $pager
+            'pager' => $pager,
+            'categoriesAktivitas' => $categoriesAktivitas,
+            'categories' => $categoriess
+
         ]);
     }
 
@@ -142,6 +152,7 @@ class ArticleeController extends BaseController
         // Ambil kategori artikel berdasarkan ID kategori
         $categoryModel = new CategoryArtikelModel();
         $category = $categoryModel->find($artikel['id_kategori_artikel']);
+        $categories = $categoryModel->findAll();
 
         // Pastikan kategori ada
         if (!$category) {
@@ -171,9 +182,11 @@ class ArticleeController extends BaseController
             ->findAll(5);
 
         $kategoriModel = new CategoryArtikelModel();
-        // Ambil data kategori artikel terbanyak
+        $kategoriAktivitasModel = new CategoryActivityModel();
 
+        // Ambil data kategori artikel terbanyak
         $kategori_teratas = $kategoriModel->getKategoriTerbanyak();
+        $categoriesAktivitas = $kategoriAktivitasModel->findAll();
 
         // Ambil data sosial media
         $sosmedModel = new SosmedModel();
@@ -200,7 +213,9 @@ class ArticleeController extends BaseController
             'kategori_teratas' => $kategori_teratas,
             'sosmed' => $sosmed,
             'marketplace' => $marketplace,
-            'kontak' => $kontak
+            'kontak' => $kontak,
+            'categories' => $categories,
+            'categoriesAktivitas' => $categoriesAktivitas,
         ]);
     }
 }

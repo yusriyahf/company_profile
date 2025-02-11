@@ -9,6 +9,7 @@ use App\Models\MarketplaceModel;
 use App\Models\ProfilModel;
 use App\Models\SosmedModel;
 use App\Controllers\BaseController;
+use App\Models\CategoryActivityModel;
 use CodeIgniter\HTTP\ResponseInterface;
 
 class AboutController extends BaseController
@@ -32,6 +33,7 @@ class AboutController extends BaseController
         $sosmedModel = new SosmedModel();
         $marketplaceModel = new MarketplaceModel();
         $kontakModel = new KontakModel();
+        $kategoriAktivitasModel = new CategoryActivityModel();
 
         // Ambil data meta dan profil
         $dataMeta = $metaModel->where('nama_halaman_en', 'about')->first();
@@ -39,6 +41,8 @@ class AboutController extends BaseController
 
         // Ambil data kategori artikel terbanyak
         $kategori_teratas = $kategoriModel->getKategoriTerbanyak();
+        $categories = $kategoriModel->findAll();
+        $categoriesAktivitas = $kategoriAktivitasModel->findAll();
 
         // Ambil data sosial media
         $sosmed = $sosmedModel->findAll();
@@ -58,7 +62,9 @@ class AboutController extends BaseController
             'kategori_teratas' => $kategori_teratas,
             'sosmed' => $sosmed,
             'marketplace' => $marketplace,
-            'kontak' => $kontak
+            'kontak' => $kontak,
+            'categories' => $categories,
+            'categoriesAktivitas' => $categoriesAktivitas
         ]);
     }
 }
