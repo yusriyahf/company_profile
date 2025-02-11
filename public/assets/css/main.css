@@ -1167,7 +1167,7 @@ section,
 }
 
 .about .about-description {
-  margin-bottom: 2rem;
+  margin-bottom: 1rem;
   color: color-mix(in srgb, var(--default-color), transparent 20%);
 }
 

@@ -29,7 +29,7 @@
                 <div class="image-wrapper">
                     <div class="images position-relative" data-aos="zoom-out" data-aos-delay="400">
                         <img src="<?= base_url('assets/img/profil/' . $profil['foto_perusahaan']); ?>" alt="<?= $lang == 'id' ? $profil['alt_foto_perusahaan_id'] : $profil['alt_foto_perusahaan_en']; ?>" class="img-fluid main-image rounded-4">
-                        <img src="<?= base_url('assets/' . $profil['logo_perusahaan']); ?>" alt="<?= $lang == 'id' ? $profil['alt_logo_perusahaan_id'] : $profil['alt_logo_perusahaan_en']; ?>" class="img-fluid small-image rounded-4">
+
                     </div>
                 </div>
             </div>

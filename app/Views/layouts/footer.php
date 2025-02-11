@@ -67,10 +67,12 @@ $indonesia_url = base_url($clean_url);
     <div class="container footer-top">
         <div class="row gy-4">
             <div class="col-lg-2 col-md-6 footer-about">
-                <a href="index.html" class="logo d-flex align-items-center">
+                <a href="/" class="logo d-flex align-items-center">
                     <span class="sitename">Creativenest</span>
                 </a>
-                <img src="<?= base_url('assets/img/profil/' . $profil['logo_perusahaan']); ?>" alt="<?= $lang == 'id' ? $profil['alt_logo_perusahaan_id'] : $profil['alt_logo_perusahaan_en']; ?>" class="img-fluid rounded-4" style="width: 30%;">
+                <a href="/">
+                    <img src="<?= base_url('assets/img/profil/' . $profil['logo_perusahaan']); ?>" alt="<?= $lang == 'id' ? $profil['alt_logo_perusahaan_id'] : $profil['alt_logo_perusahaan_en']; ?>" class="img-fluid rounded-4" style="width: 30%;">
+                </a>
             </div>
 
             <div class="col-lg-2 col-md-3 footer-links">

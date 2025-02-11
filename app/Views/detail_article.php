@@ -21,7 +21,7 @@
             <div class="col-lg-8 ps-lg-5" data-aos="fade-up" data-aos-delay="200">
                 <img src="<?= base_url('assets/img/artikel/' . $artikel['foto_artikel']); ?>" alt="<?= $lang == 'id' ? $artikel['alt_artikel_id'] : $artikel['alt_artikel_en']; ?>" class="img-fluid services-img">
                 <h1><?= $lang == 'id' ? $artikel['judul_artikel_id'] : $artikel['judul_artikel_en']; ?></h1>
-                <p><?= date('d F Y', strtotime($artikel['created_at'])); ?> - <?= $lang == 'id' ? $artikel['nama_kategori_id'] : $artikel['nama_kategori_en']; ?></p>
+                <p><span class="badge text-bg-primary"><?= $lang == 'id' ? $artikel['nama_kategori_id'] : $artikel['nama_kategori_en']; ?></span> - <?= date('d F Y', strtotime($artikel['created_at'])); ?> </p>
                 <p>
                     <?= $lang == 'id' ? $artikel['deskripsi_artikel_id'] : $artikel['deskripsi_artikel_en']; ?>
                 </p>

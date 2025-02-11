@@ -120,6 +120,9 @@ $indonesia_url = base_url($clean_url);
             <div class="col-xl-5" data-aos="fade-up" data-aos-delay="200">
                 <h2 class="about-title"><?= $profil['nama_perusahaan']; ?></h2>
                 <p class="about-description"><?= $lang == 'id' ? $profil['deskripsi_perusahaan_id'] : $profil['deskripsi_perusahaan_en']; ?></p>
+                <a href="<?= base_url($lang == 'id' ? 'id/tentang' : 'en/about') ?>" class="read-more">
+                    <?= lang('bahasa.buttonArticle'); ?> <i class="bi bi-arrow-right"></i>
+                </a>
 
             </div>
 
@@ -127,7 +130,7 @@ $indonesia_url = base_url($clean_url);
                 <div class="image-wrapper">
                     <div class="images position-relative" data-aos="zoom-out" data-aos-delay="400">
                         <img src="<?= base_url('assets/img/profil/' . $profil['foto_perusahaan']); ?>" alt="<?= $lang == 'id' ? $profil['alt_foto_perusahaan_id'] : $profil['alt_foto_perusahaan_en']; ?>" class="img-fluid main-image rounded-4">
-                        <img src="<?= base_url('assets/img/profil/' . $profil['logo_perusahaan']); ?>" alt="<?= $lang == 'id' ? $profil['alt_logo_perusahaan_id'] : $profil['alt_logo_perusahaan_en']; ?>" class="img-fluid small-image rounded-4">
+
                     </div>
                 </div>
             </div>
@@ -176,10 +179,7 @@ $indonesia_url = base_url($clean_url);
                     </div>
                 </div><!-- End Service Card -->
             <?php endforeach; ?>
-
-
         </div>
-
     </div>
 
 </section><!-- /Services Section -->
@@ -234,9 +234,9 @@ $indonesia_url = base_url($clean_url);
             <div class="col-lg-7">
                 <div class="contact-map" data-aos="fade-up" data-aos-delay="300">
                     <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3951.2410172253694!2d112.66325561145756!3d-7.974024292017904!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2dd6298db1e5b70b%3A0xaf3552a89f1cc9f0!2sELECOMP%20INDONESIA!5e0!3m2!1sen!2sid!4v1738309308019!5m2!1sen!2sid"
-                        width="600"
+                        class="w-100"
                         height="550"
-                        style="border:0;"
+                        border-radius="15px" ;
                         allowfullscreen=""
                         loading="lazy"
                         referrerpolicy="no-referrer-when-downgrade">

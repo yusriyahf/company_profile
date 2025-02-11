@@ -1,6 +1,10 @@
 <?php
 
 return [
+    // PAGINATION
+    'first' => 'First',
+    'last' => 'Last',
+
     // ARTICLE
     'buttonArticle' => 'Read More',
 

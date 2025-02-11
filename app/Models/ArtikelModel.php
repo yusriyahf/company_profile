@@ -63,6 +63,28 @@ class ArtikelModel extends Model
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 
+    public function getPaginatedArticles($categoryId = null, $lang = 'id', $perPage = 3)
+    {
+        $this->select(
+            'tb_artikel.*, ' .
+                'tb_kategori_artikel.slug_kategori_id, ' .
+                'tb_kategori_artikel.slug_kategori_en, ' .
+                ($lang === 'id' ? 'tb_kategori_artikel.nama_kategori_id' : 'tb_kategori_artikel.nama_kategori_en') . ' as nama_kategori, ' .
+                ($lang === 'id' ? 'tb_kategori_artikel.slug_kategori_id' : 'tb_kategori_artikel.slug_kategori_en') . ' as slug_kategori'
+        );
+
+        $this->join('tb_kategori_artikel', 'tb_kategori_artikel.id_kategori_artikel = tb_artikel.id_kategori_artikel', 'left');
+
+        if ($categoryId) {
+            $this->where('tb_artikel.id_kategori_artikel', $categoryId);
+        }
+
+        $this->orderBy('tb_artikel.created_at', 'DESC');
+
+        return $this->paginate($perPage);
+    }
+
+
     public function getArticlesWithCategory($categoryId = null, $lang = 'id')
     {
         // Select columns properly based on language

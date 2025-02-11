@@ -51,12 +51,12 @@ class ArticleeController extends BaseController
 
         // Ambil artikel berdasarkan kategori (jika ada)
         $categoryId = $category ? $category['id_kategori_artikel'] : null;
-        $allArticles = $artikelModel->getArticlesWithCategory($categoryId, $lang);
+        $perPage = 3;
+        $allArticles = $artikelModel->getPaginatedArticles($categoryId, $lang, $perPage);
+        $pager = $artikelModel->pager; // Ambil objek pagination
+        // $allArticles = $artikelModel->getArticlesWithCategory($categoryId, $lang);
 
         $sideArticles = $artikelModel->getSideArticlesWithCategory($categoryId, $lang);
-
-        // Log jumlah artikel yang ditemukan
-        log_message('info', 'Jumlah artikel yang ditemukan: ' . count($allArticles));
 
         // Ambil semua kategori untuk navigasi
         $categories = $categoryModel->getAllCategories($lang);
@@ -99,7 +99,8 @@ class ArticleeController extends BaseController
             'kategori_teratas' => $kategori_teratas,
             'sosmed' => $sosmed,
             'marketplace' => $marketplace,
-            'kontak' => $kontak
+            'kontak' => $kontak,
+            'pager' => $pager
         ]);
     }
 

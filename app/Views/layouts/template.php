@@ -15,7 +15,7 @@
     <meta name="keywords" content="">
 
     <!-- Favicons -->
-    <link href="<?= base_url('assets/img/CreativeNest.png'); ?>" rel="icon">
+    <link href="<?= base_url('creativenest-favicon.ico'); ?>" rel="icon">
 
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com" rel="preconnect">

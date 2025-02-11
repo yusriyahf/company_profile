@@ -5,8 +5,12 @@ namespace App\Controllers;
 use App\Controllers\BaseController;
 use App\Models\ActivityModel;
 use App\Models\CategoryActivityModel;
+use App\Models\CategoryArtikelModel;
+use App\Models\KontakModel;
+use App\Models\MarketplaceModel;
 use App\Models\MetaModel;
 use App\Models\ProfilModel;
+use App\Models\SosmedModel;
 use CodeIgniter\HTTP\ResponseInterface;
 
 class ActivityController extends BaseController
@@ -66,8 +70,20 @@ class ActivityController extends BaseController
         ] : null;
 
         $kategoriModel = new CategoryActivityModel();
+        $kategoriArtikelModel = new CategoryArtikelModel();
         // Ambil data kategori artikel terbanyak
-        $kategori_teratas = $kategoriModel->getKategoriTerbanyak();
+        $kategori_teratas = $kategoriArtikelModel->getKategoriTerbanyak();
+
+        $sosmedModel = new SosmedModel();
+        $sosmed = $sosmedModel->findAll();
+
+        // Ambil data marketplace
+        $marketplaceModel = new MarketplaceModel();
+        $marketplace = $marketplaceModel->findAll();
+
+        // Ambil data kontak
+        $kontakModel = new KontakModel();
+        $kontak = $kontakModel->first();
 
         return view('activity', [
             'lang' => $lang,
@@ -78,7 +94,10 @@ class ActivityController extends BaseController
             'meta' => $meta,
             'data' => $data,
             'profil' => $dataProfil,
-            'kategori_teratas' => $kategori_teratas
+            'kategori_teratas' => $kategori_teratas,
+            'sosmed' => $sosmed,
+            'marketplace' => $marketplace,
+            'kontak' => $kontak
         ]);
     }
 
@@ -108,6 +127,22 @@ class ActivityController extends BaseController
             'meta_desc_id' => $aktivitas['meta_desc_id'] ?? '',
             'meta_desc_en' => $aktivitas['meta_desc_en'] ?? ''
         ] : null;
+
+        $kategoriModel = new CategoryArtikelModel();
+
+        // Ambil data kategori artikel terbanyak
+        $kategori_teratas = $kategoriModel->getKategoriTerbanyak();
+        // Ambil data sosial media
+        $sosmedModel = new SosmedModel();
+        $sosmed = $sosmedModel->findAll();
+
+        // Ambil data marketplace
+        $marketplaceModel = new MarketplaceModel();
+        $marketplace = $marketplaceModel->findAll();
+
+        // Ambil data kontak
+        $kontakModel = new KontakModel();
+        $kontak = $kontakModel->first();
 
         // Log hasil pencarian produk
         log_message('debug', 'Produk ditemukan: ' . print_r($aktivitas, true));
@@ -156,8 +191,9 @@ class ActivityController extends BaseController
 
 
         $kategoriModel = new CategoryActivityModel();
+        $kategoriArtikelModel = new CategoryArtikelModel();
         // Ambil data kategori artikel terbanyak
-        $kategori_teratas = $kategoriModel->getKategoriTerbanyak();
+        $kategori_teratas = $kategoriArtikelModel->getKategoriTerbanyak();
 
 
         // Tampilkan halaman artikel (misalnya tampilan detail artikel)
@@ -171,6 +207,9 @@ class ActivityController extends BaseController
             'data' => $data,
             'profil' => $dataProfil,
             'kategori_teratas' => $kategori_teratas,
+            'sosmed' => $sosmed,
+            'marketplace' => $marketplace,
+            'kontak' => $kontak
 
         ]);
     }

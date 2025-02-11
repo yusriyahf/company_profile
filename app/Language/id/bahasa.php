@@ -1,6 +1,10 @@
 <?php
 
 return [
+    // PAGINATION
+    'first' => 'Pertama',
+    'last' => 'Terakhir',
+
     // ARTICLE
     'buttonArticle' => 'Selengkapnya',
 

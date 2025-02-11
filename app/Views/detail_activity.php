@@ -21,14 +21,14 @@
             <div class="col-lg-8 ps-lg-5" data-aos="fade-up" data-aos-delay="200">
                 <img src="<?= base_url('assets/img/aktivitas/' . $aktivitas['foto_aktivitas']); ?>" alt="<?= $lang == 'id' ? $aktivitas['alt_aktivitas_id'] : $aktivitas['alt_aktivitas_en']; ?>" class="img-fluid services-img">
                 <h1><?= $lang == 'id' ? $aktivitas['judul_aktivitas_id'] : $aktivitas['judul_aktivitas_en']; ?></h1>
-                <p><?= date('d F Y', strtotime($aktivitas['created_at'])); ?> - <?= $lang == 'id' ? $aktivitas['nama_kategori_id'] : $aktivitas['nama_kategori_en']; ?></p>
+                <p><span class="badge text-bg-primary"><?= $lang == 'id' ? $aktivitas['nama_kategori_id'] : $aktivitas['nama_kategori_en']; ?></span> - <?= date('d F Y', strtotime($aktivitas['created_at'])); ?></p>
                 <p>
                     <?= $lang == 'id' ? $aktivitas['deskripsi_aktivitas_id'] : $aktivitas['deskripsi_aktivitas_en']; ?>
                 </p>
             </div>
             <div class="col-lg-4" data-aos="fade-up" data-aos-delay="100">
                 <div class="service-box">
-                    <h4><?= $lang == 'id' ? 'Aktivitas Lainnya' : 'Related Articles'; ?></h4>
+                    <h4><?= $lang == 'id' ? 'Aktivitas Lainnya' : 'Related Activities'; ?></h4>
 
                     <div class="services-list">
                         <?php foreach ($allAktivitas as $article): ?>
