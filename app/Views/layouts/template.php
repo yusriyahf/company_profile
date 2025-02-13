@@ -12,8 +12,7 @@
         <meta name="description" content="<?= $lang == 'id' ? $meta['meta_desc_id'] : $meta['meta_desc_en']; ?>">
     <?php endif; ?>
 
-    <meta name="keywords" content="">
-    <meta name="canocele" content="">
+    <link rel="canonical" href="<?= current_url(); ?>">
 
     <!-- Favicons -->
     <link href="<?= base_url('creativenest-favicon.ico'); ?>" rel="icon">
