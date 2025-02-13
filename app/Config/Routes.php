@@ -76,7 +76,7 @@ $routes->group('id', function ($routes) {
     $routes->get('aktivitas/(:segment)/(:segment)', 'ActivityController::detail/$1/$2');
 
     $routes->get('produk', 'ProductController::index');
-    $routes->get('(:segment)/produk-detail/(:segment)', 'ProductController::detail/$2');
+    $routes->get('(:segment)/(:segment)', 'ProductController::detail/$2');
 });
 
 $routes->group('en', function ($routes) {
@@ -93,5 +93,5 @@ $routes->group('en', function ($routes) {
     $routes->get('activity/(:segment)/(:segment)', 'ActivityController::detail/$1/$2');
 
     $routes->get('product', 'ProductController::index');
-    $routes->get('(:segment)/product-detail/(:segment)', 'ProductController::detail/$2');
+    $routes->get('(:segment)/(:segment)', 'ProductController::detail/$2');
 });

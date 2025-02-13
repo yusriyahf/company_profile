@@ -17,7 +17,6 @@ $contactLink = ($lang_segment === 'en/') ? 'contact' : 'kontak';
 $articleLink = ($lang_segment === 'en/') ? 'article' : 'artikel';
 $activityLink = ($lang_segment === 'en/') ? 'activity' : 'aktivitas';
 $productLink = ($lang_segment === 'en/') ? 'product' : 'produk';
-$detailProduct = ($lang_segment === 'en/') ? 'product-detail' : 'produk-detail';
 
 // Tautan Kategori Artikel untuk Navbar
 $categoryLinks = [];
@@ -52,7 +51,6 @@ $replace_map = [
     'artikel' => 'article',
     'aktivitas' => 'activity',
     'produk' => 'product',
-    'produk-detail' => 'product-detail',
 ];
 
 // Ambil bagian dari URL tanpa segmen bahasa
@@ -136,7 +134,7 @@ $indonesia_url = base_url($clean_url);
             </ul>
         </li>
 
-        <li><a href="<?= base_url($lang . '/' . $productLink) ?>" class="<?= isset($activeMenu) && $activeMenu === 'product' ? 'active' : '' ?>"><?= lang('bahasa.product'); ?></a></li>
+        <li><a href="<?= base_url($lang . '/' . $productLink) ?>" class="<?= isset($data['activeMenu']) && $data['activeMenu'] === 'product' ? 'active' : '' ?>"><?= lang('bahasa.product'); ?></a></li>
         <li><a href="<?= base_url($lang . '/' . $contactLink) ?>" class="<?= isset($data['activeMenu']) && $data['activeMenu'] === 'contact' ? 'active' : '' ?>"><?= lang('bahasa.contact'); ?></a></li>
 
         <li class="dropdown">
