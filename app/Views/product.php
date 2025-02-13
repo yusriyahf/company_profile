@@ -31,8 +31,8 @@
             <?php foreach ($product as $p) : ?>
                 <div class="col-lg-4" data-aos="fade-up" data-aos-delay="100">
                     <a href="<?= base_url($lang == 'id'
-                                    ? 'id/produk/produk-detail/'  . $p['slug_id']
-                                    : 'en/product/product-detail/' . $p['slug_en']); ?>"
+                                    ? 'id/produk/'  . $p['slug_id']
+                                    : 'en/product/' . $p['slug_en']); ?>"
                         class="text-decoration-none" style="color: black;">
                         <div class="card border-info mb-3" style="box-shadow: 20px 20px 20px 20px rgba(38, 51, 61, 0.1);">
                             <img src="<?= base_url('assets/img/produk/' . $p["foto_produk"]) ?>" class="card-img-top"
@@ -49,7 +49,7 @@
                                 </p>
                             </div>
                             <div class="text-end mb-3" style="margin-right: 20px;">
-                                <a href="<?= base_url($lang . '/' . $productLink . '/' . $detailProduct . '/' . $p['slug_' . $lang]) ?>">
+                                <a href="<?= base_url($lang . '/' . $productLink . '/' . $p['slug_' . $lang]) ?>">
                                     <?= lang('bahasa.buttonArticle'); ?> <i class="bi bi-arrow-right"></i>
                                 </a>
                             </div>

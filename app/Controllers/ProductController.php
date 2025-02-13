@@ -19,6 +19,7 @@ class ProductController extends BaseController
     // Method untuk menampilkan halaman daftar produk
     public function index()
     {
+        $data['activeMenu'] = 'product';
         $metaModel = new MetaModel();
         $productModel = new ProductModel();
         $lang = session()->get('lang') ?? 'id';
@@ -34,14 +35,12 @@ class ProductController extends BaseController
         $kategoriTeratas = $kategoriModel->getKategoriTerbanyak();
         $categories = $kategoriModel->findAll();
 
-        $kategoriAktivitasModel= new CategoryActivityModel();
+        $kategoriAktivitasModel = new CategoryActivityModel();
         $categoriesAktivitas = $kategoriAktivitasModel->findAll();
 
         // Ambil metadata halaman
         $dataMeta = $metaModel->where('nama_halaman_en', 'product')->first();
 
-        // Tentukan link detail produk sesuai bahasa
-        $detailProduct = ($lang === 'en') ? 'product-detail' : 'produk-detail';
         $productLink = ($lang === 'en') ? 'product' : 'produk';
 
         // Ambil data sosial media
@@ -60,7 +59,6 @@ class ProductController extends BaseController
             'lang' => $lang,
             'meta' => $dataMeta,
             'product' => $products,
-            'detailProduct' => $detailProduct,
             'productLink' => $productLink,
             'activeMenu' => 'product',
             'profil' => $dataProfil,
@@ -76,7 +74,8 @@ class ProductController extends BaseController
     }
 
     // Method untuk menampilkan halaman detail produk
-    public function detail($slug = null)
+    // Method untuk menampilkan halaman detail produk
+    public function detail($slug)
     {
         log_message('debug', 'Slug diterima: ' . $slug);
         $lang = session()->get('lang') ?? 'id';
@@ -87,7 +86,6 @@ class ProductController extends BaseController
         $dataProfil = $profilModel->first();
 
         $kategoriModel = new CategoryArtikelModel();
-        // Ambil data kategori artikel terbanyak
         $kategoriTeratas = $kategoriModel->getKategoriTerbanyak();
         $categories = $kategoriModel->findAll();
 
@@ -100,25 +98,21 @@ class ProductController extends BaseController
         // Ambil metadata untuk halaman detail produk
         $metaData = $metaModel->where('nama_halaman_en', 'Product Detail')->first();
 
-        // Log hasil pencarian produk
         log_message('debug', 'Produk ditemukan: ' . print_r($product, true));
 
-        // Jika produk tidak ditemukan, redirect ke halaman utama
+        // Jika produk tidak ditemukan, tampilkan error 404
         if (!$product) {
             log_message('error', 'Produk tidak ditemukan dengan slug: ' . $slug);
-            return redirect()->to('/')->with('error', 'Produk tidak ditemukan');
+            throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
         }
 
-        // Periksa apakah slug sesuai dengan bahasa yang digunakan
-        if (($lang === 'id' && $slug !== $product['slug_id']) || ($lang === 'en' && $slug !== $product['slug_en'])) {
-            // Log sebelum melakukan redireksi
-            log_message('debug', 'Slug yang sesuai untuk bahasa ' . $lang . ': ' . $product['slug_id'] . ' (ID) / ' . $product['slug_en'] . ' (EN)');
+        // Pastikan URL sesuai dengan bahasa yang digunakan
+        $currentUrl = uri_string(); // Ambil URL yang sedang diakses
+        $expectedUrlId = "id/produk/{$product['slug_id']}";
+        $expectedUrlEn = "en/product/{$product['slug_en']}";
 
-            // Redirect ke URL yang benar
-            $correctedSlug = $lang === 'id' ? $product['slug_id'] : $product['slug_en'];
-            $correctUrl = $lang === 'id' ? 'produk/produk-detail' : 'product/product-detail';
-            log_message('debug', 'Redireksi ke URL yang benar: ' . "$lang/$correctUrl/$correctedSlug");
-            return redirect()->to("$lang/$correctUrl/$correctedSlug");
+        if (($lang === 'id' && $currentUrl !== $expectedUrlId) || ($lang === 'en' && $currentUrl !== $expectedUrlEn)) {
+            throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
         }
 
         // Ambil data sosial media
@@ -146,7 +140,6 @@ class ProductController extends BaseController
             'kontak' => $kontak,
             'categories' => $categories,
             'categoriesAktivitas' => $categoriesAktivitas,
-
         ];
 
         return view('detail_product', $data);
