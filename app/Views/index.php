@@ -141,6 +141,66 @@ $indonesia_url = base_url($clean_url);
 </section><!-- /About Section -->
 
 
+
+
+<!-- product section -->
+<section id="product" class="product section">
+    <!-- Section Title -->
+    <div class="container section-title" data-aos="fade-up">
+        <h2><?= $lang == 'id' ? $productMeta['nama_halaman_id'] : $productMeta['nama_halaman_en']; ?></h2>
+        <p><?= $lang == 'id' ? $productMeta['deskripsi_halaman_id'] : $productMeta['deskripsi_halaman_en']; ?></p>
+    </div><!-- End Section Title -->
+
+    <div class="container" data-aos="fade-up" data-aos-delay="100">
+        <div class="row gy-5">
+            <?php foreach ($product as $p) : ?>
+                <div class="col-lg-4" data-aos="fade-up" data-aos-delay="100">
+                    <a href="<?= base_url($lang == 'id'
+                                    ? 'id/produk/produk-detail/'  . $p['slug_id']
+                                    : 'en/product/product-detail/' . $p['slug_en']); ?>" class="text-decoration-none">
+                        <div class="zoom-container card text-bg-primary mb-3" style="box-shadow: 20px 20px 20px 20px rgba(38, 51, 61, 0.1);">
+                            <img src="<?= base_url('assets/img/produk/' . $p["foto_produk"]) ?>" class="card-img-top img-fluid zoom" alt="<?= $lang == 'id' ? $p['alt_produk_id'] : $p['alt_produk_en']; ?>" style="height:300px">
+                            <div class="card-body">
+                                <h5 class="card-title" style="color: whitesmoke;"><?= $lang == 'id' ? $p['nama_produk_id'] : $p['nama_produk_en']; ?></h5>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+
+            <?php endforeach; ?>
+        </div>
+</section>
+<!-- end product section -->
+
+<!-- product section -->
+<section id="product" class="product section">
+    <!-- Section Title -->
+    <div class="container section-title" data-aos="fade-up">
+        <h2><?= $lang == 'id' ? $aktivitasMeta['nama_halaman_id'] : $aktivitasMeta['nama_halaman_en']; ?></h2>
+        <p><?= $lang == 'id' ? $aktivitasMeta['deskripsi_halaman_id'] : $aktivitasMeta['deskripsi_halaman_en']; ?></p>
+    </div><!-- End Section Title -->
+
+    <div class="container" data-aos="fade-up" data-aos-delay="100">
+        <div class="row gy-5">
+            <?php foreach ($aktivitas as $p) : ?>
+                <div class="col-lg-4" data-aos="fade-up" data-aos-delay="100">
+                    <a href="<?= base_url($lang == 'id'
+                                    ? 'id/aktivitas/'  . $p['slug_aktivitas_id']
+                                    : 'en/activity/' . $p['slug_aktivitas_en']); ?>" class="text-decoration-none">
+                        <div class="zoom-container card text-bg-primary mb-3" style="box-shadow: 20px 20px 20px 20px rgba(38, 51, 61, 0.1);">
+                            <img src="<?= base_url('assets/img/aktivitas/' . $p["foto_aktivitas"]) ?>" class="card-img-top img-fluid zoom" alt="<?= $lang == 'id' ? $p['alt_aktivitas_id'] : $p['alt_aktivitas_en']; ?>" style="height:300px">
+                            <div class="card-body">
+                                <h5 class="card-title" style="color: whitesmoke;"><?= $lang == 'id' ? $p['judul_aktivitas_id'] : $p['judul_aktivitas_en']; ?></h5>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+
+            <?php endforeach; ?>
+        </div>
+</section>
+<!-- end product section -->
+
 <!-- Services Section -->
 <section id="services" class="services section light-background">
 
@@ -219,70 +279,41 @@ $indonesia_url = base_url($clean_url);
         </div>
     </section>
 
-    </section><!-- /Services Section -->
+</section><!-- /Services Section -->
 
-    <!-- product section -->
-    <section id="product" class="product section">
-        <!-- Section Title -->
-        <div class="container section-title" data-aos="fade-up">
-            <h2><?= $lang == 'id' ? $productMeta['nama_halaman_id'] : $productMeta['nama_halaman_en']; ?></h2>
-            <p><?= $lang == 'id' ? $productMeta['deskripsi_halaman_id'] : $productMeta['deskripsi_halaman_en']; ?></p>
-        </div><!-- End Section Title -->
+<!-- Contact Section -->
+<section id="contact" class="contact section light-background">
 
-        <div class="container" data-aos="fade-up" data-aos-delay="100">
-            <div class="row gy-5">
-                <?php foreach ($product as $p) : ?>
-                    <div class="col-lg-4" data-aos="fade-up" data-aos-delay="100">
-                        <a href="<?= base_url($lang == 'id'
-                                        ? 'id/produk/produk-detail/'  . $p['slug_id']
-                                        : 'en/product/product-detail/' . $p['slug_en']); ?>" class="text-decoration-none">
-                            <div class="zoom-container card text-bg-primary mb-3" style="box-shadow: 20px 20px 20px 20px rgba(38, 51, 61, 0.1);">
-                                <img src="<?= base_url('assets/img/produk/' . $p["foto_produk"]) ?>" class="card-img-top img-fluid zoom" alt="<?= $lang == 'id' ? $p['alt_produk_id'] : $p['alt_produk_en']; ?>" style="height:300px">
-                                <div class="card-body">
-                                    <h5 class="card-title" style="color: whitesmoke;"><?= $lang == 'id' ? $p['nama_produk_id'] : $p['nama_produk_en']; ?></h5>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
+    <!-- Section Title -->
+    <div class="container section-title" data-aos="fade-up">
+        <h2><?= $lang == 'id' ? $contactMeta['nama_halaman_id'] : $contactMeta['nama_halaman_en']; ?></h2>
+        <p><?= $lang == 'id' ? $contactMeta['deskripsi_halaman_id'] : $contactMeta['deskripsi_halaman_en']; ?></p>
+    </div><!-- End Section Title -->
 
-                <?php endforeach; ?>
-            </div>
-    </section>
-    <!-- end product section -->
+    <div class="container" data-aos="fade-up" data-aos-delay="100">
 
-    <!-- Contact Section -->
-    <section id="contact" class="contact section light-background">
-
-        <!-- Section Title -->
-        <div class="container section-title" data-aos="fade-up">
-            <h2><?= $lang == 'id' ? $contactMeta['nama_halaman_id'] : $contactMeta['nama_halaman_en']; ?></h2>
-            <p><?= $lang == 'id' ? $contactMeta['deskripsi_halaman_id'] : $contactMeta['deskripsi_halaman_en']; ?></p>
-        </div><!-- End Section Title -->
-
-        <div class="container" data-aos="fade-up" data-aos-delay="100">
-
-            <div class="row g-4 g-lg-5">
-                <div class="col-lg-5">
-                    <div class="info-box" data-aos="fade-up" data-aos-delay="200">
-                        <?= $lang == 'id' ? $kontak['deskripsi_kontak_id'] : $kontak['deskripsi_kontak_en']; ?>
-                    </div>
+        <div class="row g-4 g-lg-5">
+            <div class="col-lg-5">
+                <div class="info-box" data-aos="fade-up" data-aos-delay="200">
+                    <?= $lang == 'id' ? $kontak['deskripsi_kontak_id'] : $kontak['deskripsi_kontak_en']; ?>
                 </div>
+            </div>
 
-                <div class="col-lg-7">
-                    <div class="contact-map" data-aos="fade-up" data-aos-delay="300">
-                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3951.2410172253694!2d112.66325561145756!3d-7.974024292017904!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2dd6298db1e5b70b%3A0xaf3552a89f1cc9f0!2sELECOMP%20INDONESIA!5e0!3m2!1sen!2sid!4v1738309308019!5m2!1sen!2sid"
-                            class="w-100"
-                            height="550"
-                            border-radius="15px" ;
-                            allowfullscreen=""
-                            loading="lazy"
-                            referrerpolicy="no-referrer-when-downgrade">
-                        </iframe>
-                    </div>
+            <div class="col-lg-7">
+                <div class="contact-map" data-aos="fade-up" data-aos-delay="300">
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3951.2410172253694!2d112.66325561145756!3d-7.974024292017904!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2dd6298db1e5b70b%3A0xaf3552a89f1cc9f0!2sELECOMP%20INDONESIA!5e0!3m2!1sen!2sid!4v1738309308019!5m2!1sen!2sid"
+                        class="w-100"
+                        height="550"
+                        border-radius="15px" ;
+                        allowfullscreen=""
+                        loading="lazy"
+                        referrerpolicy="no-referrer-when-downgrade">
+                    </iframe>
                 </div>
             </div>
         </div>
+    </div>
 
-    </section><!-- /Contact Section -->
+</section><!-- /Contact Section -->
 
-    <?= $this->endSection(); ?>
+<?= $this->endSection(); ?>

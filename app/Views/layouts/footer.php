@@ -58,12 +58,9 @@ $english_url = base_url($clean_url);
 
 // Tautan Bahasa Indonesia
 $indonesia_url = base_url($clean_url);
-
 ?>
 
-
 <footer id="footer" class="footer">
-
     <div class="container footer-top">
         <div class="row gy-4">
             <div class="col-lg-4 col-md-6 footer-about">

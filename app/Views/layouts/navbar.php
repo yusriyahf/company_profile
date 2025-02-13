@@ -99,8 +99,29 @@ $indonesia_url = base_url($clean_url);
         </li>
         <li><a href="<?= base_url($lang . '/' . $aboutLink) ?>" class="<?= isset($data['activeMenu']) && $data['activeMenu'] === 'about' ? 'active' : '' ?>"><?= lang('bahasa.about'); ?></a></li>
         <!-- Article Dropdown -->
+        <li><a href="<?= base_url($lang . '/' . $productLink) ?>" class="<?= isset($activeMenu) && $activeMenu === 'product' ? 'active' : '' ?>"><?= lang('bahasa.product'); ?></a></li>
+
+
+        <!-- Aktivitas Dropdown -->
         <li class="dropdown">
-            <a href="#"><?= lang('bahasa.article'); ?> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
+            <a href="#" class="<?= isset($data['activeMenu']) && $data['activeMenu'] === 'activity' ? 'active' : '' ?>"><?= lang('bahasa.activity'); ?> <i class="bi bi-chevron-down toggle-dropdown "></i></a>
+            <ul>
+                <li><a class="dropdown-item" href="<?= base_url($lang . '/' . $activityLink) ?>"><?= $lang == 'id' ? 'Semua Aktivitas' : 'All Activity'; ?></a></li>
+                <?php if (!empty($kategoriAktivitasLinks)): ?>
+                    <?php foreach ($kategoriAktivitasLinks as $categoriAktivitasLink): ?>
+                        <li>
+                            <a class="dropdown-item" href="<?= $categoriAktivitasLink['url']; ?>">
+                                <?= $categoriAktivitasLink['name']; ?>
+                            </a>
+                        </li>
+                    <?php endforeach; ?>
+                <?php else: ?>
+                    <li><a class="dropdown-item"><?= $lang == 'id' ? 'Tidak ada kategori' : 'No Categories available'; ?></a></li>
+                <?php endif; ?>
+            </ul>
+        </li>
+        <li class="dropdown">
+            <a href="#" class="<?= isset($data['activeMenu']) && $data['activeMenu'] === 'article' ? 'active' : '' ?>"><?= lang('bahasa.article'); ?> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
             <ul>
                 <li><a class="dropdown-item" href="<?= base_url($lang . '/' . $articleLink) ?>"><?= $lang == 'id' ? 'Semua Artikel' : 'All Articles'; ?></a></li>
                 <?php if (!empty($categoryLinks)): ?>
@@ -117,26 +138,7 @@ $indonesia_url = base_url($clean_url);
             </ul>
         </li>
 
-        <!-- Aktivitas Dropdown -->
-        <li class="dropdown">
-            <a href="#"><?= lang('bahasa.activity'); ?> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
-            <ul>
-                <li><a class="dropdown-item" href="<?= base_url($lang . '/' . $activityLink) ?>"><?= $lang == 'id' ? 'Semua Aktivitas' : 'All Activity'; ?></a></li>
-                <?php if (!empty($kategoriAktivitasLinks)): ?>
-                    <?php foreach ($kategoriAktivitasLinks as $categoriAktivitasLink): ?>
-                        <li>
-                            <a class="dropdown-item" href="<?= $categoriAktivitasLink['url']; ?>">
-                                <?= $categoriAktivitasLink['name']; ?>
-                            </a>
-                        </li>
-                    <?php endforeach; ?>
-                <?php else: ?>
-                    <li><a class="dropdown-item"><?= $lang == 'id' ? 'Tidak ada kategori' : 'No Categories available'; ?></a></li>
-                <?php endif; ?>
-            </ul>
-        </li>
 
-        <li><a href="<?= base_url($lang . '/' . $productLink) ?>" class="<?= isset($activeMenu) && $activeMenu === 'product' ? 'active' : '' ?>"><?= lang('bahasa.product'); ?></a></li>
         <li><a href="<?= base_url($lang . '/' . $contactLink) ?>" class="<?= isset($data['activeMenu']) && $data['activeMenu'] === 'contact' ? 'active' : '' ?>"><?= lang('bahasa.contact'); ?></a></li>
 
         <li class="dropdown">

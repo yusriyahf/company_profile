@@ -13,6 +13,7 @@
     <?php endif; ?>
 
     <meta name="keywords" content="">
+    <meta name="canocele" content="">
 
     <!-- Favicons -->
     <link href="<?= base_url('creativenest-favicon.ico'); ?>" rel="icon">

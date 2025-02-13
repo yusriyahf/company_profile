@@ -2,6 +2,7 @@
 
 namespace App\Controllers;
 
+use App\Models\ActivityModel;
 use App\Models\ArtikelModel;
 use App\Models\CategoryActivityModel;
 use App\Models\CategoryArtikelModel;
@@ -24,11 +25,13 @@ class Home extends BaseController
 
     public function index($companyId = 1): string
     {
+        $data['activeMenu'] = 'home';
         // Inisialisasi Model
         $articleModel = new ArtikelModel();
         $metaModel = new MetaModel();
         $profilModel = new ProfilModel();
         $contactModel = new KontakModel();
+        $aktivitasModel = new ActivityModel();
         $sliderModel = new SliderModel();
         $productModel = new ProductModel();
         $kategoriModel = new CategoryArtikelModel();
@@ -41,6 +44,7 @@ class Home extends BaseController
         $aboutMeta = $metaModel->where('nama_halaman_en', 'about')->first();
         $articleMeta = $metaModel->where('nama_halaman_en', 'article')->first();
         $productMeta = $metaModel->where('nama_halaman_en', 'product')->first();
+        $aktivitasMeta = $metaModel->where('nama_halaman_en', 'activity')->first();
         $contactMeta = $metaModel->where('nama_halaman_en', 'contact')->first();
 
         $dataArtikel = $articleModel
@@ -57,6 +61,7 @@ class Home extends BaseController
         $slider = $sliderModel->where('id_slider', $companyId)->first();
         $dataKontak = $contactModel->first();
         $dataProfil = $profilModel->first();
+        $dataAktivitas = $aktivitasModel->limit(3)->findAll();
         $product = $productModel->findAll();
         $kategori_teratas = $kategoriModel->findAll();
         $sosmed = $sosmedModel->findAll();
@@ -69,6 +74,7 @@ class Home extends BaseController
             'meta' => $dataMeta,
             'articleMeta' => $articleMeta,
             'aboutMeta' => $aboutMeta,
+            'aktivitasMeta' => $aktivitasMeta,
             'productMeta' => $productMeta,
             'contactMeta' => $contactMeta,
             'slider' => $slider,
@@ -79,10 +85,12 @@ class Home extends BaseController
             'kontak' => $dataKontak,
             'lang' => $this->lang,
             'artikel' => $dataArtikel,
+            'aktivitas' => $dataAktivitas,
             'product' => $product,
             'categories' => $kategoriModel->findAll(),
             'categoriesAktivitas' => $kategoriAktivitasModel->findAll(),
             'article' => $allArticles,
+            'data' => $data,
             'sideArtikel' => $sideArtikel,
         ]);
     }
