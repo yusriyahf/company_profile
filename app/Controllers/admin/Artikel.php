@@ -3,6 +3,7 @@
 namespace App\Controllers\admin;
 
 use App\Models\ArtikelModel;
+use App\Models\CategoryArtikelModel;
 use App\Models\KategoriModel;
 
 class Artikel extends BaseController
@@ -49,7 +50,11 @@ class Artikel extends BaseController
             return redirect()->to(base_url('login')); // Sesuaikan dengan halaman login Anda
         }
 
+        $aktivitas_kategori = new CategoryArtikelModel();
+        $all_data_kategori = $aktivitas_kategori->findAll();
+
         return view('admin/artikel/tambah', [
+            'all_data_kategori' => $all_data_kategori,
             'validation' => $this->validator
         ]);
     }
@@ -63,19 +68,24 @@ class Artikel extends BaseController
 
         $judul_artikel_id = $this->request->getVar('judul_artikel');
         $judul_artikel_en = $this->request->getVar('judul_artikel_en');
-        $deskripsi_artikel = $this->request->getVar('deskripsi_artikel');
+        $deskripsi_artikel_id = $this->request->getVar('deskripsi_artikel_id');
         $deskripsi_artikel_en = $this->request->getVar('deskripsi_artikel_en');
-        $meta_title_id = $this->request->getVar("meta_title_id");
-        $meta_title_en = $this->request->getVar("meta_title_en");
-        $meta_description_id = $this->request->getVar("meta_description_id");
-        $meta_description_en = $this->request->getVar("meta_description_en");
+        $id_kategori_artikel = $this->request->getVar('id_kategori_artikel');
+        $snippet_id = $this->request->getVar("snippet_id");
+        $snippet_en = $this->request->getVar("snippet_en");
+        $alt_artikel_id = $this->request->getVar("alt_artikel_id");
+        $alt_artikel_en = $this->request->getVar("alt_artikel_en");
+        $title_artikel_id = $this->request->getVar("title_artikel_id");
+        $title_artikel_en = $this->request->getVar("title_artikel_en");
+        $meta_desc_id = $this->request->getVar("meta_desc_id");
+        $meta_desc_en = $this->request->getVar("meta_desc_en");
 
-        // Buat slug_id dari judul_artikel
-        $slug_id = $this->generateSlug($judul_artikel);
-        $slug_en = $this->generateSlug($judul_artikel_en);
+        // Buat slug_artikel_id dari judul_artikel
+        $slug_artikel_id = $this->generateSlug($judul_artikel_id);
+        $slug_artikel_en = $this->generateSlug($judul_artikel_en);
 
         // Validasi judul artikel dalam bahasa Indonesia
-        if (!preg_match('/^[a-zA-Z0-9\s]+$/', $judul_artikel)) {
+        if (!preg_match('/^[a-zA-Z0-9\s]+$/', $judul_artikel_id)) {
             session()->setFlashdata('error', 'Judul artikel dalam bahasa Indonesia hanya boleh berisi huruf dan angka.');
             return redirect()->back()->withInput();
         }
@@ -106,26 +116,32 @@ class Artikel extends BaseController
             $currentDateTime = date('dmYHis');
 
             // Format nama file foto
-            $newFileName = str_replace(' ', '-', "{$judul_artikel}_{$currentDateTime}.{$file_foto->getExtension()}");
-            $file_foto->move('asset-user/images', $newFileName);
+            $newFileName = str_replace(' ', '-', "{$judul_artikel_id}_{$currentDateTime}.{$file_foto->getExtension()}");
+            $file_foto->move('assets/img/artikel', $newFileName);
 
             $data = [
-                'judul_artikel' => $judul_artikel,
+                'judul_artikel_id' => $judul_artikel_id,
                 'judul_artikel_en' => $judul_artikel_en,
-                'deskripsi_artikel' => $deskripsi_artikel,
+                'deskripsi_artikel_id' => $deskripsi_artikel_id,
                 'deskripsi_artikel_en' => $deskripsi_artikel_en,
+                'id_kategori_artikel' => $id_kategori_artikel,
+                'snippet_id' => $snippet_id,
+                'snippet_en' => $snippet_en,
+                'alt_artikel_id' => $alt_artikel_id,
+                'alt_artikel_en' => $alt_artikel_en,
                 'foto_artikel' => $newFileName,
-                'meta_title_id' => $meta_title_id,
-                'meta_title_en' => $meta_title_en,
-                'meta_description_id' => $meta_description_id,
-                'meta_description_en' => $meta_description_en,
-                'slug_id' => $slug_id,
-                'slug_en' => $slug_en,
+                'title_artikel_id' => $title_artikel_id,
+                'title_artikel_en' => $title_artikel_en,
+                'meta_desc_id' => $meta_desc_id,
+                'meta_desc_en' => $meta_desc_en,
+                'slug_artikel_id' => $slug_artikel_id,
+                'slug_artikel_en' => $slug_artikel_en,
             ];
 
             $this->artikelModel->insert($data);
 
-            return redirect()->to(base_url('admin/artikel'));
+            session()->setFlashdata('success', 'Data berhasil disimpan');
+            return redirect()->to(base_url('admin/artikel/index'));
         }
     }
 
@@ -172,9 +188,9 @@ class Artikel extends BaseController
         $meta_desc_id = $this->request->getVar("meta_desc_id");
         $meta_desc_en = $this->request->getVar("meta_desc_en");
 
-        // Buat slug_id dari judul_artikel
-        $slug_id = $this->generateSlug($judul_artikel_id);
-        $slug_en = $this->generateSlug($judul_artikel_en);
+        // Buat slug_artikel_id dari judul_artikel
+        $slug_artikel_id = $this->generateSlug($judul_artikel_id);
+        $slug_artikel_en = $this->generateSlug($judul_artikel_en);
 
         // Validasi judul artikel dalam bahasa Indonesia
         // if (!preg_match('/^[a-zA-Z0-9\s]+$/', $judul_artikel_id)) {
@@ -212,8 +228,8 @@ class Artikel extends BaseController
             'id_kategori_artikel' => $id_kategori_artikel,
             'judul_artikel_id' => $judul_artikel_id,
             'judul_artikel_en' => $judul_artikel_en,
-            'slug_artikel_id' => $slug_id,
-            'slug_artikel_en' => $slug_en,
+            'slug_artikel_id' => $slug_artikel_id,
+            'slug_artikel_en' => $slug_artikel_en,
             'snippet_id' => $snippet_id,
             'snippet_en' => $snippet_en,
             'deskripsi_artikel_id' => $deskripsi_artikel_id,
@@ -241,7 +257,7 @@ class Artikel extends BaseController
         }
 
         $data = $this->artikelModel->find($id);
-        unlink('asset-user/images/' . $data->foto_artikel);
+        unlink('assets/img/artikel/' . $data['foto_artikel']);
         $this->artikelModel->delete($id);
 
         return redirect()->to(base_url('admin/artikel/index'));

@@ -2,7 +2,8 @@
 
 namespace App\Controllers\admin;
 
-use App\Models\AktivitasModel;
+use App\Models\ActivityModel;
+use App\Models\CategoryActivityModel;
 
 class Aktivitas extends BaseController
 {
@@ -23,7 +24,7 @@ class Aktivitas extends BaseController
         if (!session()->get('logged_in')) {
             return redirect()->to(base_url('login')); // Ubah 'login' sesuai dengan halaman login kamu
         }
-        $aktivitas_model = new AktivitasModel();
+        $aktivitas_model = new ActivityModel();
         $all_data_aktivitas = $aktivitas_model->findAll();
         $validation = \Config\Services::validation();
         return view('admin/aktivitas/index', [
@@ -38,11 +39,16 @@ class Aktivitas extends BaseController
         if (!session()->get('logged_in')) {
             return redirect()->to(base_url('login')); // Ubah 'login' sesuai dengan halaman login kamu
         }
-        $aktivitas_model = new AktivitasModel();
+        $aktivitas_model = new ActivityModel();
         $all_data_aktivitas = $aktivitas_model->findAll();
+
+        $aktivitas_kategori = new CategoryActivityModel();
+        $all_data_kategori = $aktivitas_kategori->findAll();
+
         $validation = \Config\Services::validation();
         return view('admin/aktivitas/tambah', [
             'all_data_aktivitas' => $all_data_aktivitas,
+            'all_data_kategori' => $all_data_kategori,
             'validation' => $validation
         ]);
     }
@@ -52,25 +58,30 @@ class Aktivitas extends BaseController
         date_default_timezone_set('Asia/Jakarta');
         $file_foto = $this->request->getFile('foto_aktivitas');
         $currentDateTime = date('dmYHis');
-        $nama_aktivitas_in = $this->request->getVar("nama_aktivitas_in");
-        $nama_aktivitas_en = $this->request->getVar("nama_aktivitas_en");
-        $meta_title_id = $this->request->getVar("meta_title_id");
-        $meta_title_en = $this->request->getVar("meta_title_en");
-        $meta_description_id = $this->request->getVar("meta_description_id");
-        $meta_description_en = $this->request->getVar("meta_description_en");
+        $judul_aktivitas_id = $this->request->getVar("judul_aktivitas_id");
+        $judul_aktivitas_en = $this->request->getVar("judul_aktivitas_en");
+        $snippet_id = $this->request->getVar("snippet_id");
+        $snippet_en = $this->request->getVar("snippet_en");
+        $alt_aktivitas_id = $this->request->getVar("alt_aktivitas_id");
+        $alt_aktivitas_en = $this->request->getVar("alt_aktivitas_en");
+        $title_aktivitas_id = $this->request->getVar("title_aktivitas_id");
+        $title_aktivitas_en = $this->request->getVar("title_aktivitas_en");
+        $meta_desc_id = $this->request->getVar("meta_desc_id");
+        $meta_desc_en = $this->request->getVar("meta_desc_en");
+        $id_kategori_aktivitas = $this->request->getVar("id_kategori_aktivitas");
 
         // Buat slug_id dari judul_artikel
-        $slug_id = $this->generateSlug($nama_aktivitas_in);
-        $slug_en = $this->generateSlug($nama_aktivitas_en);
+        $slug_id = $this->generateSlug($judul_aktivitas_id);
+        $slug_en = $this->generateSlug($judul_aktivitas_en);
 
         // Validasi nama aktivitas Indonesia
-        if (!preg_match('/^[a-zA-Z0-9\s]+$/', $nama_aktivitas_in)) {
+        if (!preg_match('/^[a-zA-Z0-9\s]+$/', $judul_aktivitas_id)) {
             session()->setFlashdata('error', 'Nama aktivitas Indonesia hanya boleh berisi huruf dan angka.');
             return redirect()->back()->withInput();
         }
 
         // Validasi nama aktivitas Inggris
-        if (!preg_match('/^[a-zA-Z0-9\s]+$/', $nama_aktivitas_en)) {
+        if (!preg_match('/^[a-zA-Z0-9\s]+$/', $judul_aktivitas_en)) {
             session()->setFlashdata('error', 'Nama aktivitas Inggris hanya boleh berisi huruf dan angka.');
             return redirect()->back()->withInput();
         }
@@ -89,27 +100,33 @@ class Aktivitas extends BaseController
             session()->setFlashdata('error', $this->validator->listErrors());
             return redirect()->back()->withInput();
         } else {
-            $newFileName = "{$nama_aktivitas_in}_{$nama_aktivitas_en}_{$currentDateTime}.{$file_foto->getExtension()}";
+            $newFileName = "{$judul_aktivitas_id}_{$judul_aktivitas_en}_{$currentDateTime}.{$file_foto->getExtension()}";
 
             // Ganti spasi dengan tanda -
             $newFileName = str_replace(' ', '-', $newFileName);
 
-            $file_foto->move('asset-user/images', $newFileName);
+            $file_foto->move('assets/img/aktivitas', $newFileName);
 
-            $aktivitasModel = new AktivitasModel();
+            $aktivitasModel = new ActivityModel();
             $data = [
-                'nama_aktivitas_in' => $this->request->getVar("nama_aktivitas_in"),
-                'nama_aktivitas_en' => $this->request->getVar("nama_aktivitas_en"),
-                'deskripsi_aktivitas_in' => $this->request->getVar("deskripsi_aktivitas_in"),
+                'judul_aktivitas_id' => $this->request->getVar("judul_aktivitas_id"),
+                'judul_aktivitas_en' => $this->request->getVar("judul_aktivitas_en"),
+                'deskripsi_aktivitas_id' => $this->request->getVar("deskripsi_aktivitas_id"),
                 'deskripsi_aktivitas_en' => $this->request->getVar("deskripsi_aktivitas_en"),
-                'meta_title_id' => $meta_title_id,
-                'meta_title_en' => $meta_title_en,
-                'meta_description_id' => $meta_description_id,
-                'meta_description_en' => $meta_description_en,
+                'snippet_id' => $snippet_id,
+                'snippet_en' => $snippet_en,
+                'alt_aktivitas_id' => $alt_aktivitas_id,
+                'alt_aktivitas_en' => $alt_aktivitas_en,
+                'id_kategori_aktivitas' => $id_kategori_aktivitas,
+                'title_aktivitas_id' => $title_aktivitas_id,
+                'title_aktivitas_en' => $title_aktivitas_en,
+                'meta_desc_id' => $meta_desc_id,
+                'meta_desc_en' => $meta_desc_en,
                 'foto_aktivitas' => $newFileName,
                 'slug_id' => $slug_id,
                 'slug_en' => $slug_en,
             ];
+    
             $aktivitasModel->save($data);
 
             session()->setFlashdata('success', 'Data berhasil disimpan');
@@ -124,12 +141,16 @@ class Aktivitas extends BaseController
         if (!session()->get('logged_in')) {
             return redirect()->to(base_url('login')); // Ubah 'login' sesuai dengan halaman login kamu
         }
-        $aktivitas_model = new AktivitasModel();
+        $aktivitas_model = new ActivityModel();
         $aktivitasData = $aktivitas_model->find($id_aktivitas);
+
+        $aktivitas_kategori = new CategoryActivityModel();
+        $all_data_kategori = $aktivitas_kategori->findAll();
         $validation = \Config\Services::validation();
 
         return view('admin/aktivitas/edit', [
             'aktivitasData' => $aktivitasData,
+            'all_data_kategori' => $all_data_kategori,
             'validation' => $validation
         ]);
     }
@@ -143,28 +164,33 @@ class Aktivitas extends BaseController
         date_default_timezone_set('Asia/Jakarta');
         $file_foto = $this->request->getFile('foto_aktivitas');
         $currentDateTime = date('dmYHis');
-        $nama_aktivitas_in = $this->request->getVar("nama_aktivitas_in");
-        $nama_aktivitas_en = $this->request->getVar("nama_aktivitas_en");
-        $meta_title_id = $this->request->getVar("meta_title_id");
-        $meta_title_en = $this->request->getVar("meta_title_en");
-        $meta_description_id = $this->request->getVar("meta_description_id");
-        $meta_description_en = $this->request->getVar("meta_description_en");
+        $judul_aktivitas_id = $this->request->getVar("judul_aktivitas_id");
+        $judul_aktivitas_en = $this->request->getVar("judul_aktivitas_en");
+        $id_kategori_aktivitas = $this->request->getVar("id_kategori_aktivitas");
+        $title_aktivitas_id = $this->request->getVar("title_aktivitas_id");
+        $title_aktivitas_en = $this->request->getVar("title_aktivitas_en");
+        $meta_desc_id = $this->request->getVar("meta_desc_id");
+        $meta_desc_en = $this->request->getVar("meta_desc_en");
+        $snippet_id = $this->request->getVar("snippet_id");
+        $snippet_en = $this->request->getVar("snippet_en");
+        $alt_aktivitas_id = $this->request->getVar("alt_aktivitas_id");
+        $alt_aktivitas_en = $this->request->getVar("alt_aktivitas_en");
 
-        $aktivitasModel = new AktivitasModel();
+        $aktivitasModel = new ActivityModel();
         $aktivitasData = $aktivitasModel->find($id_aktivitas);
 
         // Buat slug_id dari judul_artikel
-        $slug_id = $this->generateSlug($nama_aktivitas_in);
-        $slug_en = $this->generateSlug($nama_aktivitas_en);
+        $slug_id = $this->generateSlug($judul_aktivitas_id);
+        $slug_en = $this->generateSlug($judul_aktivitas_en);
 
         // Validasi nama aktivitas Indonesia
-        if (!preg_match('/^[a-zA-Z0-9\s]+$/', $nama_aktivitas_in)) {
+        if (!preg_match('/^[a-zA-Z0-9\s]+$/', $judul_aktivitas_id)) {
             session()->setFlashdata('error', 'Nama aktivitas Indonesia hanya boleh berisi huruf dan angka.');
             return redirect()->back()->withInput();
         }
 
         // Validasi nama aktivitas Inggris
-        if (!preg_match('/^[a-zA-Z0-9\s]+$/', $nama_aktivitas_en)) {
+        if (!preg_match('/^[a-zA-Z0-9\s]+$/', $judul_aktivitas_en)) {
             session()->setFlashdata('error', 'Nama aktivitas Inggris hanya boleh berisi huruf dan angka.');
             return redirect()->back()->withInput();
         }
@@ -172,46 +198,52 @@ class Aktivitas extends BaseController
         // Check if new 'foto_aktivitas' file is uploaded
         if ($this->request->getFile('foto_aktivitas')->isValid()) {
             // Delete the old 'foto_aktivitas' file
-            unlink('asset-user/images/' . $aktivitasData->foto_aktivitas);
+            unlink('assets/img/aktivitas/' . $aktivitasData['foto_aktivitas']);
 
             // Upload the new 'foto_aktivitas' file
-            $newFileName = "{$nama_aktivitas_in}_{$nama_aktivitas_en}_{$currentDateTime}.{$file_foto->getExtension()}";
+            $newFileName = "{$judul_aktivitas_id}_{$judul_aktivitas_en}_{$currentDateTime}.{$file_foto->getExtension()}";
 
             // Ganti spasi dengan tanda -
             $newFileName = str_replace(' ', '-', $newFileName);
 
-            $file_foto->move('asset-user/images', $newFileName);
+            $file_foto->move('assets/img/aktivitas/', $newFileName);
 
             // Update the 'foto_aktivitas' field in the database with a "where" clause
             $aktivitasModel->where('id_aktivitas', $id_aktivitas)->set([
                 'foto_aktivitas' => $newFileName,
-                'nama_aktivitas_in' => $this->request->getPost("nama_aktivitas_in"),
-                'nama_aktivitas_en' => $this->request->getPost("nama_aktivitas_en"),
-                'deskripsi_aktivitas_in' => $this->request->getPost("deskripsi_aktivitas_in"),
+                'judul_aktivitas_id' => $this->request->getPost("judul_aktivitas_id"),
+                'judul_aktivitas_en' => $this->request->getPost("judul_aktivitas_en"),
+                'id_kategori_aktivitas' => $this->request->getPost("id_kategori_aktivitas"),
+                'deskripsi_aktivitas_id' => $this->request->getPost("deskripsi_aktivitas_id"),
                 'deskripsi_aktivitas_en' => $this->request->getPost("deskripsi_aktivitas_en"),
-                'meta_title_id' => $meta_title_id,
-                'meta_title_en' => $meta_title_en,
-                'meta_description_id' => $meta_description_id,
-                'meta_description_en' => $meta_description_en,
+                'snippet_id' => $snippet_id,
+                'snippet_en' => $snippet_en,
+                'alt_aktivitas_id' => $alt_aktivitas_id,
+                'alt_aktivitas_en' => $alt_aktivitas_en,
+                'title_aktivitas_id' => $title_aktivitas_id,
+                'title_aktivitas_en' => $title_aktivitas_en,
+                'meta_desc_id' => $meta_desc_id,
+                'meta_desc_en' => $meta_desc_en,
                 'slug_id' => $slug_id,
                 'slug_en' => $slug_en,
             ])->update();
         } else {
             // If no new 'foto_aktivitas' file is uploaded, keep the old filename
-            $newFileName = $aktivitasData->foto_aktivitas;
+            $newFileName = $aktivitasData['foto_aktivitas'];
         }
 
         // Update the Akvtivitas data
         $data = [
             'foto_aktivitas' => $newFileName,
-            'nama_aktivitas_in' => $nama_aktivitas_in,
-            'nama_aktivitas_en' => $nama_aktivitas_en,
-            'deskripsi_aktivitas_in' => $this->request->getPost("deskripsi_aktivitas_in"),
+            'judul_aktivitas_id' => $judul_aktivitas_id,
+            'judul_aktivitas_en' => $judul_aktivitas_en,
+            'id_kategori_aktivitas' => $id_kategori_aktivitas,
+            'deskripsi_aktivitas_id' => $this->request->getPost("deskripsi_aktivitas_id"),
             'deskripsi_aktivitas_en' => $this->request->getPost("deskripsi_aktivitas_en"),
-            'meta_title_id' => $meta_title_id,
-            'meta_title_en' => $meta_title_en,
-            'meta_description_id' => $meta_description_id,
-            'meta_description_en' => $meta_description_en,
+            'title_aktivitas_id' => $title_aktivitas_id,
+            'title_aktivitas_en' => $title_aktivitas_en,
+            'meta_desc_id' => $meta_desc_id,
+            'meta_desc_en' => $meta_desc_en,
             'slug_id' => $slug_id,
             'slug_en' => $slug_en,
         ];
@@ -230,11 +262,11 @@ class Aktivitas extends BaseController
         if (!session()->get('logged_in')) {
             return redirect()->to(base_url('login')); // Ubah 'login' sesuai dengan halaman login kamu
         }
-        $aktivitasModel = new AktivitasModel();
+        $aktivitasModel = new ActivityModel();
 
         $data = $aktivitasModel->find($id);
 
-        unlink('asset-user/images/' . $data->foto_aktivitas);
+        unlink('assets/img/aktivitas/' . $data['foto_aktivitas']);
 
         $aktivitasModel->delete($id);
 

@@ -40,7 +40,7 @@
                                             <td><?= $artikel['judul_artikel_en'] ?></td>
                                             <td><?= $artikel['deskripsi_artikel_id'] ?></td>
                                             <td><?= $artikel['deskripsi_artikel_en'] ?></td>
-                                            <td><img src="<?= base_url() . 'asset-user/images/' . $artikel['foto_artikel'] ?>" class="img-fluid" alt="Foto artikel"></td>
+                                            <td><img src="<?= base_url() . 'assets/img/artikel/' . $artikel['foto_artikel'] ?>" class="img-fluid" alt="Foto artikel"></td>
 
                                             <td valign="middle">
                                                 <div class="d-grid gap-2">
