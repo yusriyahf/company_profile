@@ -92,7 +92,6 @@ if (!empty($categoriesAktivitas)) {
 
 <nav id="navmenu" class="navmenu">
     <ul>
-
         <li>
             <a href="<?= base_url($lang . '/') ?>"
                 class="<?= isset($data['activeMenu']) && $data['activeMenu'] === 'home' ? 'active' : '' ?>">
@@ -142,7 +141,7 @@ if (!empty($categoriesAktivitas)) {
 
         <!-- Aktivitas Dropdown -->
 
-        <li><a href="<?= base_url($lang . '/' . $contactLink) ?>" class="<?= isset($data['activeMenu']) && $data['activeMenu'] === 'contact' ? 'active' : '' ?>"><?= lang('bahasa.contact'); ?></a></li>
+        <li><a href="<?= base_url('/' . $lang . '/' . $contactLink); ?>" class="<?= isset($data['activeMenu']) && $data['activeMenu'] === 'contact' ? 'active' : '' ?>"><?= lang('bahasa.contact'); ?></a></li>
 
         <li class="dropdown">
             <a href="#"><span>

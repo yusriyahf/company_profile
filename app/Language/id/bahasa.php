@@ -1,6 +1,8 @@
 <?php
 
 return [
+    '404' => 'Maaf, halaman yang Anda cari tidak dapat ditemukan. Halaman tersebut mungkin telah dipindahkan, dihapus, atau URL yang Anda masukkan salah. Silakan periksa kembali URL dan coba lagi. Jika Anda merasa ini adalah kesalahan, silakan hubungi dukungan.',
+    'btnback' => 'Kembali ke Beranda',
     // PAGINATION
     'first' => 'Pertama',
     'last' => 'Terakhir',

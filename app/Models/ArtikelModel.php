@@ -187,4 +187,11 @@ class ArtikelModel extends Model
             ->orWhere('tb_artikel.slug_artikel_en', $slug)
             ->first();
     }
+
+    public function getArtikelWithCategoryAdmin()
+    {
+        return $this->select('tb_artikel.*, tb_kategori_artikel.nama_kategori_id as nama_kategori')
+            ->join('tb_kategori_artikel', 'tb_kategori_artikel.id_kategori_artikel = tb_artikel.id_kategori_artikel', 'left')
+            ->findAll();
+    }
 }

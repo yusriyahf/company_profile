@@ -28,10 +28,17 @@ class ArticleeController extends BaseController
 
         // Cek apakah kategori berdasarkan slug ditemukan, sesuai dengan bahasa
         $category = $slugCategory ? $categoryModel->getCategoryBySlug($slugCategory) : null;
-        log_message('debug', 'Produk ditemukan: ' . print_r($category, true));
 
-        // Log untuk kategori yang dicari
-        log_message('info', 'Mencari kategori dengan slug: ' . $slugCategory);
+
+        $categoryId = $category ? $category['id_kategori_artikel'] : null;
+
+        // $categorySlugCheck = ($lang === 'id') ? $category['slug_kategori_id'] : $category['slug_kategori_en'];
+
+        $canonical = base_url("$lang/" . ($lang === 'id' ? 'artikel' : 'article') . '/' . $slugCategory);
+
+        if (current_url() !== $canonical) {
+            return redirect()->to($canonical);
+        }
 
         // Jika kategori tidak ditemukan, redire    ct ke halaman utama artikel
         if ($slugCategory && !$category) {
@@ -51,7 +58,6 @@ class ArticleeController extends BaseController
         }
 
         // Ambil artikel berdasarkan kategori (jika ada)
-        $categoryId = $category ? $category['id_kategori_artikel'] : null;
         $perPage = 3;
         $allArticles = $artikelModel->getPaginatedArticles($categoryId, $lang, $perPage);
         $pager = $artikelModel->pager; // Ambil objek pagination
@@ -77,7 +83,7 @@ class ArticleeController extends BaseController
 
         // Ambil data kategori artikel terbanyak
         $kategori_teratas = $kategoriModel->getKategoriTerbanyak();
-        
+
         // Ambil data sosial media
         $sosmedModel = new SosmedModel();
         $sosmed = $sosmedModel->findAll();
@@ -91,10 +97,11 @@ class ArticleeController extends BaseController
         $kontak = $kontakModel->first();
 
         $categoriesAktivitas = $kategoriAktivitasModel->findAll();
-        
 
+        // Ambil URL saat ini
         return view('article', [
             'lang' => $lang,
+            'canonical' => $canonical,
             'allArticle' => $allArticles,
             'sideArticle' => $sideArticles,
             'kategori' => $categories,
@@ -169,7 +176,6 @@ class ArticleeController extends BaseController
             $correctedSlug = $lang === 'id' ? $artikel['slug_artikel_id'] : $artikel['slug_artikel_en'];
             $categorySlug = $lang === 'id' ? $category['slug_kategori_id'] : $category['slug_kategori_en'];
             $urlmenu = $lang === 'id' ? 'artikel' : 'article';
-            log_message('debug', 'Redireksi ke URL yang benar: ' . "$lang/$urlmenu/$categorySlug/$correctedSlug");
             return redirect()->to("$lang/$urlmenu/$categorySlug/$correctedSlug");
         }
 
@@ -180,6 +186,16 @@ class ArticleeController extends BaseController
             ->where('tb_artikel.id_kategori_artikel', $artikel['id_kategori_artikel']) // Hanya artikel dari kategori yang sama
             ->orderBy('tb_artikel.created_at', 'DESC')
             ->findAll(5);
+
+        $categorySlugCheck = ($lang === 'id') ? $category['slug_kategori_id'] : $category['slug_kategori_en'];
+        $slugCheck = ($lang === 'id') ? $artikel['slug_artikel_id'] : $artikel['slug_artikel_en'];
+
+        $canonical = base_url("$lang/" . (($lang === 'id') ? 'artikel' : 'article') . '/' . ($categorySlugCheck !== false ? $categorySlugCheck : '') . '/' . ($slugCheck !== false ? $slugCheck : ''));
+
+
+        if (current_url() !== $canonical) {
+            return redirect()->to($canonical);
+        }
 
         $kategoriModel = new CategoryArtikelModel();
         $kategoriAktivitasModel = new CategoryActivityModel();
@@ -200,8 +216,8 @@ class ArticleeController extends BaseController
         $kontakModel = new KontakModel();
         $kontak = $kontakModel->first();
 
-        // Tampilkan halaman artikel (misalnya tampilan detail artikel)
         return view('detail_article', [
+            'canonical' => $canonical,
             'lang' => $lang,
             'artikel' => $artikel,
             'category' => $category,

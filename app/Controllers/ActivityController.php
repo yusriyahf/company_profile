@@ -19,6 +19,11 @@ class ActivityController extends BaseController
     {
         $data['activeMenu'] = 'activity';
         $lang = session()->get('lang') ?? 'id';  // Mendapatkan bahasa aktif dari sesi
+        $canonical = base_url("$lang/" . ($lang === 'id' ? 'aktivitas' : 'activity') . '/' . $slugCategory);
+
+        if (current_url() !== $canonical) {
+            return redirect()->to($canonical);
+        }
 
         $categoryModel = new CategoryActivityModel();
         $aktivitasModel = new ActivityModel();
@@ -89,6 +94,7 @@ class ActivityController extends BaseController
 
         return view('activity', [
             'lang' => $lang,
+            'canonical' => $canonical,
             'allAktivitas' => $allAktivitas,
             'kategori' => $categories,
             'metaCategory' => $metaCategory,
@@ -108,8 +114,10 @@ class ActivityController extends BaseController
     public function detail($categorySlug, $slug)
     {
         $data['activeMenu'] = 'activity';
-        // cek lang nya
         $lang = session()->get('lang') ?? 'id';
+
+
+        // cek lang nya
         // Menambahkan log untuk melacak nilai slug yang diterima
         log_message('debug', 'Slug yang diterima: ' . $slug);
 
@@ -169,9 +177,9 @@ class ActivityController extends BaseController
         }
 
         // Periksa apakah slug sesuai dengan bahasa yang digunakan
-        if (($lang === 'id' && $slug !== $aktivitas['slug_aktivitas_id']) || ($lang === 'en' && $slug !== $aktivitas['slug_aktivitas_en'])) {
+        if (($lang === 'id' && $slug !== $aktivitas['slug_aktivitas_id'])   || ($lang === 'en' && $slug !== $aktivitas['slug_aktivitas_en'])) {
             // Log sebelum melakukan redireksi
-            log_message('debug', 'Slug yang sesuai untuk bahasa ' . $lang . ': ' . $aktivitas['slug_aktivitas_id'] . ' (ID) / ' . $aktivitas['slug_aktivitas_en'] . ' (EN)');
+
 
             // redirect ke url yang benar
             $correctedSlug = $lang === 'id' ? $aktivitas['slug_aktivitas_id'] : $aktivitas['slug_aktivitas_en'];
@@ -180,7 +188,7 @@ class ActivityController extends BaseController
             // Redirect ke URL yang benar
             $correctedSlug = $lang === 'id' ? $aktivitas['slug_aktivitas_id'] : $aktivitas['slug_aktivitas_en'];
             $urlmenu = $lang === 'id' ? 'aktivitas' : 'activity';
-            log_message('debug', 'Redireksi ke URL yang benar: ' . "$lang/$urlmenu/$categorySlug/$correctedSlug");
+
             return redirect()->to("$lang/$urlmenu/$categorySlug/$correctedSlug");
         }
 
@@ -195,10 +203,19 @@ class ActivityController extends BaseController
         // Ambil data kategori artikel terbanyak
         $kategori_teratas = $kategoriModel->getKategoriTerbanyak();
 
+        $categorySlugCheck = ($lang === 'id') ? $category['slug_kategori_id'] : $category['slug_kategori_en'];
+        $slugCheck = ($lang === 'id') ? $aktivitas['slug_aktivitas_id'] : $aktivitas['slug_aktivitas_en'];
+        $canonical = base_url("$lang/" . ($lang === 'id' ? 'aktivitas' : 'activity') . '/' . ($categorySlugCheck !== false ? $categorySlugCheck : '') . '/' . ($slugCheck !== false ? $slugCheck : ''));
+
+        if (current_url() !== $canonical) {
+            return redirect()->to($canonical);
+        }
 
         // Tampilkan halaman artikel (misalnya tampilan detail artikel)
         return view('detail_activity', [
             'lang' => $lang,
+            'canonical' => $canonical,
+
             'aktivitas' => $aktivitas,
             'metaCategory' => $metaCategory,
             'category' => $category,
@@ -210,7 +227,7 @@ class ActivityController extends BaseController
             'sosmed' => $sosmed,
             'marketplace' => $marketplace,
             'kontak' => $kontak,
-            'categories'=>$categories,
+            'categories' => $categories,
 
         ]);
     }

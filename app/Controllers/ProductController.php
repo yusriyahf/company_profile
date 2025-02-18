@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Controllers\BaseController;
+use App\Models\ArtikelModel;
 use App\Models\CategoryActivityModel;
 use App\Models\CategoryArtikelModel;
 use App\Models\KategoriModel;
@@ -16,13 +17,21 @@ use CodeIgniter\HTTP\ResponseInterface;
 
 class ProductController extends BaseController
 {
-    // Method untuk menampilkan halaman daftar produk
     public function index()
     {
-        $data['activeMenu'] = 'product';
         $metaModel = new MetaModel();
         $productModel = new ProductModel();
         $lang = session()->get('lang') ?? 'id';
+
+        $canonical = base_url("$lang/" . ($lang === 'id' ? 'produk' : 'product'));
+
+        // if (current_url() !== $canonical) {
+        //     return redirect()->to($canonical);
+        // }
+        // Tentukan segment URL berdasarkan bahasa
+        $productSegment = ($lang === 'id') ? 'produk' : 'product';
+
+
 
         // Ambil data produk dari database
         $products = $productModel->findAll();
@@ -31,7 +40,6 @@ class ProductController extends BaseController
         $dataProfil = $profilModel->first();
 
         $kategoriModel = new CategoryArtikelModel();
-        // Ambil data kategori artikel terbanyak
         $kategoriTeratas = $kategoriModel->getKategoriTerbanyak();
         $categories = $kategoriModel->findAll();
 
@@ -40,8 +48,6 @@ class ProductController extends BaseController
 
         // Ambil metadata halaman
         $dataMeta = $metaModel->where('nama_halaman_en', 'product')->first();
-
-        $productLink = ($lang === 'en') ? 'product' : 'produk';
 
         // Ambil data sosial media
         $sosmedModel = new SosmedModel();
@@ -55,11 +61,13 @@ class ProductController extends BaseController
         $kontakModel = new KontakModel();
         $kontak = $kontakModel->first();
 
+
         $data = [
             'lang' => $lang,
             'meta' => $dataMeta,
+            'canonical' => $canonical,
             'product' => $products,
-            'productLink' => $productLink,
+            'productLink' => $productSegment,
             'activeMenu' => 'product',
             'profil' => $dataProfil,
             'kategori_teratas' => $kategoriTeratas,
@@ -74,13 +82,16 @@ class ProductController extends BaseController
     }
 
     // Method untuk menampilkan halaman detail produk
-    // Method untuk menampilkan halaman detail produk
     public function detail($slug)
     {
-        log_message('debug', 'Slug diterima: ' . $slug);
         $lang = session()->get('lang') ?? 'id';
-
         $productModel = new ProductModel();
+
+
+        $product = $productModel->where('slug_id', $slug)->orWhere('slug_en', $slug)->first();
+
+
+
         $metaModel = new MetaModel();
         $profilModel = new ProfilModel();
         $dataProfil = $profilModel->first();
@@ -93,12 +104,6 @@ class ProductController extends BaseController
         $categoriesAktivitas = $kategoriAktivitasModel->findAll();
 
         // Cari produk berdasarkan slug (ID atau EN)
-        $product = $productModel->where('slug_id', $slug)->orWhere('slug_en', $slug)->first();
-
-        // Ambil metadata untuk halaman detail produk
-        $metaData = $metaModel->where('nama_halaman_en', 'Product Detail')->first();
-
-        log_message('debug', 'Produk ditemukan: ' . print_r($product, true));
 
         // Jika produk tidak ditemukan, tampilkan error 404
         if (!$product) {
@@ -106,14 +111,15 @@ class ProductController extends BaseController
             throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
         }
 
-        // Pastikan URL sesuai dengan bahasa yang digunakan
-        $currentUrl = uri_string(); // Ambil URL yang sedang diakses
-        $expectedUrlId = "id/produk/{$product['slug_id']}";
-        $expectedUrlEn = "en/product/{$product['slug_en']}";
+        // Jika URL yang diakses tidak sesuai, redirect ke URL yang benar
+        // if (current_url() !== $canonical) {
+        //     return redirect()->to($canonical);
+        // }
 
-        if (($lang === 'id' && $currentUrl !== $expectedUrlId) || ($lang === 'en' && $currentUrl !== $expectedUrlEn)) {
-            throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
-        }
+        // Ambil metadata untuk halaman detail produk
+        $metaData = $metaModel->where('nama_halaman_en', 'Product Detail')->first();
+
+        log_message('debug', 'Produk ditemukan: ' . print_r($product, true));
 
         // Ambil data sosial media
         $sosmedModel = new SosmedModel();
@@ -127,8 +133,17 @@ class ProductController extends BaseController
         $kontakModel = new KontakModel();
         $kontak = $kontakModel->first();
 
+        $slugCheck = ($lang === 'id') ? $product['slug_id'] : $product['slug_en'];
+
+        $canonical = base_url("$lang/" . ($lang === 'id' ? 'produk' : 'product') . '/' . $slugCheck);
+
+        if (current_url() !== $canonical) {
+            return redirect()->to($canonical);
+        }
+
         // Siapkan data untuk ditampilkan ke view
         $data = [
+            'canonical' => $canonical,
             'product' => $product,
             'lang' => $lang,
             'meta' => $metaData,

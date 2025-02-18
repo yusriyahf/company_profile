@@ -15,14 +15,22 @@ use CodeIgniter\HTTP\ResponseInterface;
 class AboutController extends BaseController
 {
     protected $lang;
+    protected $uri;
 
     public function __construct()
     {
         $this->lang = session()->get('lang') ?? 'id';
+        $this->uri = service('uri');
     }
 
     public function index()
     {
+        $canonical = base_url("$this->lang/" . ($this->lang === 'id' ? 'tentang' : 'about'));
+
+        // Jika URL saat ini tidak sama dengan canonical, lakukan redirect
+        // if (current_url() !== $canonical) {
+        //     return redirect()->to($canonical);
+        // }
         // Set data menu aktif
         $data['activeMenu'] = 'about';
 
@@ -55,6 +63,7 @@ class AboutController extends BaseController
 
         // Kembalikan view dengan data yang diperlukan
         return view('about', [
+            'canonical' => $canonical,
             'meta' => $dataMeta,
             'profil' => $dataProfil,
             'lang' => $this->lang,

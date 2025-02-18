@@ -18,13 +18,21 @@ class Home extends BaseController
 {
     protected $lang;
 
+
     public function __construct()
     {
         $this->lang = session()->get('lang') ?? 'id';
     }
 
+    public function notFound()
+    {
+        return redirect()->to('/');
+    }
+
     public function index($companyId = 1): string
     {
+        $canonical = base_url("$this->lang/");
+
         $data['activeMenu'] = 'home';
         // Inisialisasi Model
         $articleModel = new ArtikelModel();
@@ -71,6 +79,7 @@ class Home extends BaseController
         $sideArtikel = $articleModel->getSideArticlesWithCategoryRand($this->lang);
 
         return view('index', [
+            'canonical' => $canonical,
             'meta' => $dataMeta,
             'articleMeta' => $articleMeta,
             'aboutMeta' => $aboutMeta,

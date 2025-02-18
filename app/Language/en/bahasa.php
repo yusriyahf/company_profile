@@ -1,6 +1,8 @@
 <?php
 
 return [
+    '404' => 'Sorry, the page you are looking for cannot be found. It may have been moved, deleted, or the URL you entered is incorrect. Please check the URL and try again. If you believe this is an error, please contact support.',
+    'btnback' => 'Back to Homepage',
     // PAGINATION
     'first' => 'First',
     'last' => 'Last',

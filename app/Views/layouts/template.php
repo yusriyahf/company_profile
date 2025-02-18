@@ -12,10 +12,10 @@
         <meta name="description" content="<?= $lang == 'id' ? $meta['meta_desc_id'] : $meta['meta_desc_en']; ?>">
     <?php endif; ?>
 
-    <link rel="canonical" href="<?= current_url(); ?>">
+    <link rel="canonical" href="<?= isset($canonical) && !empty($canonical) ? $canonical : base_url() ?>">
 
     <!-- Favicons -->
-    <link href="<?= base_url('creativenest-favicon.ico'); ?>" rel="icon">
+    <link href=" <?= base_url('favicon.ico'); ?>" rel="icon">
 
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com" rel="preconnect">
@@ -50,7 +50,7 @@
                 <!-- Uncomment the line below if you also wish to use an image logo -->
                 <!-- <img src="assets/img/logo.png" alt=""> -->
                 <!-- <h1 class="sitename">Creativenest</h1> -->
-                <img src="<?= base_url('creativenest-favicon.ico'); ?>" alt="CreativeNest Logo">
+                <img src="<?= base_url('web2bahasa.png'); ?>" alt="CreativeNest Logo">
             </a>
 
             <?= $this->include('layouts/navbar'); ?>

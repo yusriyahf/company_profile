@@ -14,27 +14,36 @@ use App\Models\SosmedModel;
 class ContactController extends BaseController
 {
     protected $lang;
+    protected $uri;
 
     public function __construct()
     {
-        // Set bahasa default dari sesi atau gunakan 'id'
         $this->lang = session()->get('lang') ?? 'id';
+        $this->uri = service('uri');
     }
 
     public function index()
     {
+
+        $canonical = base_url("$this->lang/" . ($this->lang === 'id' ? 'kontak' : 'contact'));
+
+
+
+        // Jika URL saat ini tidak sama dengan canonical, lakukan redirect
+        // if (current_url() !== $canonical) {
+        //     return redirect()->to($canonical);
+        // }
         // Set menu aktif
         $data['activeMenu'] = 'contact';
 
         // Instansiasi model yang dibutuhkan
         $metaModel = new MetaModel();
-        $kontakModel = new KontakModel();   
+        $kontakModel = new KontakModel();
         $profilModel = new ProfilModel();
         $kategoriModel = new CategoryArtikelModel();
         $sosmedModel = new SosmedModel();
         $marketplaceModel = new MarketplaceModel();
         $kategoriAktivitasModel = new CategoryActivityModel();
-
 
         // Ambil data dari database
         $dataMeta = $metaModel->where('nama_halaman_en', 'contact')->first();
@@ -48,6 +57,7 @@ class ContactController extends BaseController
 
         // Kirim data ke view
         return view('contact', [
+            'canonical' => $canonical,
             'meta' => $dataMeta,
             'kontak' => $dataKontak,
             'lang' => $this->lang,
