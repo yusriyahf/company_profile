@@ -38,18 +38,18 @@
                                 <tbody>
                                     <?php foreach ($all_data_produk as $tampilProduk) : ?>
                                         <tr>
-                                            <td><?= $tampilProduk->nama_produk_id ?></td>
-                                            <td><?= $tampilProduk->nama_produk_en ?></td>
-                                            <td><?= $tampilProduk->deskripsi_produk_id ?></td>
-                                            <td><?= $tampilProduk->deskripsi_produk_en ?></td>
-                                            <td><img src="<?= base_url() . 'asset-user/images/' . $tampilProduk->foto_produk ?>" class="img-fluid" alt="Foto Produk"></td>
+                                            <td><?= $tampilProduk['nama_produk_id'] ?></td>
+                                            <td><?= $tampilProduk['nama_produk_en'] ?></td>
+                                            <td><?= $tampilProduk['deskripsi_produk_id'] ?></td>
+                                            <td><?= $tampilProduk['deskripsi_produk_en'] ?></td>
+                                            <td><img src="<?= base_url() . 'assets/img/produk/' . $tampilProduk['foto_produk'] ?>" class="img-fluid" alt="Foto Produk"></td>
                                             <td valign="middle">
                                                 <div class="d-grid gap-2">
-                                                    <!--<a href="<?= base_url('admin/produk/delete') . '/' . $tampilProduk->id_produk ?>" class="btn btn-danger">Hapus</a>-->
-                                                    <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal<?= $tampilProduk->id_produk ?>">
+                                                    <!--<a href="<?= base_url('admin/produk/delete') . '/' . $tampilProduk['id_produk'] ?>" class="btn btn-danger">Hapus</a>-->
+                                                    <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal<?= $tampilProduk['id_produk'] ?>">
                                                         Hapus
                                                     </button>
-                                                    <a href="<?= base_url('admin/produk/edit') . '/' . $tampilProduk->id_produk ?>" class="btn btn-primary">Ubah</a>
+                                                    <a href="<?= base_url('admin/produk/edit') . '/' . $tampilProduk['id_produk'] ?>" class="btn btn-primary">Ubah</a>
                                                 </div>
                                             </td>
                                         </tr>
@@ -66,7 +66,7 @@
 
 <!-- Modal Konfirmasi Hapus -->
 <?php foreach ($all_data_produk as $produk) : ?>
-    <div class="modal fade" id="deleteModal<?= $produk->id_produk ?>" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal fade" id="deleteModal<?= $produk['id_produk'] ?>" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -78,7 +78,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-                    <a href="<?= base_url('admin/produk/delete') . '/' . $produk->id_produk ?>" class="btn btn-danger">Hapus</a>
+                    <a href="<?= base_url('admin/produk/delete') . '/' . $produk['id_produk'] ?>" class="btn btn-danger">Hapus</a>
                 </div>
             </div>
         </div>

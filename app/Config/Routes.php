@@ -37,6 +37,14 @@ $routes->get('admin/slider/edit/(:num)', 'admin\Slider::edit/$1');
 $routes->post('admin/slider/proses_edit/(:num)', 'admin\Slider::proses_edit/$1');
 $routes->get('admin/slider/delete/(:any)', 'admin\Slider::delete/$1');
 
+// ADMIN CATEGORY ACTIVITIES
+$routes->get('admin/kategoriAktivitas/index', 'admin\KategoriAktivitas::index');
+$routes->get('admin/kategoriAktivitas/tambah', 'admin\KategoriAktivitas::tambah');
+$routes->post('admin/kategoriAktivitas/proses_tambah', 'admin\KategoriAktivitas::proses_tambah');
+$routes->get('admin/kategoriAktivitas/edit/(:num)', 'admin\KategoriAktivitas::edit/$1');
+$routes->post('admin/kategoriAktivitas/proses_edit/(:num)', 'admin\KategoriAktivitas::proses_edit/$1');
+$routes->get('admin/kategoriAktivitas/delete/(:any)', 'admin\KategoriAktivitas::delete/$1');
+
 // ADMIN ACTIVITIES
 $routes->get('admin/aktivitas/index', 'admin\Aktivitas::index');
 $routes->get('admin/aktivitas/tambah', 'admin\Aktivitas::tambah');
@@ -44,6 +52,14 @@ $routes->post('admin/aktivitas/proses_tambah', 'admin\Aktivitas::proses_tambah')
 $routes->get('admin/aktivitas/edit/(:num)', 'admin\Aktivitas::edit/$1');
 $routes->post('admin/aktivitas/proses_edit/(:num)', 'admin\Aktivitas::proses_edit/$1');
 $routes->get('admin/aktivitas/delete/(:any)', 'admin\Aktivitas::delete/$1');
+
+// ADMIN CATEGORY ARTICLES
+$routes->get('admin/kategoriArtikel/index', 'admin\KategoriArtikel::index');
+$routes->get('admin/kategoriArtikel/tambah', 'admin\KategoriArtikel::tambah');
+$routes->post('admin/kategoriArtikel/proses_tambah', 'admin\KategoriArtikel::proses_tambah');
+$routes->get('admin/kategoriArtikel/edit/(:num)', 'admin\KategoriArtikel::edit/$1');
+$routes->post('admin/kategoriArtikel/proses_edit/(:num)', 'admin\KategoriArtikel::proses_edit/$1');
+$routes->get('admin/kategoriArtikel/delete/(:any)', 'admin\KategoriArtikel::delete/$1');
 
 // ADMIN ARTICLES CATEGORIES
 $routes->get('admin/kategoriartikel', 'admin\ArticleCategoryController::index');

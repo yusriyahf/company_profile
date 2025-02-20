@@ -56,20 +56,22 @@ class Produk extends BaseController
         date_default_timezone_set('Asia/Jakarta');
         $file_foto = $this->request->getFile('foto_produk');
         $currentDateTime = date('dmYHis');
-        $nama_produk_in = $this->request->getVar("nama_produk_in");
+        $nama_produk_id = $this->request->getVar("nama_produk_id");
         $nama_produk_en = $this->request->getVar("nama_produk_en");
+        $alt_produk_id = $this->request->getVar('alt_produk_id');
+        $alt_produk_en = $this->request->getVar('alt_produk_en');
         $meta_title_id = $this->request->getVar("meta_title_id");
         $meta_title_en = $this->request->getVar("meta_title_en");
-        $meta_description_id = $this->request->getVar("meta_description_id");
-        $meta_description_en = $this->request->getVar("meta_description_en");
+        $meta_desc_id = $this->request->getVar("meta_desc_id");
+        $meta_desc_en = $this->request->getVar("meta_desc_en");
         
 
         // Buat slug_id dari judul_artikel
-        $slug_id = $this->generateSlug($nama_produk_in);
+        $slug_id = $this->generateSlug($nama_produk_id);
         $slug_en = $this->generateSlug($nama_produk_en);
 
         // Validasi nama produk Indonesia
-        if (!preg_match('/^[a-zA-Z0-9\s]+$/', $nama_produk_in)) {
+        if (!preg_match('/^[a-zA-Z0-9\s]+$/', $nama_produk_id)) {
             session()->setFlashdata('error', 'Nama produk Indonesia hanya boleh berisi huruf dan angka.');
             return redirect()->back()->withInput();
         }
@@ -95,25 +97,27 @@ class Produk extends BaseController
             return redirect()->back()->withInput();
         } else {
             // Ganti spasi dengan tanda "-"
-            $nama_produk_in_sanitized = str_replace(' ', '-', $nama_produk_in);
+            $nama_produk_id_sanitized = str_replace(' ', '-', $nama_produk_id);
             $nama_produk_en_sanitized = str_replace(' ', '-', $nama_produk_en);
 
-            $newFileName = "{$nama_produk_in_sanitized}_{$nama_produk_en_sanitized}_{$currentDateTime}.{$file_foto->getExtension()}";
-            $file_foto->move('asset-user/images', $newFileName);
+            $newFileName = "{$nama_produk_id_sanitized}_{$nama_produk_en_sanitized}_{$currentDateTime}.{$file_foto->getExtension()}";
+            $file_foto->move('assets/img/produk', $newFileName);
 
             $produkModel = new ProductModel();
             $data = [
-                'nama_produk_in' => $this->request->getVar("nama_produk_in"),
+                'nama_produk_id' => $this->request->getVar("nama_produk_id"),
                 'nama_produk_en' => $this->request->getVar("nama_produk_en"),
-                'deskripsi_produk_in' => $this->request->getVar("deskripsi_produk_in"),
+                'deskripsi_produk_id' => $this->request->getVar("deskripsi_produk_id"),
                 'deskripsi_produk_en' => $this->request->getVar("deskripsi_produk_en"),
                 'foto_produk' => $newFileName,
+                'alt_produk_id' => $alt_produk_id,
+                'alt_produk_en' => $alt_produk_en,
                 'slug_id' => $slug_id,
                 'slug_en' => $slug_en,
                 'meta_title_id' => $meta_title_id,
                 'meta_title_en' => $meta_title_en,
-                'meta_description_id' => $meta_description_id,
-                'meta_description_en' => $meta_description_en,
+                'meta_desc_id' => $meta_desc_id,
+                'meta_desc_en' => $meta_desc_en,
                 
             ];
             $produkModel->save($data);
@@ -149,20 +153,22 @@ class Produk extends BaseController
         $produkModel = new ProductModel();
         $produkData = $produkModel->find($id_produk);
 
-        $nama_produk_in = $this->request->getVar("nama_produk_in");
+        $nama_produk_id = $this->request->getVar("nama_produk_id");
         $nama_produk_en = $this->request->getVar("nama_produk_en");
         $file_foto = $this->request->getFile('foto_produk');
+        $alt_produk_id = $this->request->getVar('alt_produk_id');
+        $alt_produk_en = $this->request->getVar('alt_produk_en');
         $meta_title_id = $this->request->getVar("meta_title_id");
         $meta_title_en = $this->request->getVar("meta_title_en");
-        $meta_description_id = $this->request->getVar("meta_description_id");
-        $meta_description_en = $this->request->getVar("meta_description_en");
+        $meta_desc_id = $this->request->getVar("meta_desc_id");
+        $meta_desc_en = $this->request->getVar("meta_desc_en");
 
         // Buat slug_id dari judul_artikel
-        $slug_id = $this->generateSlug($nama_produk_in);
+        $slug_id = $this->generateSlug($nama_produk_id);
         $slug_en = $this->generateSlug($nama_produk_en);
 
         // Validasi nama produk Indonesia
-        if (!preg_match('/^[a-zA-Z0-9\s]+$/', $nama_produk_in)) {
+        if (!preg_match('/^[a-zA-Z0-9\s]+$/', $nama_produk_id)) {
             session()->setFlashdata('error', 'Nama produk Indonesia hanya boleh berisi huruf dan angka.');
             return redirect()->back()->withInput();
         }
@@ -176,36 +182,38 @@ class Produk extends BaseController
         // Check if new 'foto_produk' file is uploaded
         if ($this->request->getFile('foto_produk')->isValid()) {
             // Delete the old 'foto_produk' file if it exists
-            $oldFilePath = 'asset-user/images/' . $produkData->foto_produk;
+            $oldFilePath = 'assets/img/produk/' . $produkData['foto_produk'];
             if (file_exists($oldFilePath)) {
                 unlink($oldFilePath);
             }
 
             // Ganti spasi dengan tanda "-"
-            $nama_produk_in_sanitized = str_replace(' ', '-', $nama_produk_in);
+            $nama_produk_id_sanitized = str_replace(' ', '-', $nama_produk_id);
             $nama_produk_en_sanitized = str_replace(' ', '-', $nama_produk_en);
 
             // Generate new file name
             $currentDateTime = date('dmYHis');
-            $newFileName = "{$nama_produk_en_sanitized}_{$nama_produk_in_sanitized}_{$currentDateTime}.{$file_foto->getExtension()}";
+            $newFileName = "{$nama_produk_en_sanitized}_{$nama_produk_id_sanitized}_{$currentDateTime}.{$file_foto->getExtension()}";
 
-            $file_foto->move('asset-user/images', $newFileName);
+            $file_foto->move('assets/img/produk/', $newFileName);
         } else {
             // If no new 'foto_produk' file is uploaded, keep the old filename
-            $newFileName = $produkData->foto_produk;
+            $newFileName = $produkData['foto_produk'];
         }
 
         // Update the product data
         $data = [
             'foto_produk' => $newFileName,
-            'nama_produk_in' => $nama_produk_in,
+            'nama_produk_id' => $nama_produk_id,
             'nama_produk_en' => $nama_produk_en,
-            'deskripsi_produk_in' => $this->request->getPost("deskripsi_produk_in"),
+            'deskripsi_produk_id' => $this->request->getPost("deskripsi_produk_id"),
             'deskripsi_produk_en' => $this->request->getPost("deskripsi_produk_en"),
+            'alt_produk_id' => $alt_produk_id,
+            'alt_produk_en' => $alt_produk_en,
             'meta_title_id' => $meta_title_id,
             'meta_title_en' => $meta_title_en,
-            'meta_description_id' => $meta_description_id,
-            'meta_description_en' => $meta_description_en,
+            'meta_desc_id' => $meta_desc_id,
+            'meta_desc_en' => $meta_desc_en,
             'slug_id' => $slug_id,
             'slug_en' => $slug_en,
         ];
@@ -230,7 +238,7 @@ class Produk extends BaseController
 
         $data = $produkModel->find($id);
 
-        unlink('asset-user/images/' . $data->foto_produk);
+        unlink('assets/img/produk/' . $data['foto_produk']);
 
         $produkModel->delete($id);
 
