@@ -8,7 +8,7 @@
                 <h1 class="app-page-title mb-0">Daftar Artikel</h1>
             </div>
             <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                <a href="<?php echo base_url() . "admin/artikel/tambah" ?>" class="btn btn-primary me-md-2"> + Tambah Artikel</a>
+            <a href="<?= base_url('admin/artikel/tambah') ?>" class="btn btn-primary me-md-2"> + Tambah Artikel</a>
             </div>
         </div>
         <div class="tab-content" id="orders-table-tab-content">
@@ -28,28 +28,26 @@
                                         <th class="text-center" valign="middle">Judul Artikel (EN)</th>
                                         <th class="text-center" valign="middle">Deskripsi Artikel (ID)</th>
                                         <th class="text-center" valign="middle">Deskripsi Artikel (EN)</th>
-                                        <th class="text-center" valign="middle">Kategori Artikel</th>
                                         <th class="text-center" valign="middle">Foto Artikel</th>
                                         <th class="text-center" valign="middle">Aksi</th>
                                     </tr>
                                 </thead>
 
                                 <tbody>
-                                    <?php foreach ($artikel as $a) : ?>
+                                    <?php foreach ($artikels as $artikel) : ?>
                                         <tr>
-                                            <td><?= $a['judul_artikel_id'] ?></td>
-                                            <td><?= $a['judul_artikel_en'] ?></td>
-                                            <td><?= $a['deskripsi_artikel_id'] ?></td>
-                                            <td><?= $a['deskripsi_artikel_en'] ?></td>
-                                            <td><?= $a['nama_kategori'] ?></td>
-                                            <td><img src="<?= base_url() . 'asset-user/images/' . $a['foto_artikel'] ?>" class="img-fluid" alt="Foto artikel"></td>
+                                            <td><?= $artikel['judul_artikel_id'] ?></td>
+                                            <td><?= $artikel['judul_artikel_en'] ?></td>
+                                            <td><?= $artikel['deskripsi_artikel_id'] ?></td>
+                                            <td><?= $artikel['deskripsi_artikel_en'] ?></td>
+                                            <td><img src="<?= base_url() . 'assets/img/artikel/' . $artikel['foto_artikel'] ?>" class="img-fluid" alt="Foto artikel"></td>
 
                                             <td valign="middle">
                                                 <div class="d-grid gap-2">
-                                                    <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal<?= $a['id_artikel'] ?>">
+                                                    <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal<?= $artikel['id_artikel'] ?>">
                                                         Hapus
                                                     </button>
-                                                    <a href="<?= base_url('admin/artikel/edit') . '/' . $a['id_artikel'] ?>" class="btn btn-primary">Ubah</a>
+                                                    <a href="<?= base_url('admin/artikel/edit') . '/' . $artikel['id_artikel'] ?>" class="btn btn-primary">Ubah</a>
                                                 </div>
                                             </td>
                                         </tr>
@@ -65,8 +63,8 @@
 </div><!--//app-wrapper-->
 
 <!-- Modal Konfirmasi Hapus -->
-<?php foreach ($artikel as $a) : ?>
-    <div class="modal fade" id="deleteModal<?= $a['id_artikel'] ?>" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+<?php foreach ($artikels as $artikel) : ?>
+    <div class="modal fade" id="deleteModal<?= $artikel['id_artikel'] ?>" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -78,7 +76,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-                    <a href="<?= base_url('admin/artikel/delete') . '/' . $a['id_artikel'] ?>" class="btn btn-danger">Hapus</a>
+                    <a href="<?= base_url('admin/artikel/delete') . '/' . $artikel['id_artikel'] ?>" class="btn btn-danger">Hapus</a>
                 </div>
             </div>
         </div>

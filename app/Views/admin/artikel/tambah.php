@@ -46,16 +46,16 @@
 
                                 <div class="mb-3">
                                     <label class="form-label">Kategori Artikel <br>
-                                    <span class="custom-color custom-label">Pilih salah satu kategori Artikel yang tersedia</span>
+                                        <span class="custom-color custom-label">Pilih salah satu kategori Artikel yang tersedia</span>
                                     </label>
                                     <select class="form-select" id="id_kategori_artikel" name="id_kategori_artikel" required>
-    <option value="" selected disabled>Pilih Kategori Artikel</option>
-    <?php foreach ($all_data_kategori as $kategori): ?>
-        <option value="<?= esc($kategori['id_kategori_artikel']) ?>" <?= old('id_kategori_artikel') == $kategori['id_kategori_artikel'] ? 'selected' : '' ?>>
-            <?= esc($kategori['nama_kategori_id']) ?>
-        </option>
-    <?php endforeach; ?>
-</select>
+                                        <option value="" selected disabled>Pilih Kategori Artikel</option>
+                                        <?php foreach ($all_data_kategori as $kategori): ?>
+                                            <option value="<?= esc($kategori['id_kategori_artikel']) ?>" <?= old('id_kategori_artikel') == $kategori['id_kategori_artikel'] ? 'selected' : '' ?>>
+                                                <?= esc($kategori['nama_kategori_id']) ?>
+                                            </option>
+                                        <?php endforeach; ?>
+                                    </select>
 
                                 </div>
 
@@ -112,28 +112,28 @@
                                     <input type="text" class="form-control" id="slug_artikel_en" name="slug_artikel_en" placeholder="Masukkan Slug (EN)" value="<?= old('slug_artikel_en'); ?>">
                                 </div>
                             </div>
-                            </div>
                         </div>
-
-                        <div class="row">
-                            <div class="col">
-                                <button type="submit" class="btn btn-primary">Simpan</button>
-                            </div>
-                            <div class="col">
-                                <?php if (!empty(session()->getFlashdata('success'))) : ?>
-                                    <div class="alert alert-success" role="alert">
-                                        <?php echo session()->getFlashdata('success') ?>
-                                    </div>
-                                <?php endif; ?>
-                            </div>
-                        </div>
-                    </form>
                 </div>
-            </div><!--//app-card-->
-        </div><!--//row-->
 
-        <hr class="my-4">
-    </div><!--//container-fluid-->
+                <div class="row">
+                    <div class="col">
+                        <button type="submit" class="btn btn-primary">Simpan</button>
+                    </div>
+                    <div class="col">
+                        <?php if (!empty(session()->getFlashdata('success'))) : ?>
+                            <div class="alert alert-success" role="alert">
+                                <?php echo session()->getFlashdata('success') ?>
+                            </div>
+                        <?php endif; ?>
+                    </div>
+                </div>
+                </form>
+            </div>
+        </div><!--//app-card-->
+    </div><!--//row-->
+
+    <hr class="my-4">
+</div><!--//container-fluid-->
 </div><!--//app-content-->
 
 <?= $this->endSection('content'); ?>
