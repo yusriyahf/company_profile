@@ -38,44 +38,51 @@ class Slider extends BaseController
     }
 
     public function proses_tambah()
-    {
-        $profilModel = new ProfilModel();
-        $profilData = $profilModel->first();
-        $nama_perusahaan = $profilData->nama_perusahaan;
-        $nama_perusahaan = str_replace(' ', '-', $nama_perusahaan);
+{
+    $profilModel = new ProfilModel();
+    $profilData = $profilModel->first();
+    $nama_perusahaan = str_replace(' ', '-', $profilData['nama_perusahaan']);
 
-        date_default_timezone_set('Asia/Jakarta');
-        $file_foto = $this->request->getFile('file_foto_slider');
-        $currentDateTime = date('dmYHis');
+    date_default_timezone_set('Asia/Jakarta');
+    $currentDateTime = date('dmYHis');
 
-        if (!$this->validate([
-            'file_foto_slider' => [
-                'rules' => 'uploaded[file_foto_slider]|is_image[file_foto_slider]|max_dims[file_foto_slider,1900,1144]|mime_in[file_foto_slider,image/jpg,image/jpeg,image/png]',
-                'errors' => [
-                    'uploaded' => 'Pilih foto terlebih dahulu',
-                    'is_image' => 'File yang anda pilih bukan gambar',
-                    'max_dims' => 'Maksimal ukuran gambar 1900x1144 pixels',
-                    'mime_in' => 'File yang anda pilih wajib berekstensikan jpg/jpeg/png'
-                ]
-            ]
+    // Ambil file upload
+    $foto1 = $this->request->getFile('foto_slider1');
+    $foto2 = $this->request->getFile('foto_slider2');
+    $foto3 = $this->request->getFile('foto_slider3');
 
-        ])) {
-            session()->setFlashdata('error', $this->validator->listErrors());
-            return redirect()->back()->withInput();
-        } else {
-            $newFileName = "{$nama_perusahaan}_{$currentDateTime}.{$file_foto->getExtension()}";
-            $file_foto->move('asset-user/images', $newFileName);
+        // Simpan dengan nama file unik
+        $foto_slider1 = "{$nama_perusahaan}_slider1_{$currentDateTime}.{$foto1->getExtension()}";
+        $foto_slider2 = "{$nama_perusahaan}_slider2_{$currentDateTime}.{$foto2->getExtension()}";
+        $foto_slider3 = "{$nama_perusahaan}_slider3_{$currentDateTime}.{$foto3->getExtension()}";
 
-            $sliderModel = new SliderModel();
-            $data = [
-                'file_foto_slider' => $newFileName
-            ];
-            $sliderModel->save($data);
+        $foto1->move('assets/img/slider/', $foto_slider1);
+        $foto2->move('assets/img/slider/', $foto_slider2);
+        $foto3->move('assets/img/slider/', $foto_slider3);
 
-            session()->setFlashdata('success', 'Data berhasil disimpan');
-            return redirect()->to(base_url('admin/slider/index'));
-        }
-    }
+        // Simpan ke database
+        $sliderModel = new SliderModel();
+        $slider = [
+            'foto_slider1' => $foto_slider1,
+            'alt_foto_slider1_id' => $this->request->getPost('alt_foto_slider1_id'),
+            'alt_foto_slider1_en' => $this->request->getPost('alt_foto_slider1_en'),
+            'foto_slider2' => $foto_slider2,
+            'alt_foto_slider2_id' => $this->request->getPost('alt_foto_slider2_id'),
+            'alt_foto_slider2_en' => $this->request->getPost('alt_foto_slider2_en'),
+            'foto_slider3' => $foto_slider3,
+            'alt_foto_slider3_id' => $this->request->getPost('alt_foto_slider3_id'),
+            'alt_foto_slider3_en' => $this->request->getPost('alt_foto_slider3_en'),
+            'caption_slider_id' => $this->request->getPost('caption_slider_id'),
+            'caption_slider_en' => $this->request->getPost('caption_slider_en')
+        ];
+        
+        $sliderModel->save($slider);
+
+        session()->setFlashdata('success', 'Data berhasil disimpan');
+        return redirect()->to(base_url('admin/slider/index'));
+    
+}
+
 
     public function edit($id_slider)
     {
@@ -131,7 +138,7 @@ class Slider extends BaseController
 
         // Update hanya jika ada perubahan
         $sliderModel->update($id_slider, $dataToUpdate);
-        return redirect()->to(base_url('admin/slider'))->with('success', 'Slider berhasil diperbarui.');
+        return redirect()->to(base_url('admin/slider/index'))->with('success', 'Slider berhasil diperbarui.');
     }
 
 
@@ -145,7 +152,7 @@ class Slider extends BaseController
 
         $data = $sliderModel->find($id);
 
-        unlink('asset-user/images/' . $data->file_foto_slider);
+        unlink('assets/img/slider//' . $data->file_foto_slider);
 
         $sliderModel->delete($id);
 

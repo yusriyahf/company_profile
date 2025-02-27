@@ -71,8 +71,8 @@ class Aktivitas extends BaseController
         $id_kategori_aktivitas = $this->request->getVar("id_kategori_aktivitas");
 
         // Buat slug_id dari judul_artikel
-        $slug_id = $this->generateSlug($judul_aktivitas_id);
-        $slug_en = $this->generateSlug($judul_aktivitas_en);
+        $slug_aktivitas_id = $this->generateSlug($judul_aktivitas_id);
+        $slug_aktivitas_en = $this->generateSlug($judul_aktivitas_en);
 
         // Validasi nama aktivitas Indonesia
         if (!preg_match('/^[a-zA-Z0-9\s]+$/', $judul_aktivitas_id)) {
@@ -123,8 +123,8 @@ class Aktivitas extends BaseController
                 'meta_desc_id' => $meta_desc_id,
                 'meta_desc_en' => $meta_desc_en,
                 'foto_aktivitas' => $newFileName,
-                'slug_id' => $slug_id,
-                'slug_en' => $slug_en,
+                'slug_aktivitas_id' => $slug_aktivitas_id,
+                'slug_aktivitas_en' => $slug_aktivitas_en,
             ];
     
             $aktivitasModel->save($data);
@@ -180,8 +180,8 @@ class Aktivitas extends BaseController
         $aktivitasData = $aktivitasModel->find($id_aktivitas);
 
         // Buat slug_id dari judul_artikel
-        $slug_id = $this->generateSlug($judul_aktivitas_id);
-        $slug_en = $this->generateSlug($judul_aktivitas_en);
+        $slug_aktivitas_id = $this->generateSlug($judul_aktivitas_id);
+        $slug_aktivitas_en = $this->generateSlug($judul_aktivitas_en);
 
         // Validasi nama aktivitas Indonesia
         if (!preg_match('/^[a-zA-Z0-9\s]+$/', $judul_aktivitas_id)) {
@@ -224,8 +224,8 @@ class Aktivitas extends BaseController
                 'title_aktivitas_en' => $title_aktivitas_en,
                 'meta_desc_id' => $meta_desc_id,
                 'meta_desc_en' => $meta_desc_en,
-                'slug_id' => $slug_id,
-                'slug_en' => $slug_en,
+                'slug_aktivitas_id' => $slug_aktivitas_id,
+                'slug_aktivitas_en' => $slug_aktivitas_en,
             ])->update();
         } else {
             // If no new 'foto_aktivitas' file is uploaded, keep the old filename
@@ -244,8 +244,8 @@ class Aktivitas extends BaseController
             'title_aktivitas_en' => $title_aktivitas_en,
             'meta_desc_id' => $meta_desc_id,
             'meta_desc_en' => $meta_desc_en,
-            'slug_id' => $slug_id,
-            'slug_en' => $slug_en,
+            'slug_aktivitas_id' => $slug_aktivitas_id,
+            'slug_aktivitas_en' => $slug_aktivitas_en,
         ];
 
         // Update the product data in the database

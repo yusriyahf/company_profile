@@ -84,8 +84,7 @@
                 </li><!--//nav-item-->
 
                 <li class="nav-item">
-                    <a class="nav-link <?= (current_url() == base_url('admin/artikel') ? 'active' : '') ?>" href="<?= base_url('admin/artikel') ?>">
-                        <a class="nav-link <?= (current_url() == base_url('admin/kategoriArtikel/index') ? 'active' : '') ?>" href="<?= base_url('admin/kategoriArtikel/index') ?>">
+                 <a class="nav-link <?= (current_url() == base_url('admin/kategoriArtikel/index') ? 'active' : '') ?>" href="<?= base_url('admin/kategoriArtikel/index') ?>">
                             <span class="nav-icon">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-file-text" viewBox="0 0 16 16">
                                     <path d="M4 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2h-4L6 4H4zm2 1h4a1 1 0 0 1 1 1v1H5V2a1 1 0 0 1 1-1z" />
@@ -138,17 +137,6 @@
                             </svg>
                         </span>
                         <span class="nav-link-text">Marketplace</span>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link <?= (current_url() == base_url('admin/kategoriartikel') ? 'active' : '') ?>" href="<?= base_url('admin/kategoriartikel') ?>">
-                        <span class="nav-icon">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-file-text" viewBox="0 0 16 16">
-                                <path d="M4 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2h-4L6 4H4zm2 1h4a1 1 0 0 1 1 1v1H5V2a1 1 0 0 1 1-1z" />
-                                <path fill-rule="evenodd" d="M4 1.5a.5.5 0 0 0-1 0V4H2.5a.5.5 0 0 0 0 1H4v2.5a.5.5 0 0 0 1 0V5h2.5a.5.5 0 0 0 0-1H5V1.5zM5 11a1 1 0 0 1 1 1v1h4v-1a1 1 0 0 1 1-1h1a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1v-3zm1 1v2h4v-2H6zm0-2h4V8H6v2z" />
-                            </svg>
-                        </span>
-                        <span class="nav-link-text">Kategori Artikel</span>
                     </a>
                 </li>
                 <li class="nav-item">

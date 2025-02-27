@@ -69,12 +69,12 @@ $routes->get('admin/kategoriartikel/edit/(:num)', 'admin\ArticleCategoryControll
 $routes->post('admin/kategoriartikel/update/(:num)', 'admin\ArticleCategoryController::update/$1');
 $routes->get('admin/kategoriartikel/delete/(:any)', 'admin\ArticleCategoryController::delete/$1');
 
-// ADMIN ARTIKEL
-$routes->get('admin/artikel', 'admin\ArtikelController::index');
-$routes->get('admin/artikel/create', 'admin\ArtikelController::create');
-$routes->post('admin/artikel/store', 'admin\ArtikelController::store');
+// ADMIN ARTICLES
+$routes->get('admin/artikel/index', 'admin\ArtikelController::index');
+$routes->get('admin/artikel/tambah', 'admin\ArtikelController::tambah');
+$routes->post('admin/artikel/proses_tambah', 'admin\ArtikelController::proses_tambah');
 $routes->get('admin/artikel/edit/(:num)', 'admin\ArtikelController::edit/$1');
-$routes->post('admin/artikel/update/(:num)', 'admin\ArtikelController::update/$1');
+$routes->post('admin/artikel/proses_edit/(:num)', 'admin\ArtikelController::proses_edit/$1');
 $routes->get('admin/artikel/delete/(:any)', 'admin\ArtikelController::delete/$1');
 
 // ADMIN ARTICLES CATEGORIES
@@ -119,7 +119,7 @@ $routes->get('/', function () {
     return redirect()->to('/id/'); // Default redirect ke /en/home
 });
 
-$routes->set404Override('App\Controllers\Home::notFound');
+// $routes->set404Override('App\Controllers\Home::notFound');
 
 
 $routes->group('id', function ($routes) {
