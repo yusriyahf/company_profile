@@ -44,7 +44,7 @@ class AboutController extends BaseController
         $kategoriAktivitasModel = new CategoryActivityModel();
 
         // Ambil data meta dan profil
-        $dataMeta = $metaModel->where('nama_halaman_en', 'about')->first();
+        $dataMeta = $metaModel->where('id_meta', '2')->first();
         $dataProfil = $profilModel->first();
 
         // Ambil data kategori artikel terbanyak

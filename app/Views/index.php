@@ -16,23 +16,21 @@
 </style>
 
 <section id="hero" class="hero section dark-background">
-
     <div id="hero-carousel" class="carousel slide carousel-fade" data-bs-ride="carousel" data-bs-interval="5000">
-
         <?php $isActive = 'active'; ?>
-        <?php if ($slider): ?>
-            <?php foreach (['foto_slider1', 'foto_slider2', 'foto_slider3'] as $foto): ?>
-                <?php if (!empty($slider[$foto])): ?>
-                    <div class="carousel-item <?= $isActive; ?>">
-                        <img src="<?= base_url('assets/img/slider/' . $slider[$foto]) ?>" class="d-block w-100" alt="<?= $foto ?>">
-                        <div class="carousel-container">
-                            <h1 style="text-align: center; font-weight: bold; ">
-                                <?= $lang == 'id' ? $slider['caption_slider_id'] : $slider['caption_slider_en']; ?>
-                            </h1>
-                        </div>
+        <?php if (!empty($slider) && is_array($slider)): ?>
+            <?php foreach ($slider as $slide): ?>
+                <div class="carousel-item <?= $isActive; ?>">
+                    <img src="<?= base_url('assets/img/slider/' . $slide['foto_slider']) ?>"
+                        class="d-block w-100"
+                        alt="<?= ($lang == 'id') ? $slide['alt_foto_slider_id'] : $slide['alt_foto_slider_en']; ?>">
+                    <div class="carousel-container">
+                        <h1 style="text-align: center; font-weight: bold;">
+                            <?= ($lang == 'id') ? $slide['caption_slider_id'] : $slide['caption_slider_en']; ?>
+                        </h1>
                     </div>
-                    <?php $isActive = ''; ?>
-                <?php endif; ?>
+                </div>
+                <?php $isActive = ''; ?>
             <?php endforeach; ?>
         <?php endif; ?>
         <a class="carousel-control-prev" href="#hero-carousel" role="button" data-bs-slide="prev">
@@ -42,9 +40,7 @@
             <span class="carousel-control-next-icon bi bi-chevron-right" aria-hidden="true"></span>
         </a>
         <ol class="carousel-indicators"></ol>
-
     </div>
-
 </section>
 
 

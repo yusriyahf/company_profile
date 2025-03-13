@@ -27,9 +27,11 @@
                                 <thead>
                                     <tr>
                                         <th class="text-center" valign="middle">Nama Halaman</th>
+                                        <th class="text-center" valign="middle">Deskripsi Halaman (Id)</th>
+                                        <th class="text-center" valign="middle">Deskripsi Halaman (En)</th>
                                         <th class="text-center" valign="middle">Meta Title (Id)</th>
-                                        <th class="text-center" valign="middle">Meta Deskripsi (Id)</th>
                                         <th class="text-center" valign="middle">Meta Title (En)</th>
+                                        <th class="text-center" valign="middle">Meta Deskripsi (Id)</th>
                                         <th class="text-center" valign="middle">Meta Deskripsi (En)</th>
                                         <th class="text-center" valign="middle">Aksi</th>
                                     </tr>
@@ -39,9 +41,11 @@
                                     <?php foreach ($all_data_meta as $tampilMeta) : ?>
                                         <tr>
                                             <td><?= $tampilMeta['nama_halaman_id'] ?></td>
+                                            <td><?= $tampilMeta['deskripsi_halaman_id'] ?></td>
+                                            <td><?= $tampilMeta['deskripsi_halaman_en'] ?></td>
                                             <td><?= $tampilMeta['title_id'] ?></td>
-                                            <td><?= $tampilMeta['meta_desc_id'] ?></td>
                                             <td><?= $tampilMeta['title_en'] ?></td>
+                                            <td><?= $tampilMeta['meta_desc_id'] ?></td>
                                             <td><?= $tampilMeta['meta_desc_en'] ?></td>
                                             <td valign="middle">
                                                 <div class="d-grid gap-2">

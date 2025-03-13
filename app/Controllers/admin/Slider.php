@@ -38,50 +38,56 @@ class Slider extends BaseController
     }
 
     public function proses_tambah()
-{
-    $profilModel = new ProfilModel();
-    $profilData = $profilModel->first();
-    $nama_perusahaan = str_replace(' ', '-', $profilData['nama_perusahaan']);
+    {
+        $profilModel = new ProfilModel();
+        $profilData = $profilModel->first();
+        $nama_perusahaan = str_replace(' ', '-', $profilData['nama_perusahaan']);
 
-    date_default_timezone_set('Asia/Jakarta');
-    $currentDateTime = date('dmYHis');
+        date_default_timezone_set('Asia/Jakarta');
+        $currentDateTime = date('dmYHis');
 
-    // Ambil file upload
-    $foto1 = $this->request->getFile('foto_slider1');
-    $foto2 = $this->request->getFile('foto_slider2');
-    $foto3 = $this->request->getFile('foto_slider3');
+        // Validasi file upload
+        $foto1 = $this->request->getFile('foto_slider');
+        $allowedTypes = ['image/png', 'image/jpeg', 'image/jpg', 'image/gif'];
+
+        if (!$foto1->isValid()) {
+            session()->setFlashdata('error_foto_slider', 'File tidak valid.');
+            return redirect()->back()->withInput();
+        }
+
+        if (!in_array($foto1->getMimeType(), $allowedTypes)) {
+            session()->setFlashdata('error_foto_slider', 'File harus berupa gambar (PNG, JPG, JPEG, GIF).');
+            return redirect()->back()->withInput();
+        }
+
+        if ($foto1->getSize() > 2048 * 1024) { // Maksimal 2MB
+            session()->setFlashdata('error_foto_slider', 'Ukuran file maksimal 2MB.');
+            return redirect()->back()->withInput();
+        }
 
         // Simpan dengan nama file unik
-        $foto_slider1 = "{$nama_perusahaan}_slider1_{$currentDateTime}.{$foto1->getExtension()}";
-        $foto_slider2 = "{$nama_perusahaan}_slider2_{$currentDateTime}.{$foto2->getExtension()}";
-        $foto_slider3 = "{$nama_perusahaan}_slider3_{$currentDateTime}.{$foto3->getExtension()}";
-
-        $foto1->move('assets/img/slider/', $foto_slider1);
-        $foto2->move('assets/img/slider/', $foto_slider2);
-        $foto3->move('assets/img/slider/', $foto_slider3);
+        $foto_slider1 = "{$nama_perusahaan}_slider_{$currentDateTime}.{$foto1->getExtension()}";
+        $foto1->move('assets/img/slider', $foto_slider1);
 
         // Simpan ke database
         $sliderModel = new SliderModel();
         $slider = [
-            'foto_slider1' => $foto_slider1,
-            'alt_foto_slider1_id' => $this->request->getPost('alt_foto_slider1_id'),
-            'alt_foto_slider1_en' => $this->request->getPost('alt_foto_slider1_en'),
-            'foto_slider2' => $foto_slider2,
-            'alt_foto_slider2_id' => $this->request->getPost('alt_foto_slider2_id'),
-            'alt_foto_slider2_en' => $this->request->getPost('alt_foto_slider2_en'),
-            'foto_slider3' => $foto_slider3,
-            'alt_foto_slider3_id' => $this->request->getPost('alt_foto_slider3_id'),
-            'alt_foto_slider3_en' => $this->request->getPost('alt_foto_slider3_en'),
+            'foto_slider' => $foto_slider1,
+            'alt_foto_slider_id' => $this->request->getPost('alt_foto_slider_id'),
+            'alt_foto_slider_en' => $this->request->getPost('alt_foto_slider_en'),
             'caption_slider_id' => $this->request->getPost('caption_slider_id'),
             'caption_slider_en' => $this->request->getPost('caption_slider_en')
         ];
-        
-        $sliderModel->save($slider);
+
+        if (!$sliderModel->insert($slider)) {
+            session()->setFlashdata('error', 'Gagal menyimpan data ke database.');
+            return redirect()->back()->withInput();
+        }
 
         session()->setFlashdata('success', 'Data berhasil disimpan');
         return redirect()->to(base_url('admin/slider/index'));
-    
-}
+    }
+
 
 
     public function edit($id_slider)
@@ -99,46 +105,69 @@ class Slider extends BaseController
     public function proses_edit($id_slider)
     {
         $sliderModel = new SliderModel();
-        if (!$id_slider || !$sliderModel->find($id_slider)) {
-            return redirect()->back()->with('error', 'Data slider tidak ditemukan.');
+
+        // Validasi keberadaan slider
+        $sliderData = $sliderModel->find($id_slider);
+        if (!$sliderData) {
+            session()->setFlashdata('error', 'Data slider tidak ditemukan.');
+            return redirect()->back()->withInput();
         }
 
         $dataToUpdate = [];
+        $allowedTypes = ['image/png', 'image/jpeg', 'image/jpg', 'image/gif'];
+        $maxSize = 2048 * 1024; // Maksimal 2MB
 
-        foreach (['file_foto_slider1', 'file_foto_slider2', 'file_foto_slider3'] as $fileField) {
-            $file = $this->request->getFile($fileField);
-            if ($file && $file->isValid() && !$file->hasMoved()) {
-                $newFileName = time() . '_' . $file->getRandomName();
-                $file->move('assets/img/slider', $newFileName);
-                $dataToUpdate[$fileField] = $newFileName;
+        // Validasi dan proses unggahan file foto
+        $file = $this->request->getFile('file_foto_slider');
+        if ($file && $file->isValid()) {
+            // Validasi tipe file
+            if (!in_array($file->getMimeType(), $allowedTypes)) {
+                session()->setFlashdata('error', "File harus berupa gambar (PNG, JPG, JPEG, GIF).");
+                return redirect()->back()->withInput();
             }
+
+            // Validasi ukuran file
+            if ($file->getSize() > $maxSize) {
+                session()->setFlashdata('error', "Ukuran file maksimal 2MB.");
+                return redirect()->back()->withInput();
+            }
+
+            // Hapus file lama jika ada
+            if (!empty($sliderData['foto_slider']) && file_exists('assets/img/slider/' . $sliderData['foto_slider'])) {
+                unlink('assets/img/slider/' . $sliderData['foto_slider']);
+            }
+
+            // Simpan dengan nama unik
+            $newFileName = time() . '_' . $file->getRandomName();
+            $file->move('assets/img/slider', $newFileName);
+            $dataToUpdate['foto_slider'] = $newFileName; // Simpan di kolom 'foto_slider'
         }
 
         // Menambahkan hanya jika ada input baru
         $altFields = [
-            'alt_foto_slider1_id',
-            'alt_foto_slider1_en',
-            'alt_foto_slider2_id',
-            'alt_foto_slider2_en',
-            'alt_foto_slider3_id',
-            'alt_foto_slider3_en'
+            'alt_foto_slider_id',
+            'alt_foto_slider_en',
+            'caption_slider_id',
+            'caption_slider_en',
         ];
 
         foreach ($altFields as $field) {
             $value = $this->request->getPost($field);
-            if ($value !== null) {
+            if (!empty($value)) {
                 $dataToUpdate[$field] = $value;
             }
         }
 
-        // Jika tidak ada data yang diupdate, kembalikan tanpa error
+        // Jika tidak ada data yang diupdate, tampilkan peringatan
         if (empty($dataToUpdate)) {
-            return redirect()->back()->with('warning', 'Tidak ada perubahan yang disimpan.');
+            session()->setFlashdata('warning', 'Tidak ada perubahan yang disimpan.');
+            return redirect()->back()->withInput();
         }
 
         // Update hanya jika ada perubahan
         $sliderModel->update($id_slider, $dataToUpdate);
-        return redirect()->to(base_url('admin/slider/index'))->with('success', 'Slider berhasil diperbarui.');
+        session()->setFlashdata('success', 'Slider berhasil diperbarui.');
+        return redirect()->to(base_url('admin/slider/index'));
     }
 
 
@@ -146,16 +175,28 @@ class Slider extends BaseController
     {
         // Pengecekan apakah pengguna sudah login atau belum
         if (!session()->get('logged_in')) {
-            return redirect()->to(base_url('login')); // Ubah 'login' sesuai dengan halaman login kamu
+            return redirect()->to(base_url('login'));
         }
-        $sliderModel = new SliderModel();
 
+        $sliderModel = new SliderModel();
         $data = $sliderModel->find($id);
 
-        unlink('assets/img/slider//' . $data->file_foto_slider);
+        // Jika data tidak ditemukan, kembalikan dengan pesan error
+        if (!$data) {
+            session()->setFlashdata('error', 'Data slider tidak ditemukan.');
+            return redirect()->to(base_url('admin/slider/index'));
+        }
 
+        // Hapus file gambar jika ada
+        $filePath = 'assets/img/slider/' . $data['foto_slider'];
+        if (!empty($data['foto_slider']) && file_exists($filePath)) {
+            unlink($filePath);
+        }
+
+        // Hapus data dari database
         $sliderModel->delete($id);
 
+        session()->setFlashdata('success', 'Slider berhasil dihapus.');
         return redirect()->to(base_url('admin/slider/index'));
     }
 }

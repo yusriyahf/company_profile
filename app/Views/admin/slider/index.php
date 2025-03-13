@@ -30,6 +30,8 @@
                                         <th class="text-center">Foto Slider</th>
                                         <th class="text-center">Alt Text (ID)</th>
                                         <th class="text-center">Alt Text (EN)</th>
+                                        <th colspan="3" class="text-center">Caption (ID)</th>
+                                        <th colspan="3" class="text-center">Caption (EN)</th>
                                         <th class="text-center">Aksi</th>
                                     </tr>
                                 </thead>
@@ -38,70 +40,23 @@
                                         <!-- Baris 1: Gambar Slider 1, Alt Text (ID) dan Alt Text (EN) -->
                                         <tr>
                                             <td>
-                                                <?php if (!empty($tampilSlider['foto_slider1'])) : ?>
-                                                    <img src="<?= base_url() . 'assets/img/slider/' . $tampilSlider['foto_slider1'] ?>" class="img-fluid" alt="<?= $tampilSlider['alt_foto_slider1_id'] ?>">
+                                                <?php if (!empty($tampilSlider['foto_slider'])) : ?>
+                                                    <img src="<?= base_url() . 'assets/img/slider/' . $tampilSlider['foto_slider'] ?>" class="img-fluid" alt="<?= $tampilSlider['alt_foto_slider_id'] ?>">
                                                 <?php endif; ?>
                                             </td>
-                                            <td><?= $tampilSlider['alt_foto_slider1_id'] ?></td>
-                                            <td><?= $tampilSlider['alt_foto_slider1_en'] ?></td>
-                                            <td class="text-center">
-                                                <a href="<?= base_url('admin/slider/edit') . '/' . $tampilSlider['id_slider'] ?>" class="btn btn-warning btn-sm">Ubah</a>
-                                                <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#deleteModal<?= $tampilSlider['id_slider'] ?>">Hapus</button>
-                                            </td>
-                                        </tr>
-
-                                        <!-- Baris 2: Gambar Slider 2, Alt Text (ID) dan Alt Text (EN) -->
-                                        <tr>
-                                            <td>
-                                                <?php if (!empty($tampilSlider['foto_slider2'])) : ?>
-                                                    <img src="<?= base_url() . 'assets/img/slider/' . $tampilSlider['foto_slider2'] ?>" class="img-fluid" alt="<?= $tampilSlider['alt_foto_slider2_id'] ?>">
-                                                <?php endif; ?>
-                                            </td>
-                                            <td><?= $tampilSlider['alt_foto_slider2_id'] ?></td>
-                                            <td><?= $tampilSlider['alt_foto_slider2_en'] ?></td>
-                                            <td class="text-center">
-                                                <a href="<?= base_url('admin/slider/edit') . '/' . $tampilSlider['id_slider'] ?>" class="btn btn-warning btn-sm">Ubah</a>
-                                                <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#deleteModal<?= $tampilSlider['id_slider'] ?>">Hapus</button>
-                                            </td>
-                                        </tr>
-
-                                        <!-- Baris 3: Gambar Slider 3, Alt Text (ID) dan Alt Text (EN) -->
-                                        <tr>
-                                            <td>
-                                                <?php if (!empty($tampilSlider['foto_slider3'])) : ?>
-                                                    <img src="<?= base_url() . 'assets/img/slider/' . $tampilSlider['foto_slider3'] ?>" class="img-fluid" alt="<?= $tampilSlider['alt_foto_slider3_id'] ?>">
-                                                <?php endif; ?>
-                                            </td>
-                                            <td><?= $tampilSlider['alt_foto_slider3_id'] ?></td>
-                                            <td><?= $tampilSlider['alt_foto_slider3_en'] ?></td>
-                                            <td class="text-center">
-                                                <a href="<?= base_url('admin/slider/edit') . '/' . $tampilSlider['id_slider'] ?>" class="btn btn-warning btn-sm">Ubah</a>
-                                                <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#deleteModal<?= $tampilSlider['id_slider'] ?>">Hapus</button>
-                                            </td>
-                                        </tr>
-
-                                        <!-- Baris 4: Caption Slider ID -->
-                                        <tr>
+                                            <td><?= $tampilSlider['alt_foto_slider_id'] ?></td>
+                                            <td><?= $tampilSlider['alt_foto_slider_en'] ?></td>
                                             <td colspan="3">
-                                                <strong>Caption (ID):</strong> <?= $tampilSlider['caption_slider_id'] ?>
+                                                <?= $tampilSlider['caption_slider_id'] ?>
                                             </td>
-                                            <td class="text-center">
-                                                <a href="<?= base_url('admin/slider/edit') . '/' . $tampilSlider['id_slider'] ?>" class="btn btn-warning btn-sm">Ubah</a>
-                                                <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#deleteModal<?= $tampilSlider['id_slider'] ?>">Hapus</button>
-                                            </td>
-                                        </tr>
-
-                                        <!-- Baris 5: Caption Slider EN -->
-                                        <tr>
                                             <td colspan="3">
-                                                <strong>Caption (EN):</strong> <?= $tampilSlider['caption_slider_en'] ?>
+                                                <?= $tampilSlider['caption_slider_en'] ?>
                                             </td>
                                             <td class="text-center">
                                                 <a href="<?= base_url('admin/slider/edit') . '/' . $tampilSlider['id_slider'] ?>" class="btn btn-warning btn-sm">Ubah</a>
                                                 <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#deleteModal<?= $tampilSlider['id_slider'] ?>">Hapus</button>
                                             </td>
                                         </tr>
-
                                     <?php endforeach; ?>
                                 </tbody>
                             </table>

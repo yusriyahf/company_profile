@@ -70,7 +70,7 @@ class ArticleeController extends BaseController
         $categoriess = $categoryModel->findAll();
 
         // Metadata halaman, prioritas dari kategori jika ada
-        $meta = $metaModel->where('nama_halaman_en', 'article')->first();
+        $meta = $metaModel->where('id_meta', '5')->first();
         $metaCategory = $category ? [
             'title_id' => $category['title_kategori_id'] ?? '',
             'title_en' => $category['title_kategori_en'] ?? '',
@@ -138,7 +138,7 @@ class ArticleeController extends BaseController
         // Cek apakah produk ada berdasarkan slug untuk bahasa ID atau EN
         $artikel = $articleModel->getArtikelWithCategory($slug);
 
-        $dataMeta = $metaModel->where('nama_halaman_en', 'Article Detail')->first();
+        $dataMeta = $metaModel->where('id_meta', '9')->first();
 
         $metaCategory = $artikel ? [
             'title_id' => $artikel['title_artikel_id'] ?? '',

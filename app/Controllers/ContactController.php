@@ -46,7 +46,7 @@ class ContactController extends BaseController
         $kategoriAktivitasModel = new CategoryActivityModel();
 
         // Ambil data dari database
-        $dataMeta = $metaModel->where('nama_halaman_en', 'contact')->first();
+        $dataMeta = $metaModel->where('id_meta', '6')->first();
         $dataKontak = $kontakModel->first();
         $dataProfil = $profilModel->first();
         $kategoriTeratas = $kategoriModel->getKategoriTerbanyak();

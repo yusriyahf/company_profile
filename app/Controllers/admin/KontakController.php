@@ -26,9 +26,9 @@ class KontakController extends BaseController
     public function update($id)
     {
         $this->kontakModel->update($id, [
-            'deskripsi_kontak_id' => $this->request->getVar('deskripsi_kontak_id'),
-            'deskripsi_kontak_en' => $this->request->getVar('deskripsi_kontak_en'),
-            'link_wa' => $this->request->getVar('link_wa'),
+            'deskripsi_kontak_id' => $this->request->getPost('deskripsi_kontak_id'),
+            'deskripsi_kontak_en' => $this->request->getPost('deskripsi_kontak_en'),
+            'link_wa' => $this->request->getPost('link_wa'),
         ]);
 
         return redirect()->to('/admin/kontak')->with('success', 'Kontak berhasil diperbarui');

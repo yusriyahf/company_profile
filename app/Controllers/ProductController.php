@@ -47,7 +47,7 @@ class ProductController extends BaseController
         $categoriesAktivitas = $kategoriAktivitasModel->findAll();
 
         // Ambil metadata halaman
-        $dataMeta = $metaModel->where('nama_halaman_en', 'product')->first();
+        $dataMeta = $metaModel->where('id_meta', '3')->first();
 
         // Ambil data sosial media
         $sosmedModel = new SosmedModel();
@@ -117,7 +117,7 @@ class ProductController extends BaseController
         // }
 
         // Ambil metadata untuk halaman detail produk
-        $metaData = $metaModel->where('nama_halaman_en', 'Product Detail')->first();
+        $metaData = $metaModel->where('id_meta', '7')->first();
 
         log_message('debug', 'Produk ditemukan: ' . print_r($product, true));
 

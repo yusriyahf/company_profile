@@ -48,12 +48,12 @@ class Home extends BaseController
         $marketplaceModel = new MarketplaceModel();
 
         // Mengambil data dari database
-        $dataMeta = $metaModel->where('nama_halaman_en', 'home')->first();
-        $aboutMeta = $metaModel->where('nama_halaman_en', 'about')->first();
-        $articleMeta = $metaModel->where('nama_halaman_en', 'article')->first();
-        $productMeta = $metaModel->where('nama_halaman_en', 'product')->first();
-        $aktivitasMeta = $metaModel->where('nama_halaman_en', 'activity')->first();
-        $contactMeta = $metaModel->where('nama_halaman_en', 'contact')->first();
+        $dataMeta = $metaModel->where('id_meta', '1')->first();
+        $aboutMeta = $metaModel->where('id_meta', '2')->first();
+        $articleMeta = $metaModel->where('id_meta', '5')->first();
+        $productMeta = $metaModel->where('id_meta', '3')->first();
+        $aktivitasMeta = $metaModel->where('id_meta', '4')->first();
+        $contactMeta = $metaModel->where('id_meta', '6')->first();
 
         $dataArtikel = $articleModel
             ->select('
@@ -63,14 +63,14 @@ class Home extends BaseController
             ')
             ->join('tb_kategori_artikel', 'tb_kategori_artikel.id_kategori_artikel = tb_artikel.id_kategori_artikel', 'left')
             ->orderBy('tb_artikel.created_at', 'DESC')
-            ->limit(4)
+            ->limit(5)
             ->findAll();
 
-        $slider = $sliderModel->where('id_slider', $companyId)->first();
+        $slider = $sliderModel->findAll(); // Mengambil semua data dari tb_slider
         $dataKontak = $contactModel->first();
         $dataProfil = $profilModel->first();
-        $dataAktivitas = $aktivitasModel->limit(3)->findAll();
-        $product = $productModel->findAll();
+        $dataAktivitas = $aktivitasModel->limit(10)->findAll();
+        $product = $productModel->limit(10)->findAll();
         $kategori_teratas = $kategoriModel->findAll();
         $sosmed = $sosmedModel->findAll();
         $marketplace = $marketplaceModel->findAll();

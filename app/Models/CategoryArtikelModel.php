@@ -80,7 +80,7 @@ class CategoryArtikelModel extends Model
 
     public function getKategoriTerbanyak()
     {
-        $result = $this->select('tb_kategori_artikel.nama_kategori_id, tb_kategori_artikel.slug_kategori_id')
+        $result = $this->select('tb_kategori_artikel.nama_kategori_id, tb_kategori_artikel.nama_kategori_en, tb_kategori_artikel.slug_kategori_id, tb_kategori_artikel.slug_kategori_en')
             ->selectCount('tb_artikel.id_artikel', 'total_artikel')
             ->join('tb_artikel', 'tb_artikel.id_kategori_artikel = tb_kategori_artikel.id_kategori_artikel', 'left')
             ->groupBy('tb_kategori_artikel.id_kategori_artikel')

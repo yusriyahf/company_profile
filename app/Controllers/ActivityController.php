@@ -66,7 +66,7 @@ class ActivityController extends BaseController
         $categories = $categoryModel->getAllCategories($lang);
 
         // Metadata halaman
-        $meta = $metaModel->where('nama_halaman_en', 'activity')->first();
+        $meta = $metaModel->where('id_meta', '4')->first();
         $metaCategory = $category ? [
             'title_id' => $category['title_kategori_id'] ?? '',
             'title_en' => $category['title_kategori_en'] ?? '',
@@ -131,7 +131,7 @@ class ActivityController extends BaseController
 
         $aktivitas = $activityModel->getActivityWithCategory($slug);
 
-        $dataMeta = $metaModel->where('nama_halaman_en', 'Activity Detail')->first();
+        $dataMeta = $metaModel->where('id_meta', '8')->first();
 
         $metaCategory = $aktivitas ? [
             'title_id' => $aktivitas['title_aktivitas_id'] ?? '',
@@ -215,7 +215,6 @@ class ActivityController extends BaseController
         return view('detail_activity', [
             'lang' => $lang,
             'canonical' => $canonical,
-
             'aktivitas' => $aktivitas,
             'metaCategory' => $metaCategory,
             'category' => $category,

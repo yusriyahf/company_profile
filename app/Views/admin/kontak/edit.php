@@ -27,16 +27,17 @@
                             <div class="col">
                                 <div class="mb-3">
                                     <label class="form-label">Deskripsi Kontak (ID)</label>
-                                    <input type="text" class="form-control" id="deskripsi_kontak_id" name="deskripsi_kontak_id" placeholder="Masukkan Deskripsi Kontak" value="<?= old('deskripsi_kontak_id', $kontak['deskripsi_kontak_id']) ?>">
+                                    <textarea class="form-control tiny" id="deskripsi_kontak_id" name="deskripsi_kontak_id"><?= esc($kontak['deskripsi_kontak_id']??''); ?></textarea>
                                 </div>
+
                                 <div class="mb-3">
                                     <label class="form-label">Deskripsi Kontak (EN)</label>
-                                    <input type="text" class="form-control" id="deskripsi_kontak_en" name="deskripsi_kontak_en" placeholder="Masukkan Deskripsi Kontak" value="<?= old('deskripsi_kontak_en', $kontak['deskripsi_kontak_en']) ?>">
+                                    <textarea class="form-control tiny" id="deskripsi_kontak_en" name="deskripsi_kontak_en"><?= esc($kontak['deskripsi_kontak_en']??''); ?></textarea>
                                 </div>
 
                                 <div class="mb-3">
                                     <label class="form-label">No WhatsApp</label>
-                                    <input type="text" class="form-control" id="link_wa" name="link_wa" placeholder="Masukkan Nama Kategori" value="<?= old('link_wa', $kontak['link_wa']) ?>">
+                                    <input type="text" class="form-control" id="link_wa" name="link_wa" value="<?= esc($kontak['link_wa']); ?>" required>
                                 </div>
                             </div>
 
